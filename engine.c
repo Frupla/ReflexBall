@@ -1,6 +1,7 @@
 #include <eZ8.h>  						  // special encore constants, macros and flash functions
 #include <sio.h>	                      // special encore serial i/o functions
 #include "ansi.h"
+#include "math.h"
 #include "LEDdisplay.h"
 
 typedef struct{
@@ -12,7 +13,7 @@ typedef struct{
 					//nothing    - 0x00
 	char x1; //1. coordinate, placement
 	char y1; //2. coordiante, placement
-	struct vector direction; //ADD THIS STRUCT TO THE INCLUDED CODE PLS 
+	struct TVector direction; //ADD THIS STRUCT TO THE INCLUDED CODE PLS 
 	//zones? - so far no zones
 	char size;
 	char color;

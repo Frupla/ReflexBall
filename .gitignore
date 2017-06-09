@@ -54,3 +54,12 @@ dkms.conf
 .idea/
 CMakeLists.txt
 cmake-build-debug/
+
+#ZDS things
+*.asmsw
+*.ccsw
+*.linkcmd
+*.mak
+*.lst
+*.wsp
+*.zdsproj
