@@ -16,7 +16,7 @@ typedef struct{
 	//zones? - so far no zones
 	char size;
 	char color;
-}entity;
+} entity;
 
 void drawPlayer(entity object){
 
@@ -36,5 +36,13 @@ void drawSolid(entity object){
 
 void drawMap(entity[] object){
 
+}
+
+void playerMovement(entity[]){
+
+}
+
+void collisionCheck(entity[]){
+	
 }
 
