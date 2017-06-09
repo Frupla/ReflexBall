@@ -1,6 +1,8 @@
 #ifndef _ENGINE_H_
 #define _ENGINE_H_
 
+#define MAPSIZE 400
+
 //kode
 typedef struct{
     char changedSinceLast;

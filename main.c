@@ -6,7 +6,6 @@
 #include "Z8encore.h"
 #include "engine.h"
 
-#define MAPSIZE 400
 
 void showMenu() {
     window(10, 10, 70, 70, "Main menu", 1);

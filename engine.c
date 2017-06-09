@@ -4,6 +4,8 @@
 #include "math.h"
 #include "Z8encore.h"
 
+#define MAPSIZE 400
+
 typedef struct{
 	char changedSinceLast;
 	char whatIsThis;//player     - 0x01 
