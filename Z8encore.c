@@ -136,3 +136,7 @@ void LEDUpdate(){
 void LEDScroll(){
 	Scrollon = !Scrollon;
 }
+
+int readMsec() {
+    return Msec;
+}
