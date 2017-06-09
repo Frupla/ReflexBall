@@ -23,9 +23,9 @@ char readkey(){
 	char a,b,b1,b2,c=0x00;
 	a = PDIN;
 	b = PFIN;
-	a =  (a & 0x08);
-	b1 = (b & 0x40);
-	b2 = (b & 0x80);
+	a =  (a & 0x08); // button PD3 on the board
+	b1 = (b & 0x40); // button PF6 on the board
+	b2 = (b & 0x80); // button PF7 on the board
 	if(!b2){
 		c |= 0x01; 
 	}
