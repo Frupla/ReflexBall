@@ -15,14 +15,14 @@ typedef struct{
 	char y1; //2. coordiante, placement
 	TVector direction; // Speed and direction (only relevant for the ball)
 	//zones? - so far no zones
-	char sizeX; // first 4 bits represent the vertical size factor (y), last 4 represent the horizontal size factor (x)
-    char sizeY
+	char sizeX; // represent the horizontal size factor
+    char sizeY;	// represent the vertical size factor
 	char color;
 } entity;
 
 void drawPlayer(entity object){
 	int i;
-	for(i = 0; i <= (object.size & 0x0F); i++){
+	for(i = 0; i <= (object.sizeX); i++){
 		gotoxy(object.x1 + i,object.y1)
 		printf(219);	
 	}
@@ -38,8 +38,8 @@ void drawBall(entity object){
 
 void drawBreakable(entity object){
 	int i, j;
-	for(i = 0; i <= (object.size & 0x0F); i++){
-		for(j = 0; j <= (object.size & 0xF0); j++){
+	for(i = 0; i <= (object.sizeX); i++){
+		for(j = 0; j <= (object.sizeY); j++){
 			gotoxy(object.x1 + i,object.y1)
 			printf(177);	
 		}
@@ -49,8 +49,8 @@ void drawBreakable(entity object){
 
 void drawSolid(entity object){
 	int i, j;
-	for(i = 0; i <= (object.size & 0x0F); i++){
-		for(j = 0; j <= (object.size & 0xF0); j++){
+	for(i = 0; i <= (object.sizeX); i++){
+		for(j = 0; j <= (object.sizeY); j++){
 			gotoxy(object.x1 + i,object.y1)
 			printf(72);	
 		}
