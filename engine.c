@@ -96,6 +96,15 @@ void playerMovement(char buttonPress, entity* object){
 	}
 }
 
+void ballMovement(entity *object) {
+    /*
+     * TODO : Write the code to move the ball. I'm thinking:
+     * 1 - Find the ball entity in the array
+     * 2 - Update the position with the direction
+     */
+
+}
+
 char collisionCheck(entity[][] object){
 	char flag;
 
