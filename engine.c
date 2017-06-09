@@ -104,12 +104,9 @@ char ballsToTheWalls(entity[] breakables, entity[] solids, entity ball){ // an a
 			didithit = 1;
 		}
 	}
-
 	if(didithit){
 		switch()
 	}
-
-
 	return flag;
 	/* flag encoding
 	 * 0x00 = no collision
