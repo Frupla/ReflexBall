@@ -15,7 +15,7 @@ typedef struct{
 	char y1; //2. coordiante, placement
 	struct TVector direction; //ADD THIS STRUCT TO THE INCLUDED CODE PLS 
 	//zones? - so far no zones
-	char size; // first 4 bits represent the y coordinate, last 4 represent the x coordinate
+	char size; // first 4 bits represent the vertical size factor (y), last 4 represent the horizontal size factor (x)
 	char color;
 } entity;
 
