@@ -2,7 +2,7 @@
 #include <sio.h>	                      // special encore serial i/o functions
 #include "ansi.h"
 #include "math.h"
-#include "LEDdisplay.h"
+#include "Z8encore.h"
 
 typedef struct{
 	char changedSinceLast;
@@ -17,7 +17,6 @@ typedef struct{
 	//zones? - so far no zones
 	char size; // first 4 bits represent the y coordinate, last 4 represent the x coordinate
 	char color;
-	char button;
 } entity;
 
 void drawPlayer(entity object){
@@ -78,8 +77,10 @@ void drawMap(entity[][] object){
 	}
 }
 
-void playerMovement(entity[][] object){
-
+void playerMovement(char buttonPress, entity* object){
+	switch(buttonPress){
+		case 0x01: 
+	}
 }
 
 void collisionCheck(entity[][] object){
