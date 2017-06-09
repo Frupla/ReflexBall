@@ -32,8 +32,7 @@ void drawPlayer(entity object){
 void drawBall(entity object){
 	int i, j;
 	gotoxy(object.x1,object.y1);
-	printf(184);
-	printf(0);	
+	printf(184);	
 	object.changedSinceLast = 0;	
 }
 
@@ -43,12 +42,6 @@ void drawBreakable(entity object){
 		for(j = 0; j <= (object.sizeY); j++){
 			gotoxy(object.x1 + i,object.y1)
 			printf(177);	
-		}
-	}
-	for(i = 0; i <= (object.sizeX); i++){
-		for(j = 0; j <= (object.sizeY); j++){
-			gotoxy(object.x1 + i,object.y1)
-			printf(20);	
 		}
 	}
 	object.changedSinceLast = 0;
@@ -87,7 +80,7 @@ void drawMap(entity[][] object){
 
 void playerMovement(char buttonPress, entity* object){
 	collisionCheck();
-	for(i = 0; i <= (object->sizeX); i++){
+	for(i = 0; i <= (object->sizeX); i++){	// Deletes the old drawing of the paddle
 		gotoxy(object->x1 + i,object->y1)
 		printf(20);	
 	}
@@ -110,10 +103,10 @@ void playerMovement(char buttonPress, entity* object){
 }
 
 void ball(char x){
-
+		printf(0); // deletes the old drawing of the ball
 }
 
-char ballsToTheWalls(entity[] breakables, entity[] solids, entity ball){ // an array of breakables, solids and a ball
+char ballCollision(entity[] breakables, entity[] solids, entity ball){ // an array of breakables, solids and a ball
 	char flag = 0;
 	char didithit = 0;
 	if(((ball.x1 + (char)ball.direction.x) >= breakables.x1) && ((ball.x1 + (char)ball.direction.x) <= (breakables.x1 + breakables.sizeX))){// Tvectors are made with longs, maybe they shouldn't be
