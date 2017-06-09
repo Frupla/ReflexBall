@@ -13,8 +13,8 @@ typedef struct{
 					//breakable  - 0x03
 					//solid      - 0x04
 					//nothing    - 0x00
-	char x1; //1. coordinate, placement
-	char y1; //2. coordiante, placement
+	int x1; //1. coordinate, placement
+	int y1; //2. coordiante, placement
 	TVector direction; // Speed and direction (only relevant for the ball)
 	//zones? - so far no zones
 	char sizeX; // represent the horizontal size factor
