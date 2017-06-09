@@ -15,7 +15,8 @@ typedef struct{
 	char y1; //2. coordiante, placement
 	TVector direction; // Speed and direction (only relevant for the ball)
 	//zones? - so far no zones
-	char size; // first 4 bits represent the vertical size factor (y), last 4 represent the horizontal size factor (x)
+	char sizeX; // first 4 bits represent the vertical size factor (y), last 4 represent the horizontal size factor (x)
+    char sizeY
 	char color;
 } entity;
 
@@ -78,12 +79,35 @@ void drawMap(entity[][] object){
 }
 
 void playerMovement(char buttonPress, entity* object){
-	switch(buttonPress){
-		case 0x01: 
+	collisionCheck();
+	switch(buttonPress) {
+		case 0x01: //PF7
+			object->x1++;
+			break;
+		case 0x02: //PF6
+			break;
+		case 0x04: //PD3
+			object->x1--;
+			break;
+		case 0x05: //
+			break;
+		default:
+			break;
 	}
 }
 
-void collisionCheck(entity[][] object){
-	
+char collisionCheck(entity[][] object){
+	char flag;
+
+
+	return flag;
+	/* flag encoding
+	 * 0x00 = no collision
+	 * 0x01 = object hit left wall
+	 * 0x02 = object hit bottom wall
+	 * 0x04 = object hit right wall
+	 * 0x08 = object hit top wall
+	 * 0x10 = object passed through floor??? - maybe do this in out of bounds check???
+	 * */
 }
 
