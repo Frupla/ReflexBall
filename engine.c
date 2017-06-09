@@ -18,7 +18,7 @@ struct entity{
 	//zones? - so far no zones
 	char size;
 	char color;
-}
+} entity;
 
 void drawPlayer(entity object){
 
@@ -39,3 +39,4 @@ void drawSolid(entity object){
 void drawMap(entity[] object){
 	
 }
+
