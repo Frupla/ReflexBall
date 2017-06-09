@@ -26,6 +26,10 @@ void drawPlayer(entity object){
 		gotoxy(object.x1 + i,object.y1)
 		printf(219);	
 	}
+	for(i = 0; i <= (object.sizeX); i++){
+		gotoxy(object.x1 + i,object.y1)
+		printf(0);	
+	}
 	object.changedSinceLast = 0;
 }
 
@@ -107,15 +111,22 @@ void ballMovement(entity *object) {
 
 char collisionCheck(entity[][] object){
 	char flag = 0;
-
-
+	char didithit = 0;
+	if(((ball.x1 + (char)ball.direction.x) >= breakables.x1) && ((ball.x1 + (char)ball.direction.x) <= (breakables.x1 + breakables.sizeX))){// Tvectors are made with longs, maybe they shouldn't be
+		if(((ball.y1 + (char)ball.direction.y) >= breakables.y1) && ((ball.y1 + (char)ball.direction.y) <= (breakables.y1 + breakables.sizeY))){
+			didithit = 1;
+		}
+	}
+	if(didithit){
+		switch()
+	}
 	return flag;
 	/* flag encoding
 	 * 0x00 = no collision
-	 * 0x01 = object hit left wall
-	 * 0x02 = object hit bottom wall
-	 * 0x04 = object hit right wall
-	 * 0x08 = object hit top wall
+	 * 0x01 = object hit left side
+	 * 0x02 = object hit bottom side
+	 * 0x04 = object hit right side
+	 * 0x08 = object hit top side
 	 * 0x10 = object passed through floor??? - maybe do this in out of bounds check???
 	 * */
 }
