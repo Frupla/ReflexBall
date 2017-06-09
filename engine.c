@@ -26,6 +26,10 @@ void drawPlayer(entity object){
 		gotoxy(object.x1 + i,object.y1)
 		printf(219);	
 	}
+	for(i = 0; i <= (object.sizeX); i++){
+		gotoxy(object.x1 + i,object.y1)
+		printf(0);	
+	}
 	object.changedSinceLast = 0;
 }
 
@@ -94,6 +98,10 @@ void playerMovement(char buttonPress, entity* object){
 		default:
 			break;
 	}
+}
+
+void ball(char x){
+
 }
 
 char ballsToTheWalls(entity[] breakables, entity[] solids, entity ball){ // an array of breakables, solids and a ball
