@@ -16,7 +16,7 @@ typedef struct{
 	//zones? - so far no zones
 	char size;
 	char color;
-}entity;
+} entity;
 
 void drawPlayer(entity object){
 
