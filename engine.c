@@ -28,10 +28,6 @@ void drawPlayer(entity object){
 		gotoxy(object.x1 + i,object.y1)
 		printf(219);	
 	}
-	for(i = 0; i <= (object.sizeX); i++){
-		gotoxy(object.x1 + i,object.y1)
-		printf(0);	
-	}
 	object.changedSinceLast = 0;
 }
 
@@ -49,8 +45,8 @@ void drawBreakable(entity object){
 			gotoxy(object.x1 + i,object.y1)
 			printf(177);	
 		}
-	object.changedSinceLast = 0;
 	}
+	object.changedSinceLast = 0;
 }
 
 void drawSolid(entity object){
@@ -86,14 +82,20 @@ void drawMap(entity[][] object){
 
 void playerMovement(char buttonPress, entity* object){
 	collisionCheck();
+	for(i = 0; i <= (object->sizeX); i++){	// Deletes the old drawing of the paddle
+		gotoxy(object->x1 + i,object->y1)
+		printf(20);	
+	}
 	switch(buttonPress) {
 		case 0x01: //PF7
 			object->x1++;
+			object->changedSinceLast = 1;
 			break;
 		case 0x02: //PF6
 			break;
 		case 0x04: //PD3
 			object->x1--;
+			object->changedSinceLast = 1;
 			break;
 		case 0x05: // when PD3 and PF7 is pressed at the same time, nothing happens
 			break;
@@ -101,6 +103,8 @@ void playerMovement(char buttonPress, entity* object){
 			break;
 	}
 }
+
+char ballCollision(entity[] breakables, entity[] solids, entity ball){ // an array of breakables, solids and a ball
 
 void ballMovement(entity *object) {
     /*
