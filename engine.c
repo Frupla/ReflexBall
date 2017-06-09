@@ -26,17 +26,14 @@ void drawPlayer(entity object){
 		gotoxy(object.x1 + i,object.y1)
 		printf(219);	
 	}
-	for(i = 0; i <= (object.sizeX); i++){
-		gotoxy(object.x1 + i,object.y1)
-		printf(0);	
-	}
 	object.changedSinceLast = 0;
 }
 
 void drawBall(entity object){
 	int i, j;
 	gotoxy(object.x1,object.y1);
-	printf(184);	
+	printf(184);
+	printf(0);	
 	object.changedSinceLast = 0;	
 }
 
@@ -47,8 +44,14 @@ void drawBreakable(entity object){
 			gotoxy(object.x1 + i,object.y1)
 			printf(177);	
 		}
-	object.changedSinceLast = 0;
 	}
+	for(i = 0; i <= (object.sizeX); i++){
+		for(j = 0; j <= (object.sizeY); j++){
+			gotoxy(object.x1 + i,object.y1)
+			printf(20);	
+		}
+	}
+	object.changedSinceLast = 0;
 }
 
 void drawSolid(entity object){
@@ -84,14 +87,20 @@ void drawMap(entity[][] object){
 
 void playerMovement(char buttonPress, entity* object){
 	collisionCheck();
+	for(i = 0; i <= (object->sizeX); i++){
+		gotoxy(object->x1 + i,object->y1)
+		printf(20);	
+	}
 	switch(buttonPress) {
 		case 0x01: //PF7
 			object->x1++;
+			object->changedSinceLast = 1;
 			break;
 		case 0x02: //PF6
 			break;
 		case 0x04: //PD3
 			object->x1--;
+			object->changedSinceLast = 1;
 			break;
 		case 0x05: // when PD3 and PF7 is pressed at the same time, nothing happens
 			break;
