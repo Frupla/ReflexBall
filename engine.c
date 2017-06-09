@@ -3,9 +3,7 @@
 #include "ansi.h"
 #include "LEDdisplay.h"
 
-//kode
-
-struct entity{
+typedef struct{
 	char changedSinceLast;
 	char whatIsThis;//player     - 0x01 
 					//ball       - 0x02
@@ -18,7 +16,7 @@ struct entity{
 	//zones? - so far no zones
 	char size;
 	char color;
-}
+}entity;
 
 void drawPlayer(entity object){
 
@@ -37,5 +35,5 @@ void drawSolid(entity object){
 }
 
 void drawMap(entity[] object){
-	
+
 }
