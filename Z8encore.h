@@ -8,6 +8,7 @@ void LEDSetString(rom char* string);
 void LEDUpdate();
 void LEDScroll();
 
+char readKey();
 int readMsec();
 
 #endif /*! _Z8encore_H_ */

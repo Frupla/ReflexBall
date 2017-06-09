@@ -29,7 +29,7 @@ void drawSolid(entity);
 
 void drawMap(entity[]);
 
-void playerMovement(entity[]);
+void playerMovement(char, entity[]);
 
 void ballMovement(entity *);
 

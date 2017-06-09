@@ -78,6 +78,7 @@ int winCondition(int score) {
 
 void startGame() {
     entity *map;
+    char buttonpress;
     int score = 0;
     map = buildMap();
 
@@ -86,15 +87,14 @@ void startGame() {
             drawMap(map);
             do {
                 //Determine where to move
-                // TODO : Put the code for player input here.
-
+                buttonpress = readKey();
 
                 //Remember to do this a lot
                 LEDUpdate();
             } while (readMsec() < 100);
 
             //Then move the player
-            playerMovement(map);
+            playerMovement(buttonpress, map);
 
         } while (readMsec() < 500);
         //Then move the ball

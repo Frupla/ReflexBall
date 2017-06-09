@@ -117,7 +117,7 @@ void ballMovement(entity *object) {
 	}
 }
 
-char ballCollision(entity[] breakables, entity[] solids, entity ball){ // an array of breakables, solids and a ball
+char collisionCheck(entity[] breakables, entity[] solids, entity ball) { // an array of breakables, solids and a ball
 	char flag = 0;
 	char didithit = 0;
 	if(((ball.x1 + (char)ball.direction.x) >= breakables.x1) && ((ball.x1 + (char)ball.direction.x) <= (breakables.x1 + breakables.sizeX))){// Tvectors are made with longs, maybe they shouldn't be
