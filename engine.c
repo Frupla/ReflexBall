@@ -13,16 +13,16 @@ typedef struct{
 					//nothing    - 0x00
 	char x1; //1. coordinate, placement
 	char y1; //2. coordiante, placement
-    Tvector direction; //ADD THIS STRUCT TO THE INCLUDED CODE PLS
+	TVector direction; // Speed and direction (only relevant for the ball)
 	//zones? - so far no zones
-	char sizeX; // first 4 bits represent the vertical size factor (y), last 4 represent the horizontal size factor (x)
-    char sizeY;
+	char sizeX; // represent the horizontal size factor
+    char sizeY;	// represent the vertical size factor
 	char color;
 } entity;
 
 void drawPlayer(entity object){
 	int i;
-	for(i = 0; i <= (object.size & 0x0F); i++){
+	for(i = 0; i <= (object.sizeX); i++){
 		gotoxy(object.x1 + i,object.y1)
 		printf(219);	
 	}
@@ -38,8 +38,8 @@ void drawBall(entity object){
 
 void drawBreakable(entity object){
 	int i, j;
-	for(i = 0; i <= (object.size & 0x0F); i++){
-		for(j = 0; j <= (object.size & 0xF0); j++){
+	for(i = 0; i <= (object.sizeX); i++){
+		for(j = 0; j <= (object.sizeY); j++){
 			gotoxy(object.x1 + i,object.y1)
 			printf(177);	
 		}
@@ -49,8 +49,8 @@ void drawBreakable(entity object){
 
 void drawSolid(entity object){
 	int i, j;
-	for(i = 0; i <= (object.size & 0x0F); i++){
-		for(j = 0; j <= (object.size & 0xF0); j++){
+	for(i = 0; i <= (object.sizeX); i++){
+		for(j = 0; j <= (object.sizeY); j++){
 			gotoxy(object.x1 + i,object.y1)
 			printf(72);	
 		}
@@ -89,7 +89,7 @@ void playerMovement(char buttonPress, entity* object){
 		case 0x04: //PD3
 			object->x1--;
 			break;
-		case 0x05: //
+		case 0x05: // when PD3 and PF7 is pressed at the same time, nothing happens
 			break;
 		default:
 			break;
@@ -106,7 +106,7 @@ void ballMovement(entity *object) {
 }
 
 char collisionCheck(entity[][] object){
-	char flag;
+	char flag = 0;
 
 
 	return flag;
