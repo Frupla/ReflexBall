@@ -19,3 +19,23 @@ struct entity{
 	char size;
 	char color;
 }
+
+void drawPlayer(entity object){
+
+}
+
+void drawBall(entity object){
+	
+}
+
+void drawBreakable(entity object){
+	
+}
+
+void drawSolid(entity object){
+	
+}
+
+void drawMap(entity[] object){
+	
+}
