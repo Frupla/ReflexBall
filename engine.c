@@ -97,8 +97,8 @@ void playerMovement(char buttonPress, entity* object){
 }
 
 char collisionCheck(entity[][] object){
-	char flag;
-
+	char flag = 0;
+    
 
 	return flag;
 	/* flag encoding
