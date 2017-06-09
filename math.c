@@ -1,4 +1,5 @@
 #include "sinLUT.h"
+#define GRANDE 0x01ff
 
 typedef struct{
 	long x;

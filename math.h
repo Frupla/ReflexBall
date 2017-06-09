@@ -1,5 +1,6 @@
 #ifndef _MATH_H_
 #define _MATH_H_
+#define GRANDE 0x01ff
 
 typedef struct{
 	long x;
@@ -9,5 +10,7 @@ typedef struct{
 long sin(int x);
 long cos(int x);
 void rotate(TVector *v, int a);
+void printfix(long i);
+long expanded(long i);
 
 #endif /*_MATH_H_*/
