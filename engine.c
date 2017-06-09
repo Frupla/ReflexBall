@@ -89,7 +89,7 @@ void playerMovement(char buttonPress, entity* object){
 		case 0x04: //PD3
 			object->x1--;
 			break;
-		case 0x05: //
+		case 0x05: // when PD3 and PF7 is pressed at the same time, nothing happens
 			break;
 		default:
 			break;
