@@ -1,6 +1,8 @@
 #include <eZ8.h>  						  // special encore constants, macros and flash functions
 #include <sio.h>	                      // special encore serial i/o functions
 #include "ansi.h"
+#include "sinLUT.h"
+#include "math.h"
 #include "LEDdisplay.h"
 
 rom char string[LED_MAX_STR_LEN] = "    sample text";

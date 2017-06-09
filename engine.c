@@ -38,3 +38,11 @@ void drawMap(entity[] object){
 
 }
 
+void playerMovement(entity[]){
+
+}
+
+void collisionCheck(entity[]){
+	
+}
+
