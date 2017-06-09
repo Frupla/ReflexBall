@@ -27,13 +27,13 @@ void drawBreakable(entity);
 
 void drawSolid(entity);
 
-void drawMap(entity[]);
+void drawMap(entity *);
 
-void playerMovement(char, entity[]);
+void playerMovement(char, entity *);
 
 void ballMovement(entity *);
 
-void collisionCheck(entity[]);
+void collisionCheck(entity *);
 
 
 

@@ -60,24 +60,29 @@ void drawSolid(entity object){
 	object.changedSinceLast = 0;
 }
 
-void drawMap(entity[][] object){
-	int i = 0, j = 0;
-	while(object[i].whatIsThis){
-		while(object[i][j].whatIsThis){
-			if (object[i][j].changedSinceLast){
-				switch(object[i][j].whatIsThis){
-					case 0x01: drawPlayer(object[i][j]); break;
-					case 0x02: drawBall(object[i][j]); break; 
-					case 0x03: drawBreakable(object[i][j]); break; 
-					case 0x04: drawSolid(object[i][j]); break;
-					default: break;
-				}
-				j++;
-			}
-		}
-		j = 0;
-		i++;
-	}
+void drawMap(entity *object) {
+    int i = 0;
+
+    for (i = 0; i < 4; object++) {
+        switch (object->whatIsThis) {
+            case 0x01:
+                drawPlayer(*object);
+                break;
+            case 0x02:
+                drawBall(*object);
+                break;
+            case 0x03:
+                drawBreakable(*object);
+                break;
+            case 0x04:
+                drawSolid(*object);
+                break;
+            default:
+                i++;
+                break;
+        }
+    }
+
 }
 
 void playerMovement(char buttonPress, entity* object){
