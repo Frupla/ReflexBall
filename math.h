@@ -8,6 +8,6 @@ typedef struct{
 
 long sin(int x);
 long cos(int x);
-void rotate(struct TVector *v, int a);
+void rotate(TVector *v, int a);
 
 #endif /*_MATH_H_*/
