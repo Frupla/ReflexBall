@@ -25,14 +25,14 @@ void timer0int(){
 	Msec += 1;				 
 }
 
-int romstrlength(rom char* s){
+int romstrLength(rom char* s){
 	int i=0;
 	while(s[i]!='\0'){
  	i++;}
 	return i;
 }
 
-void timersetup(){
+void timerSetup(){
 	T0CTL = 0x01;
 	T0H = 0x1;
     T0L = 0x0;
@@ -45,16 +45,16 @@ void timersetup(){
 	EI();
 }
 
-void LEDinit(){
-	timersetup();
+void LEDInit(){
+	timerSetup();
 	PEDD = 0x00;
 	PGDD = 0x00;
 	PEOUT = 0x1F;
 	PGOUT = 0x00;
 }
 
-void updatebuffer(){
-	int i, j, romln = romstrlength(LEDtext_p);
+void updateBuffer(){
+	int i, j, romln = romstrLength(LEDtext_p);
 	for(i = Letter; (i < romln) && (i < 5 + Letter); i++){
 		for(j = 0; j < 5; j++){
 			Buffer[i - Letter][j] = character_data[LEDtext_p[i] - 0x20][j];
@@ -69,13 +69,13 @@ void updatebuffer(){
 	}
 }
 
-void LEDsetstring(rom char* src){
+void LEDSetString(rom char* src){
 	LEDtext_p = src;
-	updatebuffer();
+	updateBuffer();
 	Letter++;
 }
 
-void LEDupdate(){
+void LEDUpdate(){
 	if(Msec >= Timer){
 		PEOUT &= ~(0x10>>LED_Collumn);
 		PGOUT |= Buffer[LED_Display][LED_Collumn + Displacement];
@@ -104,17 +104,17 @@ void LEDupdate(){
 	   	if(Scrollon){
 			Displacement++;
 			if(Displacement > 6){
-				updatebuffer();
+				updateBuffer();
 				Letter++;
 				Displacement = 1;
 			}
 		}
-		if(Letter > romstrlength(LEDtext_p) - 1){
+		if(Letter > romstrLength(LEDtext_p) - 1){
 			Letter = 0;
 		}
 	}
 }
 
-void LEDscroll(){
+void LEDScroll(){
 	Scrollon = !Scrollon;
 }

@@ -145,7 +145,7 @@ void window(char x1, char y1, char x2, char y2, char* text, int style){
 }
 
 //moves curser by two integers (x,y)
-void movecursor(int x, int y){
+void moveCursor(int x, int y){
 	//+ 48
 	if (y >= 0 ){
 		printf("%c[%cB", 27, y+48);
@@ -159,6 +159,6 @@ void movecursor(int x, int y){
 	}
 }
 
-void hidecursor(){
+void hideCursor(){
 	printf("%c[25l", 27);
 }

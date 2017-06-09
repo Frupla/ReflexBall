@@ -15,7 +15,7 @@ void resetbgcolor();
 //int strlength(char* s); //Though not directly related to ansi, it is necesary for the window function
 void reverse(char on);
 void window(char x1, char y1, char x2, char y2, char* text, int style);
-void movecursor(int x, int y);
-void hidecursor();
+void moveCursor(int x, int y);
+void hideCursor();
 
 #endif /*! _ANSI_H_ */
