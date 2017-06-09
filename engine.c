@@ -13,10 +13,10 @@ typedef struct{
 					//nothing    - 0x00
 	char x1; //1. coordinate, placement
 	char y1; //2. coordiante, placement
-	struct TVector direction; //ADD THIS STRUCT TO THE INCLUDED CODE PLS 
+    Tvector direction; //ADD THIS STRUCT TO THE INCLUDED CODE PLS
 	//zones? - so far no zones
 	char sizeX; // first 4 bits represent the vertical size factor (y), last 4 represent the horizontal size factor (x)
-    char sizeY
+    char sizeY;
 	char color;
 } entity;
 

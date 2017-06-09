@@ -27,10 +27,10 @@ entity *buildMap() {
     entity player[1];
     entity ball[1];
     entity solid[3];
-    struct TVector nowhere = {0, 0};
-    entity nothing = {0, 0x00, 0, 0, nowhere, 0, 0};
+    Tvector nowhere = {0, 0};
+    entity nothing = {0, 0x00, 0, 0, nowhere, 0, 0, 0};
     entity map[5][40];
-
+    // TODO : Figure out how the fuck you create this array.
     //&player, &ball, &breakables, &solid, &nothing
     //Creates player
     map.whatIsThis = 0x01;
@@ -47,24 +47,6 @@ entity *buildMap() {
         }
     }
 }
-
-/*
- * typedef struct{
-    char changedSinceLast;
-    char whatIsThis;//player     - 0x01
-    //ball       - 0x02
-    //breakable  - 0x03
-    //solid      - 0.04
-    //nothing    - 0x00
-    char x1; //1. coordinate, placement
-    char y1; //2. coordiante, placement
-    struct vector direction; //ADD THIS STRUCT TO THE INCLUDED CODE PLS
-    //zones? - so far no zones
-    char size;
-    char color;
-} entity;
- */
-
 
 void startGame() {
     entity *map;
