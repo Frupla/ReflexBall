@@ -4,8 +4,12 @@
 	
 void timerSetup();
 void LEDInit();
-void LEDSetString(rom char* string);
+
+void LEDSetString(rom
+char*);
 void LEDUpdate();
 void LEDScroll();
+
+int readMsec();
 
 #endif /*! _LEDdisplay_H_ */

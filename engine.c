@@ -102,11 +102,18 @@ void playerMovement(char buttonPress, entity* object){
 	}
 }
 
-void ball(char x){
-		printf(0); // deletes the old drawing of the ball
+char ballCollision(entity[] breakables, entity[] solids, entity ball){ // an array of breakables, solids and a ball
+
+void ballMovement(entity *object) {
+    /*
+     * TODO : Write the code to move the ball. I'm thinking:
+     * 1 - Find the ball entity in the array
+     * 2 - Update the position with the direction
+     */
+
 }
 
-char ballCollision(entity[] breakables, entity[] solids, entity ball){ // an array of breakables, solids and a ball
+char collisionCheck(entity[][] object){
 	char flag = 0;
 	char didithit = 0;
 	if(((ball.x1 + (char)ball.direction.x) >= breakables.x1) && ((ball.x1 + (char)ball.direction.x) <= (breakables.x1 + breakables.sizeX))){// Tvectors are made with longs, maybe they shouldn't be

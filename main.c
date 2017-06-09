@@ -3,10 +3,10 @@
 #include "ansi.h"
 #include "sinLUT.h"
 #include "math.h"
-#include "LEDdisplay.h"
+#include "Z8encore.h"
 #include "engine.h"
 
-#define map breakables
+#define MAPSIZE 400
 
 void showMenu() {
     window(10, 10, 70, 70, "Main menu", 1);
@@ -22,54 +22,92 @@ void showMenu() {
 }
 
 entity *buildMap() {
-    int i, j, n;
-    entity breakables[40];
-    entity player[1];
-    entity ball[1];
-    entity solid[3];
-    struct TVector nowhere = {0, 0};
-    entity nothing = {0, 0x00, 0, 0, nowhere, 0, 0};
-    entity map[5][40];
+    int i, j, n = 0;
+    entity map[46];
 
-    //&player, &ball, &breakables, &solid, &nothing
-    //Creates player
-    map.whatIsThis = 0x01;
+    //player, ball, breakables, solid, nothing
+    // TODO : Create constant MAPSIZE
+    //Player setup
+    map[n].whatIsThis = 0x01;
+    map[n].changedSinceLast = 1;
+    map[n].x1 = (char) (MAPSIZE / 2);
+    map[n].y1 = (char) MAPSIZE;
+    map[n].direction = {0, 0};
+    map[n].size = 0x16;
+    map[n].color = 0x00;
+    n++;
+    map[n].whatIsThis = 0x00;
+    n++;
+
+    //Ball.etup
+    map[n].whatIsThis = 0x02;
+    map[n].changedSinceLast = 1;
+    map[n].x1 = (char) (MAPSIZE / 2);
+    map[n].y1 = (char) (MAPSIZE) - 1;
+    map[n].direction = {0, -1};
+    map[n].size = 0x11;
+    map[n].color = 0x00;
+    n++;
+    map[n].whatIsThis = 0x00;
+    n++;
 
     //Creates 40 blocks to kill
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 10; j++) {
-            map[2][n]->changedSinceLast = 1;
-            map[2][n]->whatIsThis = 0x03;
-            map[2][n]->x1 = j * 5;
-            map[2][n]->y1 = i + 1;
-            map[n][n]->size = 0x14;
+            map[n].changedSinceLast = 1;
+            map[n].whatIsThis = 0x03;
+            map[n].x1 = (char) (j * 5);
+            map[n].y1 = (char) (i + 1);
+            map[n].size = 0x14;
+            map[n].color = 0x00;
             n++;
         }
     }
+
+    // Creates the last nothing
+    map[n].whatIsThis = 0x00;
+
+    return map;
 }
 
-/*
- * typedef struct{
-    char changedSinceLast;
-    char whatIsThis;//player     - 0x01
-    //ball       - 0x02
-    //breakable  - 0x03
-    //solid      - 0.04
-    //nothing    - 0x00
-    char x1; //1. coordinate, placement
-    char y1; //2. coordiante, placement
-    struct vector direction; //ADD THIS STRUCT TO THE INCLUDED CODE PLS
-    //zones? - so far no zones
-    char size;
-    char color;
-} entity;
- */
-
+int winCondition(int score) {
+    if (score >= 40) {
+        return 1;
+    }
+    return 0;
+}
 
 void startGame() {
     entity *map;
+    int score = 0;
     map = buildMap();
 
+    do {
+        do {
+            drawMap(map);
+            do {
+                //Determine where to move
+                // TODO : Put the code for player input here.
+
+
+                //Remember to do this a lot
+                LEDUpdate();
+            } while (readMsec() < 100);
+
+            //Then move the player
+            playerMovement(map);
+
+        } while (readMsec() < 500);
+        //Then move the ball
+        ballMovement(map);
+        //Check for collisions
+        collisionCheck(map);
+        //Update the map
+        drawMap(map);
+
+        //TODO : How do we update the score?? Return from collision check?
+
+    } while (winCondition(score));
 }
 
 void showControls() {
@@ -80,16 +118,16 @@ void highScores() {
 
 }
 
-rom char string[LED_MAX_STR_LEN] = "    sample text";
+rom char string[LED_MAX_STR_LEN] = "    Breakout!";
 
 void main() {
     char what_to_do = 0x01;
 	init_uart(_UART0,_DEFFREQ,_DEFBAUD);  // set-up UART0 to 57600, 8n1
-	LEDinit();
-	LEDsetstring(string);
-	LEDscroll();
+    LEDInit();
+    LEDSetString(string);
+    LEDScroll();
 	do {
-		LEDupdate();
+        LEDUpdate();
 
         switch (what_to_do) {
             case 1 :

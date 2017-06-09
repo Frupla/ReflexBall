@@ -93,6 +93,10 @@ void LEDSetString(rom char* src){
 	Letter++;
 }
 
+int readMsec() {
+    return Msec;
+}
+
 void LEDUpdate(){
 	if(Msec >= Timer){
 		PEOUT &= ~(0x10>>LED_Collumn);
