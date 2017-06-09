@@ -12,6 +12,18 @@ long sin(int x){
 	return SIN[x & GRANDE];
 }
 
+void printfix(long i){
+	if((i & 0x80000000) != 0){
+		printf("-");
+		i = ~i + 1;
+	}
+	printf("%ld.%04ld", i >> 16, 10000 * (unsigned long) (i & 0xffff) >> 16);
+}
+
+long expanded(long i){
+	return i << 2;
+}
+
 long cos(int x){
 	if(x<0){
 		return SIN[(640 - (~x+1)) & GRANDE];
@@ -21,8 +33,6 @@ long cos(int x){
 
 void rotate(TVector *v, int a){
 	int temp = v->x;
-	int tempie = sin(a);
-	int tem = cos(a);
 	v->x = temp * cos(a) - v->y * sin(a);
 	v->y = temp * sin(a) + v->y * cos(a);
 }

@@ -106,13 +106,19 @@ void playerMovement(char buttonPress, entity* object){
 
 char ballCollision(entity[] breakables, entity[] solids, entity ball){ // an array of breakables, solids and a ball
 
-void ballMovement(entity *object) {
-    /*
-     * TODO : Write the code to move the ball. I'm thinking:
-     * 1 - Find the ball entity in the array
-     * 2 - Update the position with the direction
-     */
+}
 
+void ballMovement(entity *object) {
+	char flag = collisionCheck()
+	switch(flag){
+		case 0x00:	break;
+		case 0x01:	
+		case 0x02:
+		case 0x04:
+		case 0x08:
+		case 0x10:
+		default: break;
+	}
 }
 
 char collisionCheck(entity[][] object){
