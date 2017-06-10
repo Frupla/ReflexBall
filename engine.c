@@ -109,17 +109,46 @@ void playerMovement(char buttonPress, entity* object){
 	}
 }
 
-void ballMovement(entity *object) {
-	char flag = collisionCheck()
+void ballMovement(entity* ball) {
+	char flag = ballCollision();
+    //TODO: SKAL VI BRUGE . ELLER ->
 	switch(flag){
-		case 0x00:	break;
-		case 0x01:	
+		case 0x00:
+            break;
+		case 0x01:
+            ball->direction.y = - ball->direction.y;
+            break;
 		case 0x02:
+            ball->direction.x = - ball->direction.x;
+            ball->direction.y = - ball->direction.y;
+            break;
+		case 0x03:
+            ball->direction.x = - ball->direction.x;
+            break;
 		case 0x04:
-		case 0x08:
-		case 0x10:
+            ball->direction.x = - ball->direction.x;
+            ball->direction.y = - ball->direction.y;
+            break;
+		case 0x05:
+            ball->direction.y = - ball->direction.y;
+            break;
+        case 0x06:
+            ball->direction.x = - ball->direction.x;
+            ball->direction.y = - ball->direction.y;
+            break;
+        case 0x07:
+            ball->direction.x = - ball->direction.x;
+            break;
+        case 0x08:
+            ball->direction.x = - ball->direction.x;
+            ball->direction.y = - ball->direction.y;
+            break;
+        case 0x09:
+        //TODO: raise like a dead flag or something
 		default: break;
 	}
+    ball->x1 += (int) (ball->direction.x>>8); //might need a -> here instead of .
+    ball->y1 += (int) (ball->direction.y>>8); //might need a -> here instead of .
 }
 
 char collisionCheck(entity[] breakables, entity[] solids, entity ball) { // an array of breakables, solids and a ball
@@ -136,11 +165,15 @@ char collisionCheck(entity[] breakables, entity[] solids, entity ball) { // an a
 	return flag;
 	/* flag encoding
 	 * 0x00 = no collision
-	 * 0x01 = object hit left side
-	 * 0x02 = object hit bottom side
-	 * 0x04 = object hit right side
-	 * 0x08 = object hit top side
-	 * 0x10 = object passed through floor??? - maybe do this in out of bounds check???
+	 * 0x01 = object hit top side
+	 * 0x02 = object hit top right  corner
+	 * 0x03 = object hit right side
+	 * 0x04 = object hit bottom right corner
+	 * 0x05 = object hit bottom side
+	 * 0x06 = object hit bottom left corner
+	 * 0x07 = object hit left side
+	 * 0x08 = object hit top left corner
+	 * 0x09 = object passed through floor??? - maybe do this in out of bounds check???
 	 * */
 }
 
