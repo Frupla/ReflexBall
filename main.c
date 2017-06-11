@@ -79,7 +79,7 @@ int winCondition(int score) {
 void startGame() {
     entity *map;
     char buttonpress;
-    int score = 0;
+    int score = 0, time1 = 100, time2 = 499;
     map = buildMap();
 
     do {
@@ -91,18 +91,25 @@ void startGame() {
 
                 //Remember to do this a lot
                 LEDUpdate();
-            } while (readMsec() < 100);
+            } while (readMsec() < time1);
 
             //Then move the player
             playerMovement(buttonpress, map);
+            time1 += 100;
 
-        } while (readMsec() < 500);
+        } while (readMsec() < time2);
         //Then move the ball
         ballMovement(map);
         //Check for collisions
         collisionCheck(map);
         //Update the map
         drawMap(map);
+        LEDUpdate();
+        time2 += 500;
+        if (readMsec() < 50){
+            time1 = 100;
+            time2 = 499;
+        }
 
         //TODO : How do we update the score?? Return from collision check?
 
