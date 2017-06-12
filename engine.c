@@ -4,7 +4,10 @@
 #include "math.h"
 #include "Z8encore.h"
 
-#define MAPSIZE 100
+#define SOLIDTEXTURE 72;
+#define PLAYERTEXTURE 219;
+#define BALLTEXTURE 184;
+#define BREAKABLETEXTURE 177;
 
 
 typedef struct{
@@ -27,9 +30,9 @@ void initiate(){
 	int i;
 	for(i = 1; i <= MAPSIZE; i++){
 		gotoxy(1, i);
-		printf("%c", 72);
-		gotoxy(MAPSIZE, i);
-		printf("%c", 72);
+		printf("%c", SOLIDTEXTURE);
+		gotoxy(widthOfMap, i);
+		printf("%c", SOLIDTEXTURE);
 	}
 	for(i = 1; i <= MAPSIZE; i++){
 		gotoxy(i, 1);
@@ -41,7 +44,7 @@ void drawPlayer(entity* object){
 	int i;
 	for(i = 0; i <= (object->sizeX); i++){
 		gotoxy(object->x1 + i,object->y1);
-		printf("%c", 219);	
+		printf("%c", PLAYERTEXTURE);
 	}
 	object->changedSinceLast = 0;
 }
@@ -49,7 +52,7 @@ void drawPlayer(entity* object){
 void drawBall(entity* object){
 	int i, j;
 	gotoxy(object->x1,object->y1);
-	printf("%c", 184);	
+	printf("%c", BALLTEXTURE);
 	object->changedSinceLast = 0;
 }
 
@@ -58,7 +61,7 @@ void drawBreakable(entity* object){
 	for(i = 0; i <= (object->sizeX); i++){
 		for(j = 0; j <= (object->sizeY); j++){
 			gotoxy(object->x1 + i,object->y1 + j);
-			printf("%c", 177);	
+			printf("%c", BREAKABLETEXTURE);
 		}
 	}
 	object->changedSinceLast = 0;
@@ -69,7 +72,7 @@ void drawSolid(entity* object){
 	for(i = 0; i <= (object->sizeX); i++){
 		for(j = 0; j <= (object->sizeY); j++){
 			gotoxy(object->x1 + i,object->y1 + j);
-			printf("%c", 72);	
+			printf("%c", SOLIDTEXTURE);
 		}
 	}
 	object->changedSinceLast = 0;
