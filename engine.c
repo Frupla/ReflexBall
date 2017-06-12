@@ -184,16 +184,15 @@ void ballMovement(entity *map) {
 	printf("%c", BALLTEXTURE);
 	gotoxy(1, 1);
 }
-/*
+
 // pre: takes position that the ball would have (current position + direction), and checks it for overlap
-char collisionCheck(entity * object, entity map) { // an array of breakables, solids and a ball
+char collisionCheck(entity * object, entity map[]) { // an array of breakables, solids and a ball
 	char flag = 0;
 	int i = 2; // i is equal to number of players + number of balls
-	char didithit = 0;
-	if(object->x1 >= (2 * MAPSIZE)  || object->x1 =< 1){ // returns true if hit wall
+	if(object->x1 >= (MAPSIZE * 2)  || object->x1 <= 1){ // returns true if hit wall
 		// hit wall
 	}
-	if(object->y1 =< 2){ // returns true if wall hit
+	if(object->y1 <= 2){ // returns true if wall hit
 		// wall is hit
 	}
 	if (object->y1 > MAPSIZE){ // returns true if ball falls through floor
@@ -203,40 +202,36 @@ char collisionCheck(entity * object, entity map) { // an array of breakables, so
 			if((map[i].whatIsThis == 0x03) //hit top
 			 && (object->x1 >= map[i].x1) 
 			 && (object->x1 <= map[i].x1 + map[i].sizeX)){
-				if(){
-
+				if(object->y1 == map[i].y1){
+					if (object->x1 == map[i].x1){
+						flag = 0x08;//top left corner
+					}else if (object->x1 == map[i].x1 + map[i].sizeX){
+						flag = 0x02;//top right corner
+					}else{
+						flag = 0x01; // hit top
+					}
+				} else if(object->y1 == map[i].y1 + map[i].sizeY){
+					if (object->x1 == map[i].x1){
+						flag = 0x06;//bottom left corner
+					}else if (object->x1 == map[i].x1 + map[i].sizeX){
+						flag = 0x04;//bottom right corner
+					}else{
+						flag = 0x05; // hit bottom
+						}
+					}
 				}
 			}
-
-			if((map[i].whatIsThis == 0x03) // hit left
-			 && (object->x1 >= map[i].x1) 
-			 && (object->x1 <= map[i].x1 + map[i].sizeX)
-			 && (object->y1 <= map[i].y1)
-			 && (object->y1 >= map[i].y1 + map[i].sizeY)
-			 ){}
-			if((map[i].whatIsThis == 0x03) //hit right
-			 && (object->x1 >= map[i].x1) 
-			 && (object->x1 <= map[i].x1 + map[i].sizeX)
-			 && (object->y1 <= map[i].y1)
-			 && (object->y1 >= map[i].y1 + map[i].sizeY)
-			 ){}
-			if((map[i].whatIsThis == 0x03) //hit bottom
-			 && (object->x1 >= map[i].x1) 
-			 && (object->x1 <= map[i].x1 + map[i].sizeX)
-			 && (object->y1 <= map[i].y1)
-			 && (object->y1 >= map[i].y1 + map[i].sizeY)
-			 ){}
-			
-
-	/*if(((ball.x1 + (char)ball.direction.x) >= breakables.x1) && ((ball.x1 + (char)ball.direction.x) <= (breakables.x1 + breakables.sizeX))){// Tvectors are made with longs, maybe they shouldn't be
-		if(((ball.y1 + (char)ball.direction.y) >= breakables.y1) && ((ball.y1 + (char)ball.direction.y) <= (breakables.y1 + breakables.sizeY))){
-			didithit = 1;
-		}
+			if((map[i].whatIsThis == 0x03) //hit top
+			 && (object->y1 > map[i].y1) 
+			 && (object->y1 < map[i].y1 + map[i].sizeY)){
+				if(object->x1 == map[i].x1){
+					flag = 0x07; // hit left
+				} else if(object->x1 == map[i].x1 + map[i].sizeX){
+					flag = 0x03; // hit right
+				}
+			}
+			return flag;
 	}
-	if(didithit){
-		switch()
-	}
-	return flag;
 	/* flag encoding
 	 * 0x00 = no collision
 	 * 0x01 = object hit top side
@@ -248,6 +243,5 @@ char collisionCheck(entity * object, entity map) { // an array of breakables, so
 	 * 0x07 = object hit left side
 	 * 0x08 = object hit top left corner
 	 * 0x09 = object passed through floor??? - maybe do this in out of bounds check???
-	 
-}
-*/
+	 */
+
