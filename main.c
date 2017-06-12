@@ -173,7 +173,6 @@ void main() {
                 highScores();
                 break;
             case 4 :
-                return 1;
                 break;
             default:
                 what_to_do = 1;
