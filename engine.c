@@ -9,15 +9,17 @@
 #define PLAYERTEXTURE 219
 #define BALLTEXTURE 184
 #define BREAKABLETEXTURE 177
+#define BACKGROUNDTEXTURE 32
 
 
 typedef struct{
 	char changedSinceLast;
-	char whatIsThis;//player     - 0x01 
-					//ball       - 0x02
-					//breakable  - 0x03
-					//solid      - 0x04
-					//nothing    - 0x00
+	char whatIsThis;//player           - 0x01
+					//ball             - 0x02
+					//breakable        - 0x03
+					//solid            - 0x04
+                    //broken breakable - 0x05
+					//nothing          - 0x00
 	int x1; //1. coordinate, placement
 	int y1; //2. coordiante, placement
 	Tvector direction; // Speed and direction (only relevant for the ball)
@@ -66,6 +68,18 @@ void drawBreakable(entity* object){
 		}
 	}
 	object->changedSinceLast = 0;
+}
+
+void killBreakable(entity* object){
+	int i, j;
+	for(i = 0; i <= (object->sizeX); i++){
+		for(j = 0; j <= (object->sizeY); j++){
+			gotoxy(object->x1 + i,object->y1 + j);
+			printf("%c", BACKGROUNDTEXTURE);
+		}
+	}
+	object->changedSinceLast = 0;
+    object->whatIsThis = 0x05;
 }
 
 void drawSolid(entity* object){
@@ -122,6 +136,7 @@ void playerMovement(char buttonPress, entity* object){
 			}
 			gotoxy(object->x1 + object->sizeX,object->y1);
             printf("%c", PLAYERTEXTURE);
+			gotoxy(1,1);
             break;
 		case 0x02: //PF6
 			break;
@@ -133,6 +148,7 @@ void playerMovement(char buttonPress, entity* object){
 			}
 			gotoxy(object->x1,object->y1);
             printf("%c", PLAYERTEXTURE);
+			gotoxy(1,1);
 			break;
 		case 0x05:
 			// when PD3 and PF7 is pressed at the same time, nothing happens
