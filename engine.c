@@ -81,25 +81,34 @@ void drawSolid(entity* object){
 
 //pre: map must be nothing-terminated
 //     map is a 1D array containing all objects on the map
-void drawMap(entity *map) {
-    while(map->whatIsThis) {
-        switch (map->whatIsThis) {
-            case 0x01:  
-                drawPlayer(map);
+void drawMap(entity map[]) {
+    int i = 0;
+    while(map[i]->whatIsThis) {
+        switch (map[i]->whatIsThis) {
+            case 0x01:
+                if (map[i].changedSinceLast) {
+                    drawPlayer(map[i]);
+                }
                 break;
             case 0x02:
-                drawBall(map);
+                if (map[i].changedSinceLast) {
+                    drawBall(map[i]);
+                }
                 break;
             case 0x03:
-                drawBreakable(map);
+                if (map[i].changedSinceLast) {
+                    drawBreakable(map[i]);
+                }
                 break;
             case 0x04:
-                drawSolid(map);
+                if (map[i].changedSinceLast) {
+                    drawSolid(map[i]);
+                }
                 break;
             default:
                 break;
         }
-        map++;
+        i++;
     }
 }
 /*
