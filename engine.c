@@ -84,7 +84,7 @@ void drawSolid(entity* object){
 void drawMap(entity *map) {
     while(map->whatIsThis) {
         switch (map->whatIsThis) {
-            case 0x01:
+            case 0x01:  
                 drawPlayer(map);
                 break;
             case 0x02:
