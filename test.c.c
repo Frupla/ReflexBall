@@ -19,6 +19,7 @@ void main() {
     int time1 = 100, time2 = 499;
 	init_uart(_UART0,_DEFFREQ,_DEFBAUD);  // set-up UART0 to 57600, 8n1
 	clrscr();
+	// player setup
     map[n].whatIsThis = 0x01;
     map[n].changedSinceLast = 1;
     map[n].x1 = 50;
