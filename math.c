@@ -34,13 +34,16 @@ long cos(int x){
 
 void rotate(Tvector *v, int a){
 	int temp = v->x;
-	v->x = temp * cos(a) - v->y * sin(a);
-	v->y = temp * sin(a) + v->y * cos(a);
+	v->x = temp * cosinus(a) - v->y * sinus(a);
+	v->y = temp * sinus(a) + v->y * cosinus(a);
+	v->x = v->x >> 14;
+	v->y = v->y >> 14;
 }
 
 long convert(int number) {
-    if (number & 0x8000) {
-        number = ~number + 1;
-    }
-    return ~(((long) number) << 14) + 1;
+	if ((number & 0x8000) != 0) {
+		number = ~number + 1;
+		return ~(((long) number) << 14) + 1;
+	}
+	return ((long) number) << 14;
 }
