@@ -115,22 +115,20 @@ void playerMovement(char buttonPress, entity* object){
 	int i;	
 	switch(buttonPress) {
 		case 0x01: //PF7
-            for(i = 0; i <= (object->sizeX); i++){	// Deletes the old drawing of the paddle
-            	gotoxy(object->x1 + i,object->y1);
-            	printf("%c", 20);
-            }
+            gotoxy(object->x1,object->y1);
+            printf("%c", 72);
 			object->x1++;
-			object->changedSinceLast = 1;
+			gotoxy(object->x1 + object->sizeX,object->y1);
+            printf("%c", PLAYERTEXTURE);
             break;
 		case 0x02: //PF6
 			break;
 		case 0x04: //PD3
-            for(i = 0; i <= (object->sizeX); i++){	// Deletes the old drawing of the paddle
-            	gotoxy(object->x1 + i,object->y1);
-            	printf("%c", 20);
-            }
+			gotoxy(object->x1 + object->sizeX,object->y1);
+            printf("%c", 72);
 			object->x1--;
-			object->changedSinceLast = 1;
+			gotoxy(object->x1,object->y1);
+            printf("%c", PLAYERTEXTURE);
 			break;
 		case 0x05:
 			// when PD3 and PF7 is pressed at the same time, nothing happens
