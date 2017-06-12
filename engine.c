@@ -176,37 +176,37 @@ char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, s
 		flag = 0x09;// dead ball
 	}
 	while(map[i].whatIsThis){
-			if((map[i].whatIsThis == 0x03) //hit top
-			 && (x1 >= map[i].x1) 
-			 && (x1 <= map[i].x1 + map[i].sizeX)){
-				if(y1 == map[i].y1){
-					if (x1 == map[i].x1){
-						flag = 0x08;//top left corner
-					}else if (x1 == map[i].x1 + map[i].sizeX){
-						flag = 0x02;//top right corner
-					}else{
-						flag = 0x01; // hit top
-					}
-				} else if(y1 == map[i].y1 + map[i].sizeY){
-					if (x1 == map[i].x1){
-						flag = 0x06;//bottom left corner
-					}else if (x1 == map[i].x1 + map[i].sizeX){
-						flag = 0x04;//bottom right corner
-					}else{
-						flag = 0x05; // hit bottom
-						}
-					}
-				}
-			}
-			if((map[i].whatIsThis == 0x03) //hit top
-			 && (y1 > map[i].y1) 
-			 && (y1 < map[i].y1 + map[i].sizeY)){
-				if(x1 == map[i].x1){
-					flag = 0x07; // hit left
-				} else if(x1 == map[i].x1 + map[i].sizeX){
-					flag = 0x03; // hit right
-				}
-			}
+        if(map[i].whatIsThis == 0x03) {
+            if ((x1 >= map[i].x1)   //hit top
+                && (x1 <= map[i].x1 + map[i].sizeX)) {
+                if (y1 == map[i].y1) {
+                    if (x1 == map[i].x1) {
+                        flag = 0x08;//top left corner
+                    } else if (x1 == map[i].x1 + map[i].sizeX) {
+                        flag = 0x02;//top right corner
+                    } else {
+                        flag = 0x01; // hit top
+                    }
+                } else if (y1 == map[i].y1 + map[i].sizeY) {
+                    if (x1 == map[i].x1) {
+                        flag = 0x06;//bottom left corner
+                    } else if (x1 == map[i].x1 + map[i].sizeX) {
+                        flag = 0x04;//bottom right corner
+                    } else {
+                        flag = 0x05; // hit bottom
+                    }
+                }
+            }
+            if ((y1 > map[i].y1)
+                && (y1 < map[i].y1 + map[i].sizeY)) {
+                if (x1 == map[i].x1) {
+                    flag = 0x07; // hit left
+                } else if (x1 == map[i].x1 + map[i].sizeX) {
+                    flag = 0x03; // hit right
+                }
+            }
+        }
+    }
 		return flag;
 	}
 	/* flag encoding
@@ -268,7 +268,7 @@ void ballMovement(entity *map) {
             map[1].direction.y = - map[1].direction.y;
             break;
         case 0x09:
-        	//TODO come up with something
+        	//TODO come up with something  - Or not
         default: 
         	break;
     }
