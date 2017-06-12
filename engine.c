@@ -133,13 +133,13 @@ void playerMovement(char buttonPress, entity* object){
 			object->changedSinceLast = 1;
 			break;
 		case 0x05:
-			} // when PD3 and PF7 is pressed at the same time, nothing happens
+			// when PD3 and PF7 is pressed at the same time, nothing happens
 			break;
 		default:
 			break;
-	}
+		}
 }
-  */
+/*
 void ballMovement(entity* ball){
 	char flag = ballCollision();
 	switch(flag){
