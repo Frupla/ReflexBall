@@ -9,7 +9,7 @@
 #include "Z8encore.h"
 #include "engine.h"
 
-rom char string[LED_MAX_STR_LEN] = "BREAKOUT";
+rom char string[LED_MAX_STR_LEN] = "Shit";
 
 void main() {
     entity map[6];
