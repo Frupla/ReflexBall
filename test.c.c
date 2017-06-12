@@ -55,42 +55,35 @@ void main() {
 	LEDInit();
     LEDSetString(string);
 	LEDScroll();
-  
-//        Old debugging code:
-//        drawMap(map);
-//        button = readKey();
-//        playerMovement(button, map);
 
+    do {
         do {
+            drawMap(map);
             do {
-                drawMap(map);
-                do {
-                    //Determine where to move
-                    button = readKey();
-
-                    //Remember to do this a lot
-                    LEDUpdate();
-                } while (readMsec() < time1);
-
+                //Determine where to move
+                button = readKey();
                 //Then move the player
                 playerMovement(button, map);
-                time1 += 100;
 
-            } while (readMsec() < time2);
-            //Then move the ball
-            //ballMovement(map);
-            //Check for collisions
-            //collisionCheck(map);
-            //Update the map
-            drawMap(map);
-            LEDUpdate();
-            time2 += 500;
-            if (readMsec() < 50) {
-                time1 = 100;
-                time2 = 499;
-            }
+                //Remember to do this a lot
+                LEDUpdate();
+            } while (readMsec() < time1);
 
+            time1 += 100;
 
+        } while (readMsec() < time2);
+        //Then move the ball
+        //ballMovement(map);
+        //Check for collisions
+        //collisionCheck(map);
+        //Update the map
+        drawMap(map);
+        LEDUpdate();
+        time2 += 500;
+        if (readMsec() < 50) {
+            time1 = 100;
+            time2 = 499;
+        }
 	} while (1);
 }
 
