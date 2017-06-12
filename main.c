@@ -49,17 +49,16 @@ entity *buildMap() {
     entity map[46];
 
     //player, ball, breakables, solid, nothing
-    // TODO : Create constant MAPSIZE
+
     //Player setup
     map[n].whatIsThis = 0x01;
     map[n].changedSinceLast = 1;
     map[n].x1 = (char) (MAPSIZE / 2);
     map[n].y1 = (char) MAPSIZE;
     map[n].direction = {0, 0};
-    map[n].size = 0x16;
+    map[n].sizeX = 6;
+    map[n].sizeY = 1;
     map[n].color = 0x00;
-    n++;
-    map[n].whatIsThis = 0x00;
     n++;
 
     //Ball.etup
@@ -68,10 +67,9 @@ entity *buildMap() {
     map[n].x1 = (char) (MAPSIZE / 2);
     map[n].y1 = (char) (MAPSIZE) - 1;
     map[n].direction = {0, -1};
-    map[n].size = 0x11;
+    map[n].sizeX = 0x1;
+    map[n].sizeY = 0x1;
     map[n].color = 0x00;
-    n++;
-    map[n].whatIsThis = 0x00;
     n++;
 
     //Creates 40 blocks to kill
@@ -81,7 +79,8 @@ entity *buildMap() {
             map[n].whatIsThis = 0x03;
             map[n].x1 = (char) (j * 5);
             map[n].y1 = (char) (i + 1);
-            map[n].size = 0x14;
+            map[n].sizeX = 4;
+            map[n].sizeY = 2;
             map[n].color = 0x00;
             n++;
         }
