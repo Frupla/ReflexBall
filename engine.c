@@ -4,11 +4,11 @@
 #include "math.h"
 #include "Z8encore.h"
 
-#define MAPSIZE 100;
-#define SOLIDTEXTURE 72;
-#define PLAYERTEXTURE 219;
-#define BALLTEXTURE 184;
-#define BREAKABLETEXTURE 177;
+#define MAPSIZE 100
+#define SOLIDTEXTURE 72
+#define PLAYERTEXTURE 219
+#define BALLTEXTURE 184
+#define BREAKABLETEXTURE 177
 
 
 typedef struct{
@@ -32,12 +32,12 @@ void initiate(){
 	for(i = 1; i <= MAPSIZE; i++){
 		gotoxy(1, i);
 		printf("%c", SOLIDTEXTURE);
-		gotoxy(widthOfMap, i);
+		gotoxy((2 * MAPSIZE), i);
 		printf("%c", SOLIDTEXTURE);
 	}
-	for(i = 1; i <= MAPSIZE; i++){
+	for(i = 1; i <= (2 * MAPSIZE); i++){
 		gotoxy(i, 1);
-		printf("%c", 72);
+		printf("%c", SOLIDTEXTURE);
 	}
 }
 

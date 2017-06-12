@@ -29,7 +29,7 @@ void main() {
     map[n].whatIsThis = 0x02;
     map[n].changedSinceLast = 1;
     map[n].x1 = 60;
-    map[n].y1 = 90;
+    map[n].y1 = 50;
     //map[n].direction = {0, -1};
     map[n].sizeX = 0x11;
 	map[n].sizeY = 0;
@@ -48,11 +48,10 @@ void main() {
     n++;
     map[n].whatIsThis = 0x00;
     n++;
-	   
-	gotoxy(2,2);
-	printf("Putty virker");
 	initiate();
-    drawMap(map);
-
-    do {} while (1);
+	LEDInit();
+    do {
+	drawMap(map);
+	map[0].changedSinceLast = 1;
+	} while (1);
 }
