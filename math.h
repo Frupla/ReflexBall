@@ -9,8 +9,8 @@ typedef struct{
 
 long sin(int x);
 long cos(int x);
-void rotate(TVector *v, int a);
-void printfix(long i);
+void rotate(Tvector *v, int a);
+//void printfix(long i);
 long expanded(long i);
 
 #endif /*_MATH_H_*/
