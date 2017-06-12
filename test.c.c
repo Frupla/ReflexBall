@@ -45,8 +45,9 @@ void main() {
     map[n].whatIsThis = 0x00;
     n++;
 	   
-	
-	initiate(100,100);
+	gotoxy(2,2);
+	printf("Putty virker");
+	initiate(200,200);
     drawMap(map);
 
     do {} while (1);
