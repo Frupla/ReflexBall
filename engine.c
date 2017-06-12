@@ -4,6 +4,7 @@
 #include "math.h"
 #include "Z8encore.h"
 
+#define MAPSIZE 100;
 #define SOLIDTEXTURE 72;
 #define PLAYERTEXTURE 219;
 #define BALLTEXTURE 184;
