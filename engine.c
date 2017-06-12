@@ -57,7 +57,7 @@ void drawBreakable(entity* object){
 	int i, j;
 	for(i = 0; i <= (object->sizeX); i++){
 		for(j = 0; j <= (object->sizeY); j++){
-			gotoxy(object->x1 + i,object->y1);
+			gotoxy(object->x1 + i,object->y1 + j);
 			printf("%c", 177);	
 		}
 	}
