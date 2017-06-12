@@ -37,48 +37,46 @@ void initiate(int heightOfMap, int widthOfMap){
 	}
 }
 
-void drawPlayer(entity object){
+void drawPlayer(entity* object){
 	int i;
-	for(i = 0; i <= (object.sizeX); i++){
-		gotoxy(object.x1 + i,object.y1);
+	for(i = 0; i <= (object->sizeX); i++){
+		gotoxy(object->x1 + i,object->y1);
 		printf("%c", 219);	
 	}
-	object.changedSinceLast = 0;
+	object->changedSinceLast = 0;
 }
 
-void drawBall(entity object){
+void drawBall(entity* object){
 	int i, j;
-	gotoxy(object.x1,object.y1);
+	gotoxy(object->x1,object->y1);
 	printf("%c", 184);	
-	object.changedSinceLast = 0;	
+	object->changedSinceLast = 0;
 }
 
-void drawBreakable(entity object){
+void drawBreakable(entity* object){
 	int i, j;
-	for(i = 0; i <= (object.sizeX); i++){
-		for(j = 0; j <= (object.sizeY); j++){
-			gotoxy(object.x1 + i,object.y1);
+	for(i = 0; i <= (object->sizeX); i++){
+		for(j = 0; j <= (object->sizeY); j++){
+			gotoxy(object->x1 + i,object->y1);
 			printf("%c", 177);	
 		}
 	}
-	object.changedSinceLast = 0;
+	object->changedSinceLast = 0;
 }
 
-void drawSolid(entity object){
+void drawSolid(entity* object){
 	int i, j;
-	for(i = 0; i <= (object.sizeX); i++){
-		for(j = 0; j <= (object.sizeY); j++){
-			gotoxy(object.x1 + i,object.y1);
+	for(i = 0; i <= (object->sizeX); i++){
+		for(j = 0; j <= (object->sizeY); j++){
+			gotoxy(object->x1 + i,object->y1);
 			printf("%c", 72);	
 		}
 	}
-	object.changedSinceLast = 0;
+	object->changedSinceLast = 0;
 }
 
 void drawMap(entity *object) {
-    int i = 0;
-
-    for (i = 0; i < 4; object++) {
+    while(!object->whatIsThis) {
         switch (object->whatIsThis) {
             case 0x01:
                 drawPlayer(*object);
@@ -93,41 +91,47 @@ void drawMap(entity *object) {
                 drawSolid(*object);
                 break;
             default:
-                i++;
                 break;
         }
+        object++;
     }
-
 }
 
 void playerMovement(char buttonPress, entity* object){
 	int i;	
-	collisionCheck();
+	/*collisionCheck();
 	for(i = 0; i <= (object->sizeX); i++){	// Deletes the old drawing of the paddle
 		gotoxy(object->x1 + i,object->y1);
-		printf("%c", 20);	
-	}
+		printf("%c", 20);
+	}*/
 	switch(buttonPress) {
 		case 0x01: //PF7
 			object->x1++;
 			object->changedSinceLast = 1;
-			break;
+            for(i = 0; i <= (object->sizeX); i++){	// Deletes the old drawing of the paddle
+            	gotoxy(object->x1 + i,object->y1);
+            	printf("%c", 20);
+			}
+            break;
 		case 0x02: //PF6
 			break;
 		case 0x04: //PD3
 			object->x1--;
 			object->changedSinceLast = 1;
-			break;
+            for(i = 0; i <= (object->sizeX); i++){	// Deletes the old drawing of the paddle
+            	gotoxy(object->x1 + i,object->y1);
+            	printf("%c", 20);
+			}
+            break;
 		case 0x05: // when PD3 and PF7 is pressed at the same time, nothing happens
 			break;
 		default:
 			break;
 	}
-}
+}        //potentially return an encoded version of old position
 
 void ballMovement(entity* ball){
 	char flag = ballCollision();
-    //TODO: SKAL VI BRUGE . ELLER ->
 	switch(flag){
 		case 0x00:
             break;
@@ -167,6 +171,7 @@ void ballMovement(entity* ball){
     ball->y1 += (int) (ball->direction.y>>8); //might need a -> here instead of .
 }
 
+//following code still does not work - rethink concept
 char collisionCheck(entity[] breakables, entity[] solids, entity ball) { // an array of breakables, solids and a ball
 	char flag = 0;
 	char didithit = 0;
