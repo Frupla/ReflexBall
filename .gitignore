@@ -64,3 +64,4 @@ cmake-build-debug/
 *.wsp
 *.zdsproj
 *.lod
+*.lod
