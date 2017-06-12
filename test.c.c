@@ -33,8 +33,8 @@ void main() {
     map[n].changedSinceLast = 1;
     map[n].x1 = 60;
     map[n].y1 = 50;
-    map[n].direction.y = -1;
-    map[n].direction.x = 0;
+    map[n].direction.y = -(0x00004000);
+    map[n].direction.x = (0x00004000);
     map[n].sizeX = 0x11;
 	map[n].sizeY = 0;
     map[n].color = 0x00;

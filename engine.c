@@ -177,53 +177,10 @@ void ballMovement(entity *map) {
 	map[1].x1 += (map[1].direction.x) >> 14;
 	map[1].y1 += (map[1].direction.y) >> 14;
 	gotoxy(map[1].x1, map[1].y1);
-	printf(map[1].color);
+	printf("%c", BALLTEXTURE);
 	gotoxy(1, 1);
 }
-
-
 /*
-void ballMovement(entity* ball){
-	char flag = ballCollision();
-	switch(flag){
-		case 0x00:
-            break;
-		case 0x01:
-            ball->direction.y = - ball->direction.y;
-            break;
-		case 0x02:
-            ball->direction.x = - ball->direction.x;
-            ball->direction.y = - ball->direction.y;
-            break;
-		case 0x03:
-            ball->direction.x = - ball->direction.x;
-            break;
-		case 0x04:
-            ball->direction.x = - ball->direction.x;
-            ball->direction.y = - ball->direction.y;
-            break;
-		case 0x05:
-            ball->direction.y = - ball->direction.y;
-            break;
-        case 0x06:
-            ball->direction.x = - ball->direction.x;
-            ball->direction.y = - ball->direction.y;
-            break;
-        case 0x07:
-            ball->direction.x = - ball->direction.x;
-            break;
-        case 0x08:
-            ball->direction.x = - ball->direction.x;
-            ball->direction.y = - ball->direction.y;
-            break;
-        case 0x09:
-        //TODO: raise like a dead flag or something
-		default: break;
-	}
-    ball->x1 += (int) (ball->direction.x>>8); //might need a -> here instead of .
-    ball->y1 += (int) (ball->direction.y>>8); //might need a -> here instead of .
-}
-
 char collisionCheck(entity[] breakables, entity[] solids, entity ball) { // an array of breakables, solids and a ball
 	char flag = 0;
 	char didithit = 0;
