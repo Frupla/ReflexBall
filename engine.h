@@ -11,8 +11,8 @@ typedef struct{
     //breakable  - 0x03
     //solid      - 0.04
     //nothing    - 0x00
-    char x1; //1. coordinate, placement
-    char y1; //2. coordiante, placement
+    int x1; //1. coordinate, placement
+    int y1; //2. coordiante, placement
     Tvector direction; //ADD THIS STRUCT TO THE INCLUDED CODE PLS
     //zones? - so far no zones
     char sizeX, sizeY;

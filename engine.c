@@ -28,10 +28,10 @@ void initiate(){
 	for(i = 1; i <= MAPSIZE; i++){
 		gotoxy(1, i);
 		printf("%c", 72);
-		gotoxy(MAPSIZE, i);
+		gotoxy((2 * MAPSIZE), i);
 		printf("%c", 72);
 	}
-	for(i = 1; i <= MAPSIZE; i++){
+	for(i = 1; i <= (2 * MAPSIZE); i++){
 		gotoxy(i, 1);
 		printf("%c", 72);
 	}
