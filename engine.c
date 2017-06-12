@@ -116,8 +116,10 @@ void playerMovement(char buttonPress, entity* object){
 	switch(buttonPress) {
 		case 0x01: //PF7
             gotoxy(object->x1,object->y1);
-            printf("%c", 72);
-			object->x1++;
+            printf("%c", 0x20);
+			if ((object->x1 + 1 + object->sizeX) < 2 * MAPSIZE){
+				object->x1++;
+			}
 			gotoxy(object->x1 + object->sizeX,object->y1);
             printf("%c", PLAYERTEXTURE);
             break;
@@ -125,8 +127,10 @@ void playerMovement(char buttonPress, entity* object){
 			break;
 		case 0x04: //PD3
 			gotoxy(object->x1 + object->sizeX,object->y1);
-            printf("%c", 72);
-			object->x1--;
+            printf("%c", 0x20);
+			if ((object->x1 + 1) < 1){
+				object->x1--;
+			}
 			gotoxy(object->x1,object->y1);
             printf("%c", PLAYERTEXTURE);
 			break;
