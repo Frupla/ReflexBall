@@ -185,10 +185,50 @@ void ballMovement(entity *map) {
 	gotoxy(1, 1);
 }
 /*
-char collisionCheck(entity[] breakables, entity[] solids, entity ball) { // an array of breakables, solids and a ball
+// pre: takes position that the ball would have (current position + direction), and checks it for overlap
+char collisionCheck(entity * object, entity map) { // an array of breakables, solids and a ball
 	char flag = 0;
+	int i = 2; // i is equal to number of players + number of balls
 	char didithit = 0;
-	if(((ball.x1 + (char)ball.direction.x) >= breakables.x1) && ((ball.x1 + (char)ball.direction.x) <= (breakables.x1 + breakables.sizeX))){// Tvectors are made with longs, maybe they shouldn't be
+	if(object->x1 >= (2 * MAPSIZE)  || object->x1 =< 1){ // returns true if hit wall
+		// hit wall
+	}
+	if(object->y1 =< 2){ // returns true if wall hit
+		// wall is hit
+	}
+	if (object->y1 > MAPSIZE){ // returns true if ball falls through floor
+		// dead ball
+	}
+	while(map[i].whatIsThis){
+			if((map[i].whatIsThis == 0x03) //hit top
+			 && (object->x1 >= map[i].x1) 
+			 && (object->x1 <= map[i].x1 + map[i].sizeX)){
+				if(){
+
+				}
+			}
+
+			if((map[i].whatIsThis == 0x03) // hit left
+			 && (object->x1 >= map[i].x1) 
+			 && (object->x1 <= map[i].x1 + map[i].sizeX)
+			 && (object->y1 <= map[i].y1)
+			 && (object->y1 >= map[i].y1 + map[i].sizeY)
+			 ){}
+			if((map[i].whatIsThis == 0x03) //hit right
+			 && (object->x1 >= map[i].x1) 
+			 && (object->x1 <= map[i].x1 + map[i].sizeX)
+			 && (object->y1 <= map[i].y1)
+			 && (object->y1 >= map[i].y1 + map[i].sizeY)
+			 ){}
+			if((map[i].whatIsThis == 0x03) //hit bottom
+			 && (object->x1 >= map[i].x1) 
+			 && (object->x1 <= map[i].x1 + map[i].sizeX)
+			 && (object->y1 <= map[i].y1)
+			 && (object->y1 >= map[i].y1 + map[i].sizeY)
+			 ){}
+			
+
+	/*if(((ball.x1 + (char)ball.direction.x) >= breakables.x1) && ((ball.x1 + (char)ball.direction.x) <= (breakables.x1 + breakables.sizeX))){// Tvectors are made with longs, maybe they shouldn't be
 		if(((ball.y1 + (char)ball.direction.y) >= breakables.y1) && ((ball.y1 + (char)ball.direction.y) <= (breakables.y1 + breakables.sizeY))){
 			didithit = 1;
 		}
@@ -208,5 +248,6 @@ char collisionCheck(entity[] breakables, entity[] solids, entity ball) { // an a
 	 * 0x07 = object hit left side
 	 * 0x08 = object hit top left corner
 	 * 0x09 = object passed through floor??? - maybe do this in out of bounds check???
-	 * 
-}*/
+	 
+}
+*/
