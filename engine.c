@@ -122,6 +122,7 @@ void playerMovement(char buttonPress, entity* object){
 			}
 			gotoxy(object->x1 + object->sizeX,object->y1);
             printf("%c", PLAYERTEXTURE);
+			gotoxy(1,1);
             break;
 		case 0x02: //PF6
 			break;
@@ -133,6 +134,7 @@ void playerMovement(char buttonPress, entity* object){
 			}
 			gotoxy(object->x1,object->y1);
             printf("%c", PLAYERTEXTURE);
+			gotoxy(1,1);
 			break;
 		case 0x05:
 			// when PD3 and PF7 is pressed at the same time, nothing happens

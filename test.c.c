@@ -55,7 +55,7 @@ void main() {
 	LEDInit();
     LEDSetString(string);
 	LEDScroll();
-
+	hideCursor();
     do {
         do {
             drawMap(map);
@@ -64,7 +64,6 @@ void main() {
                 button = readKey();
                 //Then move the player
                 playerMovement(button, map);
-
                 //Remember to do this a lot
                 LEDUpdate();
             } while (readMsec() < time1);
