@@ -178,8 +178,8 @@ void ballMovement(entity *map) {
 	gotoxy(map[1].x1, map[1].y1);
 	printf(" ");
 	//Change position and print the new
-	map[1].x1 += (map[1].direction.x) >> 14;
-	map[1].y1 += (map[1].direction.y) >> 14;
+    map[1].x1 += ((map[1].direction.x) + 0x2000) >> 14;
+    map[1].y1 += ((map[1].direction.y) + 0x2000) >> 14;
 	gotoxy(map[1].x1, map[1].y1);
 	printf("%c", BALLTEXTURE);
 	gotoxy(1, 1);

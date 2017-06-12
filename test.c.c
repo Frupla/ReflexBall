@@ -79,7 +79,7 @@ void main() {
         } while (readMsec() < time2);
         //Then move the ball
         ballMovement(map);
-        rotate(&(map[1].direction), 32);
+        rotate(&(map[1].direction), 16);
 
         LEDUpdate();
         time2 += 500;
