@@ -14,7 +14,7 @@ long sin(int x){
 }
 
 //void printfix(long i){
-//	if((i & 0x80000000) != 0){
+//	if((i & 0x8000 0000) != 0){
 //		printf("-");
 //		i = ~i + 1;
 //	}
@@ -36,4 +36,11 @@ void rotate(Tvector *v, int a){
 	int temp = v->x;
 	v->x = temp * cos(a) - v->y * sin(a);
 	v->y = temp * sin(a) + v->y * cos(a);
+}
+
+long convert(int number) {
+    if (number & 0x80000000) {
+        number = ~number + 1;
+    }
+    return ~(((long) number) << 14) + 1;
 }

@@ -14,6 +14,7 @@ rom char string[LED_MAX_STR_LEN] = "   BREAKOUT";
 void main() {
     entity map[6];
     int i, j, n = 0;
+    Tvector tempVec;
 	char button;
     int time1 = 100, time2 = 499;
 	init_uart(_UART0,_DEFFREQ,_DEFBAUD);  // set-up UART0 to 57600, 8n1
@@ -29,12 +30,13 @@ void main() {
     n++;
 
     // Ball setup
+    tempVec.x = convert(1);
+    tempVec.y = convert(-1);
     map[n].whatIsThis = 0x02;
     map[n].changedSinceLast = 1;
     map[n].x1 = 60;
     map[n].y1 = 50;
-    map[n].direction.y = -(0x00004000);
-    map[n].direction.x = (0x00004000);
+    map[n].direction = tempVec;
     map[n].sizeX = 0x11;
 	map[n].sizeY = 0;
     map[n].color = 0x00;
@@ -75,6 +77,7 @@ void main() {
         } while (readMsec() < time2);
         //Then move the ball
         ballMovement(map);
+        rotate(&(map[1].direction), 32);
         //Check for collisions
         //collisionCheck(map);
         //Update the map
