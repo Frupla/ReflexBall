@@ -6,7 +6,7 @@
 
 #define MAPSIZE 100
 #define SOLIDTEXTURE 219
-#define PLAYERTEXTURE 205
+#define PLAYERTEXTURE 223
 #define BALLTEXTURE 184
 #define BREAKABLETEXTURE 177
 #define BACKGROUNDTEXTURE 32
@@ -39,7 +39,7 @@ void initiate(){
 	}
 	for(i = 1; i <= (2 * MAPSIZE); i++){
 		gotoxy(i, 1);
-		printf("%c", SOLIDTEXTURE);
+		printf("%c", 220);
 	}
 }
 
