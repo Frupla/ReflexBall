@@ -166,12 +166,16 @@ void playerMovement(char buttonPress, entity* object){
 char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, solids and a ball
 	char flag = 0;
 	int i = 2; // i is equal to number of players + number of balls
-	if(x1 >= (MAPSIZE * 2)  || x1 <= 1){ // returns true if hit wall
-		flag = 0x03;// hit wall
+	if(x1 >= MAPSIZE * 2){ // returns true if hit wall
+		flag = 0x07;// hit right wall
         return flag;
 	}
-	if(y1 <= 2){ // returns true if wall hit
-		flag = 0x07;// wall is hit
+	if(x1 <= 1){ 
+		flag = 0x03; // hit left wall
+		return flag;
+	}
+	if(y1 <= 2){ // returns true if ceiling
+		flag = 0x05;// wall is hit
         return flag;
 	}
 	if (y1 > MAPSIZE){ // returns true if ball falls through floor
@@ -224,11 +228,11 @@ char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, s
 	 * 0x00 = no collision
 	 * 0x01 = object hit top side
 	 * 0x02 = object hit top right  corner
-	 * 0x03 = object hit right side
+	 * 0x03 = object hit right side or left wall
 	 * 0x04 = object hit bottom right corner
-	 * 0x05 = object hit bottom side
+	 * 0x05 = object hit bottom side or ceiling
 	 * 0x06 = object hit bottom left corner
-	 * 0x07 = object hit left side
+	 * 0x07 = object hit left side or right wall
 	 * 0x08 = object hit top left corner
 	 * 0x09 = object passed through floor??? - maybe do this in out of bounds check???
 	 */

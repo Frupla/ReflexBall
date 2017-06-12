@@ -31,7 +31,7 @@ void main() {
     n++;
 
     // Ball setup
-    tempVec.x = convert(0);
+    tempVec.x = convert(1);
     tempVec.y = convert(-1);
 	rotate(&tempVec, 64);
     map[n].whatIsThis = 0x02;
