@@ -128,7 +128,7 @@ void playerMovement(char buttonPress, entity* object){
 		case 0x04: //PD3
 			gotoxy(object->x1 + object->sizeX,object->y1);
             printf("%c", 0x20);
-			if ((object->x1 + 1) < 1){
+			if((object->x1 - 1) > 1){
 				object->x1--;
 			}
 			gotoxy(object->x1,object->y1);
