@@ -4,7 +4,7 @@
 #include "math.h"
 #include "Z8encore.h"
 
-#define MAPSIZE 400
+#define MAPSIZE 100
 
 
 typedef struct{
@@ -23,15 +23,15 @@ typedef struct{
 	char color;
 } entity;
 
-void initiate(int heightOfMap, int widthOfMap){
+void initiate(){
 	int i;
-	for(i = 1; i <= heightOfMap; i++){
+	for(i = 1; i <= MAPSIZE; i++){
 		gotoxy(1, i);
 		printf("%c", 72);
-		gotoxy(widthOfMap, i);
+		gotoxy(MAPSIZE, i);
 		printf("%c", 72);
 	}
-	for(i = 1; i <= widthOfMap; i++){
+	for(i = 1; i <= MAPSIZE; i++){
 		gotoxy(i, 1);
 		printf("%c", 72);
 	}
@@ -98,16 +98,9 @@ void drawMap(entity *map) {
         map++;
     }
 }
-
+/*
 void playerMovement(char buttonPress, entity* object){
 	int i;	
-
-/*collisionCheck();
->>>>>>> 33a3c17b89ff9435b2b3721ea84a6c2bc686c927
-	for(i = 0; i <= (object->sizeX); i++){	// Deletes the old drawing of the paddle
-		gotoxy(object->x1 + i,object->y1);
-		printf("%c", 20);
-	}
 	switch(buttonPress) {
 		case 0x01: //PF7
 			object->x1++;
@@ -139,16 +132,9 @@ void playerMovement(char buttonPress, entity* object){
 			break;
 	}
 }
-/*
-void ballMovement(entity* ball){
-	//char flag = ballCollision();
-    //TODO: SKAL VI BRUGE . ELLER ->
-=======
-}        //potentially return an encoded version of old position
 
 void ballMovement(entity* ball){
 	char flag = ballCollision();
->>>>>>> 33a3c17b89ff9435b2b3721ea84a6c2bc686c927
 	switch(flag){
 		case 0x00:
             break;
@@ -187,12 +173,7 @@ void ballMovement(entity* ball){
     ball->x1 += (int) (ball->direction.x>>8); //might need a -> here instead of .
     ball->y1 += (int) (ball->direction.y>>8); //might need a -> here instead of .
 }
-<<<<<<< HEAD
-/*
-=======
 
-//following code still does not work - rethink concept
->>>>>>> 33a3c17b89ff9435b2b3721ea84a6c2bc686c927
 char collisionCheck(entity[] breakables, entity[] solids, entity ball) { // an array of breakables, solids and a ball
 	char flag = 0;
 	char didithit = 0;
@@ -217,5 +198,4 @@ char collisionCheck(entity[] breakables, entity[] solids, entity ball) { // an a
 	 * 0x08 = object hit top left corner
 	 * 0x09 = object passed through floor??? - maybe do this in out of bounds check???
 	 * 
-}
-*/
+}*/

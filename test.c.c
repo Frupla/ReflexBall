@@ -13,13 +13,15 @@
 void main() {
     entity map[6];
     int i, j, n = 0;
-
+	init_uart(_UART0,_DEFFREQ,_DEFBAUD);  // set-up UART0 to 57600, 8n1
+	clrscr();
     map[n].whatIsThis = 0x01;
     map[n].changedSinceLast = 1;
     map[n].x1 = (char) (MAPSIZE / 2);
     map[n].y1 = (char) MAPSIZE;
     //map[n].direction = {0, 0};
-    map[n].size = 0x16;
+    map[n].sizeX = 0x16;
+	map[n].sizeY = 0;
     map[n].color = 0x00;
     n++;
 
@@ -45,8 +47,9 @@ void main() {
     map[n].whatIsThis = 0x00;
     n++;
 	   
-	
-	initiate(100,100);
+	gotoxy(2,2);
+	printf("Putty virker");
+	initiate();
     drawMap(map);
 
     do {} while (1);

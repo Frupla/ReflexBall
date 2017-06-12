@@ -1,7 +1,7 @@
 #ifndef _ENGINE_H_
 #define _ENGINE_H_
 
-#define MAPSIZE 400
+#define MAPSIZE 100
 
 //kode
 typedef struct{
@@ -19,7 +19,7 @@ typedef struct{
     char color;
 } entity;
 
-void initiate(int heightOfMap, int widthOfMap);
+void initiate();
 
 void drawPlayer(entity);
 
