@@ -6,7 +6,7 @@
 
 #define MAPSIZE 100
 #define SOLIDTEXTURE 219
-#define PLAYERTEXTURE 205
+#define PLAYERTEXTURE 223
 #define BALLTEXTURE 184
 #define BREAKABLETEXTURE 177
 #define BACKGROUNDTEXTURE 32
@@ -39,10 +39,14 @@ void initiate(){
 	}
 	for(i = 1; i <= (2 * MAPSIZE); i++){
 		gotoxy(i, 1);
-		printf("%c", SOLIDTEXTURE);
+		printf("%c", 220);
 	}
 }
 
+
+//draw and kill functions take pointers. If you already have a pointer to the Map pass 'map' pass ?? (possibly just
+// increment map and pass that, possible pass map[i], let me check)
+// If you just have the map, pass &map[i]
 void drawPlayer(entity* object){
 	int i;
 	for(i = 0; i <= (object->sizeX); i++){
