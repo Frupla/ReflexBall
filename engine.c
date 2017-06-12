@@ -110,7 +110,7 @@ void drawMap(entity* map) {
         map++;
     }
 }
-/*
+
 void playerMovement(char buttonPress, entity* object){
 	int i;	
 	switch(buttonPress) {

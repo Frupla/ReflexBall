@@ -13,6 +13,7 @@
 void main() {
     entity map[6];
     int i, j, n = 0;
+	char button;
 	init_uart(_UART0,_DEFFREQ,_DEFBAUD);  // set-up UART0 to 57600, 8n1
 	clrscr();
     map[n].whatIsThis = 0x01;
@@ -52,6 +53,7 @@ void main() {
 	LEDInit();
     do {
 	drawMap(map);
-	map[0].changedSinceLast = 1;
+	button = readKey();
+	playerMovement(button, map);
 	} while (1);
 }
