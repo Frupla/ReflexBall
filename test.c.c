@@ -9,11 +9,13 @@
 #include "Z8encore.h"
 #include "engine.h"
 
+rom char LEDstring = "   BREAKOUT";
 
 void main() {
     entity map[6];
     int i, j, n = 0;
 	char button;
+    int time1 = 100, time2 = 499;
 	init_uart(_UART0,_DEFFREQ,_DEFBAUD);  // set-up UART0 to 57600, 8n1
 	clrscr();
     map[n].whatIsThis = 0x01;
@@ -51,9 +53,43 @@ void main() {
     n++;
 	initiate();
 	LEDInit();
+    LEDSetString(&LEDstring);
+
     do {
-	drawMap(map);
-	button = readKey();
-	playerMovement(button, map);
+//        Old debugging code:
+//        drawMap(map);
+//        button = readKey();
+//        playerMovement(button, map);
+
+        do {
+            do {
+                drawMap(map);
+                do {
+                    //Determine where to move
+                    button = readKey();
+
+                    //Remember to do this a lot
+                    LEDUpdate();
+                } while (readMsec() < time1);
+
+                //Then move the player
+                playerMovement(button, map);
+                time1 += 100;
+
+            } while (readMsec() < time2);
+            //Then move the ball
+            //ballMovement(map);
+            //Check for collisions
+            //collisionCheck(map);
+            //Update the map
+            drawMap(map);
+            LEDUpdate();
+            time2 += 500;
+            if (readMsec() < 50) {
+                time1 = 100;
+                time2 = 499;
+            }
+
+
 	} while (1);
 }
