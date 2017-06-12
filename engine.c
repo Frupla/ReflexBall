@@ -25,13 +25,13 @@ typedef struct{
 
 void initiate(int heightOfMap, int widthOfMap){
 	int i;
-	for(i = 1; i <= heightOfMap, i++){
+	for(i = 1; i <= heightOfMap; i++){
 		gotoxy(1, i);
 		printf("%c", 72);
 		gotoxy(widthOfMap, i);
 		printf("%c", 72);
 	}
-	for (int i = 1; i <= widthOfMap; i++){
+	for(i = 1; i <= widthOfMap; i++){
 		gotoxy(i, 1);
 		printf("%c", 72);
 	}
@@ -77,7 +77,6 @@ void drawSolid(entity object){
 
 void drawMap(entity *object) {
     int i = 0;
-
     for (i = 0; i < 4; object++) {
         switch (object->whatIsThis) {
             case 0x01:
@@ -102,7 +101,7 @@ void drawMap(entity *object) {
 
 void playerMovement(char buttonPress, entity* object){
 	int i;	
-	collisionCheck();
+	//collisionCheck();
 	for(i = 0; i <= (object->sizeX); i++){	// Deletes the old drawing of the paddle
 		gotoxy(object->x1 + i,object->y1);
 		printf("%c", 20);	
@@ -118,15 +117,19 @@ void playerMovement(char buttonPress, entity* object){
 			object->x1--;
 			object->changedSinceLast = 1;
 			break;
-		case 0x05: // when PD3 and PF7 is pressed at the same time, nothing happens
+		case 0x05:	
+			for(i = 0; i <= (object->sizeX); i++){	// Deletes the old drawing of the paddle
+				gotoxy(object->x1 + i,object->y1);
+				printf("%c", 219);	
+			} // when PD3 and PF7 is pressed at the same time, nothing happens
 			break;
 		default:
 			break;
 	}
 }
-
+/*
 void ballMovement(entity* ball){
-	char flag = ballCollision();
+	//char flag = ballCollision();
     //TODO: SKAL VI BRUGE . ELLER ->
 	switch(flag){
 		case 0x00:
@@ -166,7 +169,7 @@ void ballMovement(entity* ball){
     ball->x1 += (int) (ball->direction.x>>8); //might need a -> here instead of .
     ball->y1 += (int) (ball->direction.y>>8); //might need a -> here instead of .
 }
-
+/*
 char collisionCheck(entity[] breakables, entity[] solids, entity ball) { // an array of breakables, solids and a ball
 	char flag = 0;
 	char didithit = 0;
@@ -190,6 +193,6 @@ char collisionCheck(entity[] breakables, entity[] solids, entity ball) { // an a
 	 * 0x07 = object hit left side
 	 * 0x08 = object hit top left corner
 	 * 0x09 = object passed through floor??? - maybe do this in out of bounds check???
-	 * */
+	 * 
 }
-
+*/
