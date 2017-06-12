@@ -33,7 +33,8 @@ void main() {
     map[n].changedSinceLast = 1;
     map[n].x1 = 60;
     map[n].y1 = 50;
-    //map[n].direction = {0, -1};
+    map[n].direction.y = -1;
+    map[n].direction.x = 0;
     map[n].sizeX = 0x11;
 	map[n].sizeY = 0;
     map[n].color = 0x00;
@@ -62,26 +63,26 @@ void main() {
             do {
                 //Determine where to move
                 button = readKey();
-                //Then move the player
-                playerMovement(button, map);
 
                 //Remember to do this a lot
                 LEDUpdate();
             } while (readMsec() < time1);
+            //Then move the player
+            playerMovement(button, map);
 
-            time1 += 100;
+            time1 += 50;
 
         } while (readMsec() < time2);
         //Then move the ball
-        //ballMovement(map);
+        ballMovement(map);
         //Check for collisions
         //collisionCheck(map);
         //Update the map
-        drawMap(map);
+        //drawMap(map);
         LEDUpdate();
         time2 += 500;
-        if (readMsec() < 50) {
-            time1 = 100;
+        if (readMsec() < 30) {
+            time1 = 50;
             time2 = 499;
         }
 	} while (1);

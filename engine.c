@@ -141,6 +141,31 @@ void playerMovement(char buttonPress, entity* object){
 			break;
 		}
 }
+
+void printf(char *f) {
+
+}
+
+//Ball movement ver 2
+void ballMovement(entity *map) {
+	//Variables
+
+	//int where;
+	//Find the ball entity (uncomment if not at 1)
+	//for(where=1; map[where].whatIsThis != 0x02; where++){}
+
+	//Remove the old ball
+	gotoxy(map[1].x1, map[1].y1);
+	printf(" ");
+	//Change position and print the new
+	map[1].x1 += (map[1].direction.x) >> 14;
+	map[1].y1 += (map[1].direction.y) >> 14;
+	gotoxy(map[1].x1, map[1].y1);
+	printf(map[1].color);
+	gotoxy(1, 1);
+}
+
+
 /*
 void ballMovement(entity* ball){
 	char flag = ballCollision();
