@@ -162,54 +162,35 @@ void playerMovement(char buttonPress, entity* object){
 		}
 }
 
-//Ball movement ver 2
-void ballMovement(entity *map) {
-	//Variables
-
-	//int where;
-	//Find the ball entity (uncomment if not at 1)
-	//for(where=1; map[where].whatIsThis != 0x02; where++){}
-
-	//Remove the old ball
-	gotoxy(map[1].x1, map[1].y1);
-	printf("H");
-	//Change position and print the new
-    map[1].x1 += ((map[1].direction.x) + 0x2000) >> 14;
-    map[1].y1 += ((map[1].direction.y) + 0x2000) >> 14;
-	gotoxy(map[1].x1, map[1].y1);
-	printf("%c", BALLTEXTURE);
-	gotoxy(1, 1);
-}
-
 // pre: takes position that the ball would have (current position + direction), and checks it for overlap
-char collisionCheck(entity * object, entity map[]) { // an array of breakables, solids and a ball
+char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, solids and a ball
 	char flag = 0;
 	int i = 2; // i is equal to number of players + number of balls
-	if(object->x1 >= (MAPSIZE * 2)  || object->x1 <= 1){ // returns true if hit wall
-		// hit wall
+	if(x1 >= (MAPSIZE * 2)  || x1 <= 1){ // returns true if hit wall
+		flag = 0x03;// hit wall
 	}
-	if(object->y1 <= 2){ // returns true if wall hit
-		// wall is hit
+	if(y1 <= 2){ // returns true if wall hit
+		flag = 0x07;// wall is hit
 	}
-	if (object->y1 > MAPSIZE){ // returns true if ball falls through floor
-		// dead ball
+	if (y1 > MAPSIZE){ // returns true if ball falls through floor
+		flag = 0x09;// dead ball
 	}
 	while(map[i].whatIsThis){
 			if((map[i].whatIsThis == 0x03) //hit top
-			 && (object->x1 >= map[i].x1) 
-			 && (object->x1 <= map[i].x1 + map[i].sizeX)){
-				if(object->y1 == map[i].y1){
-					if (object->x1 == map[i].x1){
+			 && (x1 >= map[i].x1) 
+			 && (x1 <= map[i].x1 + map[i].sizeX)){
+				if(y1 == map[i].y1){
+					if (x1 == map[i].x1){
 						flag = 0x08;//top left corner
-					}else if (object->x1 == map[i].x1 + map[i].sizeX){
+					}else if (x1 == map[i].x1 + map[i].sizeX){
 						flag = 0x02;//top right corner
 					}else{
 						flag = 0x01; // hit top
 					}
-				} else if(object->y1 == map[i].y1 + map[i].sizeY){
-					if (object->x1 == map[i].x1){
+				} else if(y1 == map[i].y1 + map[i].sizeY){
+					if (x1 == map[i].x1){
 						flag = 0x06;//bottom left corner
-					}else if (object->x1 == map[i].x1 + map[i].sizeX){
+					}else if (x1 == map[i].x1 + map[i].sizeX){
 						flag = 0x04;//bottom right corner
 					}else{
 						flag = 0x05; // hit bottom
@@ -218,15 +199,15 @@ char collisionCheck(entity * object, entity map[]) { // an array of breakables, 
 				}
 			}
 			if((map[i].whatIsThis == 0x03) //hit top
-			 && (object->y1 > map[i].y1) 
-			 && (object->y1 < map[i].y1 + map[i].sizeY)){
-				if(object->x1 == map[i].x1){
+			 && (y1 > map[i].y1) 
+			 && (y1 < map[i].y1 + map[i].sizeY)){
+				if(x1 == map[i].x1){
 					flag = 0x07; // hit left
-				} else if(object->x1 == map[i].x1 + map[i].sizeX){
+				} else if(x1 == map[i].x1 + map[i].sizeX){
 					flag = 0x03; // hit right
 				}
 			}
-			return flag;
+		return flag;
 	}
 	/* flag encoding
 	 * 0x00 = no collision
@@ -241,3 +222,59 @@ char collisionCheck(entity * object, entity map[]) { // an array of breakables, 
 	 * 0x09 = object passed through floor??? - maybe do this in out of bounds check???
 	 */
 
+//Ball movement ver 2
+void ballMovement(entity *map) {
+	char flag;
+	//Variables
+
+	//int where;
+	//Find the ball entity (uncomment if not at 1)
+	//for(where=1; map[where].whatIsThis != 0x02; where++){}
+
+	//Remove the old ball
+	gotoxy(map[1].x1, map[1].y1);
+	printf("H");
+	//Change position and print the new
+    flag = collisionCheck( map[1].x1 + ((map[1].direction.x) + 0x2000) >> 14,map[1].y1 + ((map[1].direction.y) + 0x2000) >> 14, map);
+    switch(flag){
+    	case 0x00:
+            break;
+		case 0x01:
+            map[1].direction.y = - map[1].direction.y;
+            break;
+		case 0x02:
+            map[1].direction.x = - map[1].direction.x;
+            map[1].direction.y = - map[1].direction.y;
+            break;
+		case 0x03:
+            map[1].direction.x = - map[1].direction.x;
+            break;
+		case 0x04:
+			map[1].direction.x = - map[1].direction.x;
+            map[1].direction.y = - map[1].direction.y;
+            break;
+		case 0x05:
+            map[1].direction.y = - map[1].direction.y;
+            break;
+        case 0x06:
+            map[1].direction.x = - map[1].direction.x;
+            map[1].direction.y = - map[1].direction.y;
+            break;
+        case 0x07:
+            map[1].direction.x = - map[1].direction.x;
+            break;
+        case 0x08:
+            map[1].direction.x = - map[1].direction.x;
+            map[1].direction.y = - map[1].direction.y;
+            break;
+        case 0x09:
+        	//TODO come up with something
+        default: 
+        	break;
+    }
+    map[1].x1 += ((map[1].direction.x) + 0x2000) >> 14;
+    map[1].y1 += ((map[1].direction.y) + 0x2000) >> 14;
+	gotoxy(map[1].x1, map[1].y1);
+	printf("%c", BALLTEXTURE);
+	gotoxy(1, 1);
+}
