@@ -57,7 +57,7 @@ void drawBreakable(entity* object){
 	int i, j;
 	for(i = 0; i <= (object->sizeX); i++){
 		for(j = 0; j <= (object->sizeY); j++){
-			gotoxy(object->x1 + i,object->y1);
+			gotoxy(object->x1 + i,object->y1 + j);
 			printf("%c", 177);	
 		}
 	}
@@ -68,7 +68,7 @@ void drawSolid(entity* object){
 	int i, j;
 	for(i = 0; i <= (object->sizeX); i++){
 		for(j = 0; j <= (object->sizeY); j++){
-			gotoxy(object->x1 + i,object->y1);
+			gotoxy(object->x1 + i,object->y1 + j);
 			printf("%c", 72);	
 		}
 	}
@@ -78,7 +78,7 @@ void drawSolid(entity* object){
 //pre: map must be nothing-terminated
 //     map is a 1D array containing all objects on the map
 void drawMap(entity *map) {
-    while(!map->whatIsThis) {
+    while(map->whatIsThis) {
         switch (map->whatIsThis) {
             case 0x01:
                 drawPlayer(map);
