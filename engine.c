@@ -4,7 +4,7 @@
 #include "math.h"
 #include "Z8encore.h"
 
-#define MAPSIZE 400
+#define MAPSIZE 100
 
 
 typedef struct{
@@ -23,15 +23,15 @@ typedef struct{
 	char color;
 } entity;
 
-void initiate(int heightOfMap, int widthOfMap){
+void initiate(){
 	int i;
-	for(i = 1; i <= heightOfMap; i++){
+	for(i = 1; i <= MAPSIZE; i++){
 		gotoxy(1, i);
 		printf("%c", 72);
-		gotoxy(widthOfMap, i);
+		gotoxy(MAPSIZE, i);
 		printf("%c", 72);
 	}
-	for(i = 1; i <= widthOfMap; i++){
+	for(i = 1; i <= MAPSIZE; i++){
 		gotoxy(i, 1);
 		printf("%c", 72);
 	}
