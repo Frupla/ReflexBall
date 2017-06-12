@@ -17,8 +17,8 @@ void main() {
 	clrscr();
     map[n].whatIsThis = 0x01;
     map[n].changedSinceLast = 1;
-    map[n].x1 = (char) (MAPSIZE / 2);
-    map[n].y1 = (char) MAPSIZE;
+    map[n].x1 = 50;
+    map[n].y1 = 99;
     //map[n].direction = {0, 0};
     map[n].sizeX = 0x16;
 	map[n].sizeY = 0;
@@ -28,20 +28,22 @@ void main() {
     // Ball setup
     map[n].whatIsThis = 0x02;
     map[n].changedSinceLast = 1;
-    map[n].x1 = (char) (MAPSIZE / 2);
-    map[n].y1 = (char) (MAPSIZE) - 1;
+    map[n].x1 = 60;
+    map[n].y1 = 90;
     //map[n].direction = {0, -1};
-    map[n].size = 0x11;
+    map[n].sizeX = 0x11;
+	map[n].sizeY = 0;
     map[n].color = 0x00;
     n++;
 
     //Breakable setup
     map[n].whatIsThis = 0x03;
     map[n].changedSinceLast = 1;
-    map[n].x1 = (char) (5);
-    map[n].y1 = (char) (5);
+    map[n].x1 = 5;
+    map[n].y1 = 5;
     //map[n].direction = {0, 0};
-    map[n].size = 0x11;
+    map[n].sizeX = 0x16;
+	map[n].sizeY = 0;
     map[n].color = 0x00;
     n++;
     map[n].whatIsThis = 0x00;

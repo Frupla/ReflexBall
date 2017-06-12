@@ -15,7 +15,7 @@ typedef struct{
     char y1; //2. coordiante, placement
     Tvector direction; //ADD THIS STRUCT TO THE INCLUDED CODE PLS
     //zones? - so far no zones
-    char size;
+    char sizeX, sizeY;
     char color;
 } entity;
 
