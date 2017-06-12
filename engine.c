@@ -115,36 +115,31 @@ void playerMovement(char buttonPress, entity* object){
 	int i;	
 	switch(buttonPress) {
 		case 0x01: //PF7
-			object->x1++;
-			object->changedSinceLast = 1;
             for(i = 0; i <= (object->sizeX); i++){	// Deletes the old drawing of the paddle
             	gotoxy(object->x1 + i,object->y1);
             	printf("%c", 20);
-			}
+            }
+			object->x1++;
+			object->changedSinceLast = 1;
             break;
 		case 0x02: //PF6
 			break;
 		case 0x04: //PD3
-			object->x1--;
-			object->changedSinceLast = 1;
-			break;
-		case 0x05:	
-			for(i = 0; i <= (object->sizeX); i++){	// Deletes the old drawing of the paddle
-				gotoxy(object->x1 + i,object->y1);
-				printf("%c", 219);	
-			} // when PD3 and PF7 is pressed at the same time, nothing happens
             for(i = 0; i <= (object->sizeX); i++){	// Deletes the old drawing of the paddle
             	gotoxy(object->x1 + i,object->y1);
             	printf("%c", 20);
-			}
-            break;
-		case 0x05: // when PD3 and PF7 is pressed at the same time, nothing happens
+            }
+			object->x1--;
+			object->changedSinceLast = 1;
+			break;
+		case 0x05:
+			} // when PD3 and PF7 is pressed at the same time, nothing happens
 			break;
 		default:
 			break;
 	}
 }
-
+  */
 void ballMovement(entity* ball){
 	char flag = ballCollision();
 	switch(flag){
