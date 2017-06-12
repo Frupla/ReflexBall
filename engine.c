@@ -162,10 +162,6 @@ void playerMovement(char buttonPress, entity* object){
 		}
 }
 
-void printf(char *f) {
-
-}
-
 //Ball movement ver 2
 void ballMovement(entity *map) {
 	//Variables
@@ -176,7 +172,7 @@ void ballMovement(entity *map) {
 
 	//Remove the old ball
 	gotoxy(map[1].x1, map[1].y1);
-	printf(" ");
+	printf("H");
 	//Change position and print the new
     map[1].x1 += ((map[1].direction.x) + 0x2000) >> 14;
     map[1].y1 += ((map[1].direction.y) + 0x2000) >> 14;
