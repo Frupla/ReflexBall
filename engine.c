@@ -168,12 +168,15 @@ char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, s
 	int i = 2; // i is equal to number of players + number of balls
 	if(x1 >= (MAPSIZE * 2)  || x1 <= 1){ // returns true if hit wall
 		flag = 0x03;// hit wall
+        return flag;
 	}
 	if(y1 <= 2){ // returns true if wall hit
 		flag = 0x07;// wall is hit
+        return flag;
 	}
 	if (y1 > MAPSIZE){ // returns true if ball falls through floor
 		flag = 0x09;// dead ball
+        return flag;
 	}
 	while(map[i].whatIsThis){
         if(map[i].whatIsThis == 0x03) {
@@ -182,18 +185,24 @@ char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, s
                 if (y1 == map[i].y1) {
                     if (x1 == map[i].x1) {
                         flag = 0x08;//top left corner
+                        return flag;
                     } else if (x1 == map[i].x1 + map[i].sizeX) {
                         flag = 0x02;//top right corner
+                        return flag;
                     } else {
                         flag = 0x01; // hit top
+                        return flag;
                     }
                 } else if (y1 == map[i].y1 + map[i].sizeY) {
                     if (x1 == map[i].x1) {
                         flag = 0x06;//bottom left corner
+                        return flag;
                     } else if (x1 == map[i].x1 + map[i].sizeX) {
                         flag = 0x04;//bottom right corner
+                        return flag;
                     } else {
                         flag = 0x05; // hit bottom
+                        return flag;
                     }
                 }
             }
@@ -201,8 +210,10 @@ char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, s
                 && (y1 < map[i].y1 + map[i].sizeY)) {
                 if (x1 == map[i].x1) {
                     flag = 0x07; // hit left
+                    return flag;
                 } else if (x1 == map[i].x1 + map[i].sizeX) {
                     flag = 0x03; // hit right
+                    return flag;
                 }
             }
         }
