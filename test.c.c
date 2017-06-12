@@ -9,7 +9,7 @@
 #include "Z8encore.h"
 #include "engine.h"
 
-rom char LEDstring = "   BREAKOUT";
+rom char string[LED_MAX_STR_LEN] = "   BREAKOUT";
 
 void main() {
     entity map[6];
@@ -53,9 +53,9 @@ void main() {
     n++;
 	initiate();
 	LEDInit();
-    LEDSetString(&LEDstring);
-
-    do {
+    LEDSetString(string);
+	LEDScroll();
+  
 //        Old debugging code:
 //        drawMap(map);
 //        button = readKey();
@@ -93,3 +93,4 @@ void main() {
 
 	} while (1);
 }
+
