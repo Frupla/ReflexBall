@@ -7,16 +7,40 @@
 #include "engine.h"
 
 
-void showMenu() {
+char showMenu(char where_are_we) {
+    char flag1 = 1, flag2 = 0, output = 0;
     window(10, 10, 70, 70, "Main menu", 1);
     gotoxy(12, 12);
-    printf(" > Start game");
-    printf("   Show controls");
-    printf("   Show high scores");
-    // TODO : implement input
-/*    while(){
+    printf(" > Start game\n   Show controls\n   Show high scores\n   Exit game\n");
+    do {
+        LEDUpdate();
 
-    }*/
+        if ((readKey() != 0x00) && (!flag2)) {
+            switch (readKey()) {
+                case 0x01 :
+                    output += 1;
+                    gotoxy(13, 12 + output - 1);
+                    printf(" ");
+                    gotoxy(13, 12 + output);
+                    printf(">");
+                    break;
+                case 0x04 :
+                    output -= 1;
+                    gotoxy(13, 12 + output - 1);
+                    printf(" ");
+                    gotoxy(13, 12 + output);
+                    printf(">");
+                    break;
+                case 0x02 :
+                    flag1 = 0;
+                    break;
+            }
+            flag2 = 1;
+        } else if (flag2 && (readKey() == 0x00)) {
+            flag2 = 0;
+        }
+    } while (flag1);
+    return output;
 
 }
 
@@ -127,7 +151,7 @@ void highScores() {
 rom char string[LED_MAX_STR_LEN] = "    Breakout!";
 
 void main() {
-    char what_to_do = 0x01;
+    char what_to_do = 0x00;
 	init_uart(_UART0,_DEFFREQ,_DEFBAUD);  // set-up UART0 to 57600, 8n1
     LEDInit();
     LEDSetString(string);
@@ -136,19 +160,19 @@ void main() {
         LEDUpdate();
 
         switch (what_to_do) {
-            case 1 :
-                showMenu();
+            case 0 :
+                what_to_do = showMenu();
                 break;
-            case 2 :
+            case 1 :
                 startGame();
                 break;
-            case 3 :
+            case 2 :
                 showControls();
                 break;
-            case 4 :
+            case 3 :
                 highScores();
                 break;
-            case 5 :
+            case 4 :
                 return 1;
                 break;
             default:
