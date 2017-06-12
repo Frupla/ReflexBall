@@ -129,33 +129,7 @@ rom char string[LED_MAX_STR_LEN] = "    Breakout!";
 void main() {
     char what_to_do = 0x01;
 	init_uart(_UART0,_DEFFREQ,_DEFBAUD);  // set-up UART0 to 57600, 8n1
-    LEDInit();
-    LEDSetString(string);
-    LEDScroll();
-	do {
-        LEDUpdate();
+	
 
-        switch (what_to_do) {
-            case 1 :
-                showMenu();
-                break;
-            case 2 :
-                startGame();
-                break;
-            case 3 :
-                showControls();
-                break;
-            case 4 :
-                highScores();
-                break;
-            case 5 :
-                return 1;
-                break;
-            default:
-                what_to_do = 1;
-                break;
-        }
-
-
-    } while (1 != 2);                  // stay here forever
+    while (1 != 2);                  // stay here forever
 }

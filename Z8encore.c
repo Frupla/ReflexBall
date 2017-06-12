@@ -19,7 +19,7 @@ char Buffer[5][6] = 	{{' ',' ',' ',' ',' ',' '},
 						 {' ',' ',' ',' ',' ',' '}};
 rom char* LEDtext_p;
 
-char readKey() {
+char readKey(){
 	char a,b,b1,b2,c=0x00;
 	a = PDIN;
 	b = PFIN;

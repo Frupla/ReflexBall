@@ -19,6 +19,8 @@ typedef struct{
     char color;
 } entity;
 
+void initiate(int heightOfMap, int widthOfMap);
+
 void drawPlayer(entity);
 
 void drawBall(entity);

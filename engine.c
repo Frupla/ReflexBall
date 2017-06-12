@@ -6,6 +6,7 @@
 
 #define MAPSIZE 400
 
+
 typedef struct{
 	char changedSinceLast;
 	char whatIsThis;//player     - 0x01 
@@ -15,18 +16,32 @@ typedef struct{
 					//nothing    - 0x00
 	int x1; //1. coordinate, placement
 	int y1; //2. coordiante, placement
-	TVector direction; // Speed and direction (only relevant for the ball)
+	Tvector direction; // Speed and direction (only relevant for the ball)
 	//zones? - so far no zones
 	char sizeX; // represent the horizontal size factor
     char sizeY;	// represent the vertical size factor
 	char color;
 } entity;
 
+void initiate(int heightOfMap, int widthOfMap){
+	int i;
+	for(i = 1; i <= heightOfMap, i++){
+		gotoxy(1, i);
+		printf("%c", 72);
+		gotoxy(widthOfMap, i);
+		printf("%c", 72);
+	}
+	for (int i = 1; i <= widthOfMap; i++){
+		gotoxy(i, 1);
+		printf("%c", 72);
+	}
+}
+
 void drawPlayer(entity object){
 	int i;
 	for(i = 0; i <= (object.sizeX); i++){
-		gotoxy(object.x1 + i,object.y1)
-		printf(219);	
+		gotoxy(object.x1 + i,object.y1);
+		printf("%c", 219);	
 	}
 	object.changedSinceLast = 0;
 }
@@ -34,7 +49,7 @@ void drawPlayer(entity object){
 void drawBall(entity object){
 	int i, j;
 	gotoxy(object.x1,object.y1);
-	printf(184);	
+	printf("%c", 184);	
 	object.changedSinceLast = 0;	
 }
 
@@ -42,8 +57,8 @@ void drawBreakable(entity object){
 	int i, j;
 	for(i = 0; i <= (object.sizeX); i++){
 		for(j = 0; j <= (object.sizeY); j++){
-			gotoxy(object.x1 + i,object.y1)
-			printf(177);	
+			gotoxy(object.x1 + i,object.y1);
+			printf("%c", 177);	
 		}
 	}
 	object.changedSinceLast = 0;
@@ -53,8 +68,8 @@ void drawSolid(entity object){
 	int i, j;
 	for(i = 0; i <= (object.sizeX); i++){
 		for(j = 0; j <= (object.sizeY); j++){
-			gotoxy(object.x1 + i,object.y1)
-			printf(72);	
+			gotoxy(object.x1 + i,object.y1);
+			printf("%c", 72);	
 		}
 	}
 	object.changedSinceLast = 0;
@@ -86,10 +101,11 @@ void drawMap(entity *object) {
 }
 
 void playerMovement(char buttonPress, entity* object){
+	int i;	
 	collisionCheck();
 	for(i = 0; i <= (object->sizeX); i++){	// Deletes the old drawing of the paddle
-		gotoxy(object->x1 + i,object->y1)
-		printf(20);	
+		gotoxy(object->x1 + i,object->y1);
+		printf("%c", 20);	
 	}
 	switch(buttonPress) {
 		case 0x01: //PF7
@@ -109,7 +125,7 @@ void playerMovement(char buttonPress, entity* object){
 	}
 }
 
-void ballMovement(entity* ball) {
+void ballMovement(entity* ball){
 	char flag = ballCollision();
     //TODO: SKAL VI BRUGE . ELLER ->
 	switch(flag){
