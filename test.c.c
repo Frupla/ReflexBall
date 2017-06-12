@@ -39,8 +39,8 @@ void main() {
     map[n].x1 = 60;
     map[n].y1 = 50;
     map[n].direction = tempVec;
-    map[n].sizeX = 0x11;
-	map[n].sizeY = 0;
+    map[n].sizeX = 0x01;
+	map[n].sizeY = 0x01;
     map[n].color = 0x00;
     n++;
 

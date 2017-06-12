@@ -174,7 +174,7 @@ char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, s
 		flag = 0x03; // hit left wall
 		return flag;
 	}
-	if(y1 <= 2){ // returns true if ceiling
+	if(y1 <= 1){ // returns true if ceiling
 		flag = 0x05;// wall is hit
         return flag;
 	}
@@ -240,6 +240,8 @@ char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, s
 //Ball movement ver 2
 void ballMovement(entity *map) {
 	char flag;
+	int tempX;
+	int tempY;
 	//Variables
 
 	//int where;
@@ -250,6 +252,8 @@ void ballMovement(entity *map) {
 	gotoxy(map[1].x1, map[1].y1);
 	printf("H");
 	//Change position and print the new
+    tempX = map[1].x1 + ((map[1].direction.x) + 0x2000) >> 14;
+	tempY = map[1].y1 + ((map[1].direction.y) + 0x2000) >> 14;
     flag = collisionCheck( map[1].x1 + ((map[1].direction.x) + 0x2000) >> 14,map[1].y1 + ((map[1].direction.y) + 0x2000) >> 14, map);
     switch(flag){
     	case 0x00:
