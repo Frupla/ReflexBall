@@ -52,7 +52,7 @@ void initiate(){
 // If you just have the map, pass &map[i]
 void drawPlayer(entity* object){
 	int i;
-	for(i = 0; i <= (object->sizeX); i++){
+	for(i = 0; i <= ((object->sizeX)*5); i++){
 		gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + i,EIGHTEEN_FOURTEEN_TO_INT(object->y1));
 		printf("%c", PLAYERTEXTURE);
 	}
@@ -139,17 +139,17 @@ void playerMovement(char buttonPress, entity* object){
 		case 0x01: //PF7
             gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1),EIGHTEEN_FOURTEEN_TO_INT(object->y1));
             printf("%c", 0x20);
-			if ((EIGHTEEN_FOURTEEN_TO_INT(object->x1) + 1 + object->sizeX) < 2 * MAPSIZE){
+			if ((EIGHTEEN_FOURTEEN_TO_INT(object->x1) + 1 + ((object->sizeX)*5)) < 2 * MAPSIZE){
 				object->x1 = object->x1 + LONG_TO_EIGHTEEN_FOURTEEN(l);
 			}
-			gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + object->sizeX,EIGHTEEN_FOURTEEN_TO_INT(object->y1));
+			gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + ((object->sizeX)*5),EIGHTEEN_FOURTEEN_TO_INT(object->y1));
             printf("%c", PLAYERTEXTURE);
 			gotoxy(1,1);
             break;
 		case 0x02: //PF6
 			break;
 		case 0x04: //PD3
-			gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + object->sizeX,EIGHTEEN_FOURTEEN_TO_INT(object->y1));
+			gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + ((object->sizeX)*5),EIGHTEEN_FOURTEEN_TO_INT(object->y1));
             printf("%c", 0x20);
 			if((EIGHTEEN_FOURTEEN_TO_INT(object->x1) - 1) > 1){
 				object->x1= object->x1 - LONG_TO_EIGHTEEN_FOURTEEN(l);
@@ -187,21 +187,27 @@ char collisionCheck(int x1, int y1, entity* map[]) { // an array of breakables, 
         return flag;
 	}
 	while(map[i]->whatIsThis){
-		if(map[i]->whatIsThis == 0x01) {
-			if ((x1 >= EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1)) && (x1 <= (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + map[i]->sizeX))){
-				if (y1 == EIGHTEEN_FOURTEEN_TO_INT(map[i]->y1)) {
-                    if (x1 == EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1)) {
-                        flag = 0x08;//left corner of paddle
-                        return flag;
-                    } else if (x1 == EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + map[i]->sizeX) {
-                        flag = 0x02;// right corner of paddle
-                        return flag;
-                    } else {
-                        flag = 0x01; // middle of paddle
-                        return flag;
-                    }
-				}
+		if(map[i]->whatIsThis == 0x01 && y1 == EIGHTEEN_FOURTEEN_TO_INT(map[i]->y1)) {
+			if ((x1 >= EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1)) && (x1 < (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + ((map[i]->sizeX))))){
+				flag = 0x0A; 
+				return flag; // left side of paddle
 			}
+			if ((x1 >= (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + ((map[i]->sizeX)))) && (x1 < (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + (2*(map[i]->sizeX))))){
+				flag = 0x0B;
+				return flag; // middle left side of paddle
+			}
+			if ((x1 >= (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + ((map[i]->sizeX)*2))) && (x1 < (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + (3*(map[i]->sizeX))))){
+				flag = 0x0C;
+				return flag; // middle of paddle
+			}
+			if ((x1 >= (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + ((map[i]->sizeX)*3))) && (x1 < (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + (4*(map[i]->sizeX))))){
+				flag = 0x0D;
+				return flag; // right middle side of paddle
+			}
+			if ((x1 >= (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + ((map[i]->sizeX)*4))) && (x1 < (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + (5*(map[i]->sizeX))))){
+				flag = 0x0E;
+				return flag; // right side of paddle
+			}			
 		}
         if(map[i]->whatIsThis == 0x03) {
             if ((x1 >= EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1)) && (x1 <= EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + map[i]->sizeX)) {
@@ -256,6 +262,11 @@ char collisionCheck(int x1, int y1, entity* map[]) { // an array of breakables, 
 	 * 0x07 = object hit left side or right wall
 	 * 0x08 = object hit top left corner
 	 * 0x09 = object passed through floor??? - maybe do this in out of bounds check???
+	 * 0x0A = object hit left
+	 * 0x0B = object hit left middle
+	 * 0x0C	= object hit middle
+	 * 0x0D	= object hit right middle
+	 * 0x0E = object hit right
 	 */
 
 //Ball movement ver 2
