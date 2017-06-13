@@ -8,7 +8,7 @@
 #define SOLIDTEXTURE 219
 #define PLAYERTEXTURE 223
 #define BALLTEXTURE 184
-#define BREAKABLETEXTURE 176
+#define BREAKABLETEXTURE 219
 #define BACKGROUNDTEXTURE 32
 
 #define EIGHTEEN_FOURTEEN_TO_INT(a) ((int)((a + 0x2000) >> 14))  //this is kinda shitty, cuts 2 MSB when recast as int, and it will be
@@ -71,12 +71,14 @@ void drawBall(entity* object){
 void drawBreakable(entity* object){
 	int i, j;
     object->color = 2; //change if you want to change n.o. lives
+    fgcolor(6)
 	for(i = 0; i <= (object->sizeX); i++){
 		for(j = 0; j <= (object->sizeY); j++){
 			gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + i,EIGHTEEN_FOURTEEN_TO_INT(object->y1) + j);
-			printf("%c", BREAKABLETEXTURE + object->color);
+			printf("%c", BREAKABLETEXTURE);
 		}
 	}
+    fgcolor(15)
 	object->changedSinceLast = 0;
 }
 
@@ -93,12 +95,14 @@ void killBreakable(entity* object){
         object->changedSinceLast = 0;
         object->whatIsThis = 0x05;
     } else {
+        fgcolor(6 - object->color);
         for (i = 0; i <= (object->sizeX); i++) {
             for (j = 0; j <= (object->sizeY); j++) {
                 gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + i, EIGHTEEN_FOURTEEN_TO_INT(object->y1) + j);
-                printf("%c", BREAKABLETEXTURE + object->color); //TODO: vary breakable texture after n.o. lives
+                printf("%c", BREAKABLETEXTURE); //TODO: vary breakable texture after n.o. lives
             }
         }
+        fgcolor(15);
         object->changedSinceLast = 0;
     }
 }
@@ -307,10 +311,7 @@ void ballMovement(entity *map) {
 	//int where;
 	//Find the ball entity (uncomment if not at 1)
 	//for(where=1; map[where].whatIsThis != 0x02; where++){}
-	ty = EIGHTEEN_FOURTEEN_TO_INT(map[1].y1);
-	tx = EIGHTEEN_FOURTEEN_TO_INT(map[1].x1);
-	dx = (((map[1].direction.x) + 0x2000) >> 14);
-	dy = (((map[1].direction.y) + 0x2000) >> 14);
+
 	//Remove the old ball
 	gotoxy(EIGHTEEN_FOURTEEN_TO_INT(map[1].x1), EIGHTEEN_FOURTEEN_TO_INT(map[1].y1));
 	printf(" ");
