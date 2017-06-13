@@ -188,12 +188,12 @@ char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, s
 	}
 	while(map[i].whatIsThis){
 		if(map[i].whatIsThis == 0x01) {
-			if ((x1 >= map[i].x1) && (x1 <= (map[i].x1 + map[i].sizeX))){
-				if (y1 == map[i].y1) {
-                    if (x1 == map[i].x1) {
+			if ((x1 >= EIGHTEEN_FOURTEEN_TO_INT(map[i].x1)) && (x1 <= (EIGHTEEN_FOURTEEN_TO_INT(map[i].x1) + map[i].sizeX))){
+				if (y1 == EIGHTEEN_FOURTEEN_TO_INT(map[i].y1)) {
+                    if (x1 == EIGHTEEN_FOURTEEN_TO_INT(map[i].x1)) {
                         flag = 0x08;//left corner of paddle
                         return flag;
-                    } else if (x1 == map[i].x1 + map[i].sizeX) {
+                    } else if (x1 == EIGHTEEN_FOURTEEN_TO_INT(map[i].x1) + map[i].sizeX) {
                         flag = 0x02;// right corner of paddle
                         return flag;
                     } else {
@@ -204,23 +204,23 @@ char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, s
 			}
 		}
         if(map[i].whatIsThis == 0x03) {
-            if ((x1 >= map[i].x1) && (x1 <= map[i].x1 + map[i].sizeX)) {
-                if (y1 == map[i].y1) {
-                    if (x1 == map[i].x1) {
+            if ((x1 >= EIGHTEEN_FOURTEEN_TO_INT(map[i].x1)) && (x1 <= EIGHTEEN_FOURTEEN_TO_INT(map[i].x1) + map[i].sizeX)) {
+                if (y1 == EIGHTEEN_FOURTEEN_TO_INT(map[i].y1)) {
+                    if (x1 == EIGHTEEN_FOURTEEN_TO_INT(map[i].x1)) {
                         flag = 0x08;//top left corner
                         return flag;
-                    } else if (x1 == map[i].x1 + map[i].sizeX) {
+                    } else if (x1 == EIGHTEEN_FOURTEEN_TO_INT(map[i].x1) + map[i].sizeX) {
                         flag = 0x02;//top right corner
                         return flag;
                     } else {
                         flag = 0x01; // hit top
                         return flag;
                     }
-                } else if (y1 == map[i].y1 + map[i].sizeY) {
-                    if (x1 == map[i].x1) {
+                } else if (y1 == EIGHTEEN_FOURTEEN_TO_INT(map[i].y1) + map[i].sizeY) {
+                    if (x1 == EIGHTEEN_FOURTEEN_TO_INT(map[i].x1)) {
                         flag = 0x06;//bottom left corner
                         return flag;
-                    } else if (x1 == map[i].x1 + map[i].sizeX) {
+                    } else if (x1 == EIGHTEEN_FOURTEEN_TO_INT(map[i].x1) + map[i].sizeX) {
                         flag = 0x04;//bottom right corner
                         return flag;
                     } else {
@@ -229,12 +229,12 @@ char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, s
                     }
                 }
             }
-            if ((y1 > map[i].y1)
-                && (y1 < map[i].y1 + map[i].sizeY)) {
-                if (x1 == map[i].x1) {
+            if ((y1 > EIGHTEEN_FOURTEEN_TO_INT(map[i].y1))
+                && (y1 < EIGHTEEN_FOURTEEN_TO_INT(map[i].y1) + map[i].sizeY)) {
+                if (x1 == EIGHTEEN_FOURTEEN_TO_INT(map[i].x1)) {
                     flag = 0x07; // hit left
                     return flag;
-                } else if (x1 == map[i].x1 + map[i].sizeX) {
+                } else if (x1 == EIGHTEEN_FOURTEEN_TO_INT(map[i].x1) + map[i].sizeX) {
                     flag = 0x03; // hit right
                     return flag;
                 }
@@ -274,7 +274,7 @@ void ballMovement(entity *map) {
 	dy = (((map[1].direction.y) + 0x2000) >> 14);
 	//Remove the old ball
 	gotoxy(EIGHTEEN_FOURTEEN_TO_INT(map[1].x1), EIGHTEEN_FOURTEEN_TO_INT(map[1].y1));
-	printf("H");
+	printf(" ");
     tempX = EIGHTEEN_FOURTEEN_TO_INT(map[1].x1 + map[1].direction.x);
 	tempY = EIGHTEEN_FOURTEEN_TO_INT(map[1].y1 + map[1].direction.y);
     //flag = collisionCheck(map[1].x1 + ((map[1].direction.x) + 0x2000) >> 14,map[1].y1 + ((map[1].direction.y) + 0x2000) >> 14, map);

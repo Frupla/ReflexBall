@@ -17,7 +17,7 @@ void main() {
     int i, j, n = 0;
     Tvector tempVec;
 	char button;
-    int time1 = 1, time2 = 15;
+    int time1 = 1, time2 = 5;
 	init_uart(_UART0,_DEFFREQ,_DEFBAUD);  // set-up UART0 to 57600, 8n1
 	clrscr();
 	// player setup
@@ -84,12 +84,12 @@ void main() {
         LEDUpdate();
 
         //Reenter above loop
-        time2 += 15;
+        time2 += 5;
 
         //Reset timers
         if (timer1() < 20) {
             time1 = 1;
-            time2 = 15;
+            time2 = 5;
         }
 	} while (1);
 
