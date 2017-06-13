@@ -65,3 +65,5 @@ cmake-build-debug/
 *.zdsproj
 *.lod
 ArkanoidEngine.lod
+*.lst
+*.lod
