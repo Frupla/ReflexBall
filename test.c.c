@@ -32,13 +32,13 @@ void main() {
     n++;
 
     // Ball setup
-    tempVec.x = convert(1);
-    tempVec.y = convert(0);
-    rotate(&tempVec, -47);
+    tempVec.x = convert(0);
+    tempVec.y = convert(-1);
+    //rotate(&tempVec, -47);
     map[n].whatIsThis = 0x02;
     map[n].changedSinceLast = 1;
-    map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(60);
-    map[n].y1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
+    map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(7);
+    map[n].y1 = LONG_TO_EIGHTEEN_FOURTEEN(10);
     map[n].direction = tempVec;
     map[n].sizeX = 0x00;
 	map[n].sizeY = 0x00;
@@ -51,8 +51,8 @@ void main() {
     map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(5);
     map[n].y1 = LONG_TO_EIGHTEEN_FOURTEEN(5);
     map[n].sizeX = 0x16;
-	map[n].sizeY = 0x04;
-    map[n].color = 0x00;
+	map[n].sizeY = 0x00;
+    map[n].color = 0x03;
     n++;
     map[n].whatIsThis = 0x00;
     n++;

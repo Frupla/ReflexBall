@@ -54,7 +54,7 @@ void initiate(){
 // If you just have the map, pass &map[i]
 void drawPlayer(entity* object){
 	int i;
-	for(i = 0; i <= ((object->sizeX)*0x05); i++){
+	for(i = 0; i <= ((object->sizeX)*5); i++){
 		gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + i,EIGHTEEN_FOURTEEN_TO_INT(object->y1));
 		printf("%c", PLAYERTEXTURE);
 	}
