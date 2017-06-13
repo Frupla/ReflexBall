@@ -242,19 +242,22 @@ char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, s
 void ballMovement(entity *map) {
 	char flag;
 	int tempX;
-	int tempY;
+	int tempY,ty,tx;
+	long dx,dy;
 	//Variables
 
 	//int where;
 	//Find the ball entity (uncomment if not at 1)
 	//for(where=1; map[where].whatIsThis != 0x02; where++){}
-
+	ty = map[1].y1;
+	tx = map[1].x1;
+	dx = (((map[1].direction.x) + 0x2000) >> 14);
+	dy = (((map[1].direction.y) + 0x2000) >> 14);
 	//Remove the old ball
 	gotoxy(map[1].x1, map[1].y1);
 	printf("H");
-	//Change position and print the new
-    tempX = map[1].x1 + ((map[1].direction.x) + 0x2000) >> 14;
-	tempY = map[1].y1 + ((map[1].direction.y) + 0x2000) >> 14;
+    tempX = map[1].x1 + (((map[1].direction.x) + 0x2000) >> 14);
+	tempY = map[1].y1 + (((map[1].direction.y) + 0x2000) >> 14);
     //flag = collisionCheck(map[1].x1 + ((map[1].direction.x) + 0x2000) >> 14,map[1].y1 + ((map[1].direction.y) + 0x2000) >> 14, map);
     flag = collisionCheck(tempX, tempY, map);
     switch(flag){
@@ -293,6 +296,7 @@ void ballMovement(entity *map) {
         default: 
         	break;
     }
+    //Change position and print the new
     map[1].x1 += ((map[1].direction.x) + 0x2000) >> 14;
     map[1].y1 += ((map[1].direction.y) + 0x2000) >> 14;
 	gotoxy(map[1].x1, map[1].y1);
