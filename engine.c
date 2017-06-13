@@ -8,7 +8,7 @@
 #define SOLIDTEXTURE 219
 #define PLAYERTEXTURE 223
 #define BALLTEXTURE 184
-#define BREAKABLETEXTURE 177
+#define BREAKABLETEXTURE 176
 #define BACKGROUNDTEXTURE 32
 
 #define EIGHTEEN_FOURTEEN_TO_INT(a) ((int)((a + 0x2000) >> 14))  //this is kinda shitty, cuts 2 MSB when recast as int, and it will be
@@ -29,7 +29,9 @@ typedef struct{
 	//zones? - so far no zones
 	char sizeX; // represent the horizontal size factor
     char sizeY;	// represent the vertical size factor
-	char color;  //TODO: give life to breakables
+	char color; // n.o. lives for breakables  (color breakables after this). Is set to 3 in drawBreakables
+                // 0x00 - dead, no lives
+    // TODO: give life to breakables
 } entity;
 
 void initiate(){
@@ -68,10 +70,11 @@ void drawBall(entity* object){
 
 void drawBreakable(entity* object){
 	int i, j;
+    object->color = 3; //change if you want to change n.o. lives
 	for(i = 0; i <= (object->sizeX); i++){
 		for(j = 0; j <= (object->sizeY); j++){
 			gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + i,EIGHTEEN_FOURTEEN_TO_INT(object->y1) + j);
-			printf("%c", BREAKABLETEXTURE);
+			printf("%c", BREAKABLETEXTURE + object->color);
 		}
 	}
 	object->changedSinceLast = 0;
@@ -79,14 +82,25 @@ void drawBreakable(entity* object){
 
 void killBreakable(entity* object){
 	int i, j;
-	for(i = 0; i <= (object->sizeX); i++){
-		for(j = 0; j <= (object->sizeY); j++){
-			gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + i,EIGHTEEN_FOURTEEN_TO_INT(object->y1) + j);
-			printf("%c", BACKGROUNDTEXTURE);
-		}
-	}
-	object->changedSinceLast = 0;
-    object->whatIsThis = 0x05;
+    object->color--;
+    if (!object->color) {
+        for (i = 0; i <= (object->sizeX); i++) {
+            for (j = 0; j <= (object->sizeY); j++) {
+                gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + i, EIGHTEEN_FOURTEEN_TO_INT(object->y1) + j);
+                printf("%c", BACKGROUNDTEXTURE + object->color);
+            }
+        }
+        object->changedSinceLast = 0;
+        object->whatIsThis = 0x05;
+    } else {
+        for (i = 0; i <= (object->sizeX); i++) {
+            for (j = 0; j <= (object->sizeY); j++) {
+                gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + i, EIGHTEEN_FOURTEEN_TO_INT(object->y1) + j);
+                printf("%c", BREAKABLETEXTURE); //TODO: vary breakable texture after n.o. lives
+            }
+        }
+        object->changedSinceLast = 0;
+    }
 }
 
 void drawSolid(entity* object){
