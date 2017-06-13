@@ -12,6 +12,8 @@
 #define BACKGROUNDTEXTURE 32
 
 #define 1814_TO_INT(a) ((int)((a + 0x2000) >> 14))  //this is kinda shitty, cuts 2 MSB when recast as int, and it will be
+#define LONG_TO_1814(a) (a << 14)
+
 
 typedef struct{
 	char changedSinceLast;
@@ -265,12 +267,12 @@ void ballMovement(entity *map) {
 	//int where;
 	//Find the ball entity (uncomment if not at 1)
 	//for(where=1; map[where].whatIsThis != 0x02; where++){}
-	ty = map[1].y1;
-	tx = map[1].x1;
+	ty = 1814_TO_INT(map[1].y1);
+	tx = 1814_TO_INT(map[1].x1);
 	dx = (((map[1].direction.x) + 0x2000) >> 14);
 	dy = (((map[1].direction.y) + 0x2000) >> 14);
 	//Remove the old ball
-	gotoxy(map[1].x1, map[1].y1);
+	gotoxy(1814_TO_INT(map[1].x1), 1814_TO_INT(map[1].y1));
 	printf("H");
     tempX = 1814_TO_INT(map[1].x1 + map[1].direction.x);
 	tempY = 1814_TO_INT(map[1].y1 + map[1].direction.y);
