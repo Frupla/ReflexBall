@@ -106,8 +106,8 @@ void startGame() {
                 break;
             case 0x02: //Ball dead
                 n--;
-                gotoxy(map[1].x1, map[1].y1);
                 printf(" ");
+                gotoxy(map[1].x1, map[1].y1);
                 map[1].direction = tempVec;
                 map[1].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
                 map[1].y1 = LONG_TO_EIGHTEEN_FOURTEEN(61);
@@ -157,19 +157,33 @@ void main() {
             if ((button != 0x00) && (!flag2)) {
                 switch (button) {
                     case 0x01 :
-						if(output <= 2 && output >= 0){
-							output += 1;
+						output += 1;
+						if(output <= 3 && output >= 0){
                         	gotoxy(13, 12 + output - 1);
                         	printf(" ");
                         	gotoxy(13, 12 + output);
                         	printf(">");
 							gotoxy(13,12);
-					   	}
+					   	} else{
+							output -= 1;
+							gotoxy(13, 12 + output - 1);
+                        	printf(" ");
+                        	gotoxy(13, 12 + output);
+                        	printf(">");
+							gotoxy(13,12);
+						}
 						break;
                     case 0x04 :
-						if(output <= 2 && output >= 0){
-							output -= 1;
+						output -= 1;
+						if(output <= 3 && output >= 0){
 							gotoxy(13, 12 + output + 1);
+                        	printf(" ");
+                        	gotoxy(13, 12 + output);
+                        	printf(">");
+							gotoxy(13,12);
+						} else{
+							output += 1;
+							gotoxy(13, 12 + output - 1);
                         	printf(" ");
                         	gotoxy(13, 12 + output);
                         	printf(">");

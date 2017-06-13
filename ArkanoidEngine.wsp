@@ -494,6 +494,7 @@ ptn_Child10=Document-9
 ptn_Child11=Document-10
 ptn_Child12=Document-11
 ptn_Child13=Document-12
+ptn_Child14=Document-13
 ptn_Child2=Document-1
 ptn_Child3=Document-2
 ptn_Child4=Document-3
@@ -530,8 +531,8 @@ ptn_Child1=ViewFrame-0
 DocPathName=.\Z8encore.c
 DocTemplateIndex=0
 DocumentString=IDE Document
-IsActiveChildFrame=True
-WindowPlacement=MCAAAAAACAAAAAAADAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPIGAAAAAAIGAAAAAAIPEAAAAAONBAAAAA
+IsActiveChildFrame=False
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPIGAAAAAAIGAAAAAAIPEAAAAAONBAAAAA
 
 [WorkState_v1_1.Frames.ChildFrames.Document-11]
 ptn_Child1=ViewFrame-0
@@ -552,6 +553,16 @@ DocTemplateIndex=0
 DocumentString=IDE Document
 IsActiveChildFrame=False
 WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPCIAAAAAACIAAAAAAMCFAAAAAEPBAAAAA
+
+[WorkState_v1_1.Frames.ChildFrames.Document-13]
+ptn_Child1=ViewFrame-0
+
+[WorkState_v1_1.Frames.ChildFrames.Document-13.ViewFrame-0]
+DocPathName=.\menu_test.c
+DocTemplateIndex=0
+DocumentString=IDE Document
+IsActiveChildFrame=True
+WindowPlacement=MCAAAAAACAAAAAAADAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPCIAAAAAACIAAAAAACBFAAAAAIPBAAAAA
 
 [WorkState_v1_1.Frames.ChildFrames.Document-2]
 ptn_Child1=ViewFrame-0
@@ -634,7 +645,7 @@ IsActiveChildFrame=False
 WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPOEAAAAAAOEAAAAAAONEAAAAAEMBAAAAA
 
 [WorkState_v1_1.Frames.MainFrame]
-Title=ArkanoidEngine -- ZDS II - Z8 Encore! Family -- Z8encore.c - [Z8encore.c]
+Title=ArkanoidEngine -- ZDS II - Z8 Encore! Family -- menu_test.c* - [menu_test.c*]
 WindowPlacement=MCAAAAAACAAAAAAADAAAAAAAPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPIGAAAAAAIGAAAAAAIOEAAAAAJLCAAAAA
 
 [WorkState_v1_1.ToolBarMgr]
