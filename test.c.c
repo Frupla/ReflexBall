@@ -55,20 +55,16 @@ void main() {
     n++;
     map[n].whatIsThis = 0x00;
     n++;
+
+
 	initiate();
     timer1Setup();
 	LEDInit();
     LEDSetString(string);
     drawMap(map);
-
     do {
         do {
-            do {
-                //Determine where to move
-                button = readKey();
-
-                //Remember to do this a lot
-                LEDUpdate();
+            drawMap(map);
 
                 //Do this for 0.1 s
             } while (timer1() < time1);
