@@ -166,7 +166,7 @@ void playerMovement(char buttonPress, entity* object){
 // pre: takes position that the ball would have (current position + direction), and checks it for overlap
 char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, solids and a ball
 	char flag = 0;
-	int i = 2; // i is equal to number of players + number of balls
+	int i = 0;
 	if(x1 >= MAPSIZE * 2){ // returns true if hit wall
 		flag = 0x07;// hit right wall
         return flag;
@@ -184,9 +184,24 @@ char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, s
         return flag;
 	}
 	while(map[i].whatIsThis){
+		if(map[i].whatIsThis == 0x01) {
+			if ((x1 >= map[i].x1) && (x1 <= (map[i].x1 + map[i].sizeX))){
+				if (y1 == map[i].y1) {
+                    if (x1 == map[i].x1) {
+                        flag = 0x08;//left corner of paddle
+                        return flag;
+                    } else if (x1 == map[i].x1 + map[i].sizeX) {
+                        flag = 0x02;// right corner of paddle
+                        return flag;
+                    } else {
+                        flag = 0x01; // middle of paddle
+                        return flag;
+                    }
+				}
+			}
+		}
         if(map[i].whatIsThis == 0x03) {
-            if ((x1 >= map[i].x1)
-                && (x1 <= map[i].x1 + map[i].sizeX)) {
+            if ((x1 >= map[i].x1) && (x1 <= map[i].x1 + map[i].sizeX)) {
                 if (y1 == map[i].y1) {
                     if (x1 == map[i].x1) {
                         flag = 0x08;//top left corner
@@ -221,11 +236,11 @@ char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, s
                     return flag;
                 }
             }
-        i++;
         }
+	i++;
     }
 	return flag;
-	}
+}
 	/* flag encoding
 	 * 0x00 = no collision
 	 * 0x01 = object hit top side
