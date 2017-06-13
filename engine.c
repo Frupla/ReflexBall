@@ -254,7 +254,8 @@ void ballMovement(entity *map) {
 	//Change position and print the new
     tempX = map[1].x1 + ((map[1].direction.x) + 0x2000) >> 14;
 	tempY = map[1].y1 + ((map[1].direction.y) + 0x2000) >> 14;
-    flag = collisionCheck( map[1].x1 + ((map[1].direction.x) + 0x2000) >> 14,map[1].y1 + ((map[1].direction.y) + 0x2000) >> 14, map);
+    //flag = collisionCheck(map[1].x1 + ((map[1].direction.x) + 0x2000) >> 14,map[1].y1 + ((map[1].direction.y) + 0x2000) >> 14, map);
+    flag = collisionCheck(tempX, tempY, map);
     switch(flag){
     	case 0x00:
             break;
