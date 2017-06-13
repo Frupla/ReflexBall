@@ -57,7 +57,7 @@ void main() {
 
     map[n].whatIsThis = 0x03;
     map[n].changedSinceLast = 1;
-    map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(20);
+    map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(5);
     map[n].y1 = LONG_TO_EIGHTEEN_FOURTEEN(20);
     map[n].sizeX = 0x16;
     map[n].sizeY = 0x01;

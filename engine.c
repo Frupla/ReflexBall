@@ -223,7 +223,7 @@ char collisionCheck(int x1, int y1, entity * map[]) { // an array of breakables,
 				return flag; // right side of paddle
 			}
 		}
-		if(map[i]->whatIsThis == 3) {    //checks & breaks breakables
+		if(map[i]->whatIsThis == 0x03) {    //checks & breaks breakables
 			printf("O");
             if ((x1 >= (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1))) && (x1 <= (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + map[i]->sizeX))) {
             	printf("P");
