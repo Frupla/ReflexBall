@@ -184,7 +184,7 @@ char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, s
 	}
 	while(map[i].whatIsThis){
         if(map[i].whatIsThis == 0x03) {
-            if ((x1 >= map[i].x1)   //hit top
+            if ((x1 >= map[i].x1)
                 && (x1 <= map[i].x1 + map[i].sizeX)) {
                 if (y1 == map[i].y1) {
                     if (x1 == map[i].x1) {
@@ -220,9 +220,10 @@ char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, s
                     return flag;
                 }
             }
+        i++;
         }
     }
-		return flag;
+	return flag;
 	}
 	/* flag encoding
 	 * 0x00 = no collision
