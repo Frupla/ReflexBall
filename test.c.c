@@ -13,8 +13,9 @@
 rom char string[LED_MAX_STR_LEN] = "Shit";
 
 void main() {
-    entity map[6];
-    int i, j, n = 0;
+    entity map[11];
+    long i, j;
+    int n = 0;
     Tvector tempVec;
 	char button;
     int time1 = 1, time2 = 5;
@@ -46,23 +47,18 @@ void main() {
     n++;
 
     //Breakable setup
-    map[n].whatIsThis = 0x03;
-    map[n].changedSinceLast = 1;
-    map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(5);
-    map[n].y1 = LONG_TO_EIGHTEEN_FOURTEEN(5);
-    map[n].sizeX = 0x16;
-	map[n].sizeY = 0x01;
-    map[n].color = 0x03;
-    n++;
-
-    map[n].whatIsThis = 0x03;
-    map[n].changedSinceLast = 1;
-    map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(5);
-    map[n].y1 = LONG_TO_EIGHTEEN_FOURTEEN(20);
-    map[n].sizeX = 0x16;
-    map[n].sizeY = 0x01;
-    map[n].color = 0x03;
-    n++;
+    for(i = 10; i <= 90; i += 40){
+        for(j = 5; j <= 15; j += 5){
+            map[n].whatIsThis = 0x03;
+            map[n].changedSinceLast = 1;
+            map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(i);
+            map[n].y1 = LONG_TO_EIGHTEEN_FOURTEEN(j);
+            map[n].sizeX = 0x16;
+            map[n].sizeY = 0x01;
+            map[n].color = 0x03;
+            n++;
+        }
+    }
 
     map[n].whatIsThis = 0x00;
     n++;
