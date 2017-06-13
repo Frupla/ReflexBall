@@ -2,6 +2,7 @@
 #define _ENGINE_H_
 
 #define MAPSIZE 100
+#define LONG_TO_EIGHTEEN_FOURTEEN(a) (a << 14)
 
 //kode
 typedef struct{
@@ -11,8 +12,8 @@ typedef struct{
     //breakable  - 0x03
     //solid      - 0.04
     //nothing    - 0x00
-    int x1; //1. coordinate, placement
-    int y1; //2. coordiante, placement
+    long x1; //1. coordinate, placement
+    long y1; //2. coordiante, placement
     Tvector direction; //ADD THIS STRUCT TO THE INCLUDED CODE PLS
     //zones? - so far no zones
     char sizeX, sizeY;

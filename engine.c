@@ -11,6 +11,9 @@
 #define BREAKABLETEXTURE 177
 #define BACKGROUNDTEXTURE 32
 
+#define EIGHTEEN_FOURTEEN_TO_INT(a) ((int)((a + 0x2000) >> 14))  //this is kinda shitty, cuts 2 MSB when recast as int, and it will be
+#define LONG_TO_EIGHTEEN_FOURTEEN(a) (a << 14)
+
 
 typedef struct{
 	char changedSinceLast;
@@ -20,8 +23,8 @@ typedef struct{
 					//solid            - 0x04
                     //broken breakable - 0x05
 					//nothing          - 0x00
-	int x1; //1. coordinate, placement
-	int y1; //2. coordiante, placement
+	long x1; //1. coordinate, placement, 18.14
+	long y1; //2. coordiante, placement, 18.14
 	Tvector direction; // Speed and direction (only relevant for the ball)
 	//zones? - so far no zones
 	char sizeX; // represent the horizontal size factor
@@ -50,14 +53,15 @@ void initiate(){
 void drawPlayer(entity* object){
 	int i;
 	for(i = 0; i <= (object->sizeX); i++){
-		gotoxy(object->x1 + i,object->y1);
+		gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + i,EIGHTEEN_FOURTEEN_TO_INT(object->y1));
 		printf("%c", PLAYERTEXTURE);
 	}
 	object->changedSinceLast = 0;
 }
 
 void drawBall(entity* object){
-	gotoxy(object->x1,object->y1);
+	int i, j;
+	gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1),EIGHTEEN_FOURTEEN_TO_INT(object->y1));
 	printf("%c", BALLTEXTURE);
 	object->changedSinceLast = 0;
 }
@@ -66,7 +70,7 @@ void drawBreakable(entity* object){
 	int i, j;
 	for(i = 0; i <= (object->sizeX); i++){
 		for(j = 0; j <= (object->sizeY); j++){
-			gotoxy(object->x1 + i,object->y1 + j);
+			gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + i,EIGHTEEN_FOURTEEN_TO_INT(object->y1) + j);
 			printf("%c", BREAKABLETEXTURE);
 		}
 	}
@@ -77,7 +81,7 @@ void killBreakable(entity* object){
 	int i, j;
 	for(i = 0; i <= (object->sizeX); i++){
 		for(j = 0; j <= (object->sizeY); j++){
-			gotoxy(object->x1 + i,object->y1 + j);
+			gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + i,EIGHTEEN_FOURTEEN_TO_INT(object->y1) + j);
 			printf("%c", BACKGROUNDTEXTURE);
 		}
 	}
@@ -89,7 +93,7 @@ void drawSolid(entity* object){
 	int i, j;
 	for(i = 0; i <= (object->sizeX); i++){
 		for(j = 0; j <= (object->sizeY); j++){
-			gotoxy(object->x1 + i,object->y1 + j);
+			gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1 + i),EIGHTEEN_FOURTEEN_TO_INT(object->y1) + j);
 			printf("%c", SOLIDTEXTURE);
 		}
 	}
@@ -129,27 +133,28 @@ void drawMap(entity* map) {
 }
 
 void playerMovement(char buttonPress, entity* object){
-	int i;	
+	int i;
+    long l = 1;
 	switch(buttonPress) {
 		case 0x01: //PF7
-            gotoxy(object->x1,object->y1);
+            gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1),EIGHTEEN_FOURTEEN_TO_INT(object->y1));
             printf("%c", 0x20);
-			if ((object->x1 + 1 + object->sizeX) < 2 * MAPSIZE){
-				object->x1++;
+			if ((EIGHTEEN_FOURTEEN_TO_INT(object->x1) + 1 + object->sizeX) < 2 * MAPSIZE){
+				object->x1 = object->x1 + LONG_TO_EIGHTEEN_FOURTEEN(l);
 			}
-			gotoxy(object->x1 + object->sizeX,object->y1);
+			gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + object->sizeX,EIGHTEEN_FOURTEEN_TO_INT(object->y1));
             printf("%c", PLAYERTEXTURE);
 			gotoxy(1,1);
             break;
 		case 0x02: //PF6
 			break;
 		case 0x04: //PD3
-			gotoxy(object->x1 + object->sizeX,object->y1);
+			gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + object->sizeX,EIGHTEEN_FOURTEEN_TO_INT(object->y1));
             printf("%c", 0x20);
-			if((object->x1 - 1) > 1){
-				object->x1--;
+			if((EIGHTEEN_FOURTEEN_TO_INT(object->x1) - 1) > 1){
+				object->x1= object->x1 - LONG_TO_EIGHTEEN_FOURTEEN(l);
 			}
-			gotoxy(object->x1,object->y1);
+			gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1),EIGHTEEN_FOURTEEN_TO_INT(object->y1));
             printf("%c", PLAYERTEXTURE);
 			gotoxy(1,1);
 			break;
@@ -263,15 +268,15 @@ void ballMovement(entity *map) {
 	//int where;
 	//Find the ball entity (uncomment if not at 1)
 	//for(where=1; map[where].whatIsThis != 0x02; where++){}
-	ty = map[1].y1;
-	tx = map[1].x1;
+	ty = EIGHTEEN_FOURTEEN_TO_INT(map[1].y1);
+	tx = EIGHTEEN_FOURTEEN_TO_INT(map[1].x1);
 	dx = (((map[1].direction.x) + 0x2000) >> 14);
 	dy = (((map[1].direction.y) + 0x2000) >> 14);
 	//Remove the old ball
-	gotoxy(map[1].x1, map[1].y1);
-	printf(" ");
-    tempX = map[1].x1 + (((map[1].direction.x) + 0x2000) >> 14);
-	tempY = map[1].y1 + (((map[1].direction.y) + 0x2000) >> 14);
+	gotoxy(EIGHTEEN_FOURTEEN_TO_INT(map[1].x1), EIGHTEEN_FOURTEEN_TO_INT(map[1].y1));
+	printf("H");
+    tempX = EIGHTEEN_FOURTEEN_TO_INT(map[1].x1 + map[1].direction.x);
+	tempY = EIGHTEEN_FOURTEEN_TO_INT(map[1].y1 + map[1].direction.y);
     //flag = collisionCheck(map[1].x1 + ((map[1].direction.x) + 0x2000) >> 14,map[1].y1 + ((map[1].direction.y) + 0x2000) >> 14, map);
     flag = collisionCheck(tempX, tempY, map);
     switch(flag){
@@ -311,9 +316,9 @@ void ballMovement(entity *map) {
         	break;
     }
     //Change position and print the new
-    map[1].x1 += ((map[1].direction.x) + 0x2000) >> 14;
-    map[1].y1 += ((map[1].direction.y) + 0x2000) >> 14;
-	gotoxy(map[1].x1, map[1].y1);
+    map[1].x1 += map[1].direction.x;
+    map[1].y1 += map[1].direction.y;
+	gotoxy(EIGHTEEN_FOURTEEN_TO_INT(map[1].x1), EIGHTEEN_FOURTEEN_TO_INT(map[1].y1));
 	printf("%c", BALLTEXTURE);
 	gotoxy(1, 1);
 }

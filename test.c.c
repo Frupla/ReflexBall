@@ -23,8 +23,8 @@ void main() {
 	// player setup
     map[n].whatIsThis = 0x01;
     map[n].changedSinceLast = 1;
-    map[n].x1 = 50;
-    map[n].y1 = 64;
+    map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
+    map[n].y1 = LONG_TO_EIGHTEEN_FOURTEEN(64);
     //map[n].direction = {0, 0};
     map[n].sizeX = 0x16;
 	map[n].sizeY = 0;
@@ -32,12 +32,13 @@ void main() {
     n++;
 
     // Ball setup
-    tempVec.x = convert(-1);
-    tempVec.y = convert(-1);
+    tempVec.x = convert(1);
+    tempVec.y = convert(0);
+    rotate(&tempVec, -47);
     map[n].whatIsThis = 0x02;
     map[n].changedSinceLast = 1;
-    map[n].x1 = 60;
-    map[n].y1 = 50;
+    map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(60);
+    map[n].y1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
     map[n].direction = tempVec;
     map[n].sizeX = 0x00;
 	map[n].sizeY = 0x00;
@@ -47,8 +48,8 @@ void main() {
     //Breakable setup
     map[n].whatIsThis = 0x03;
     map[n].changedSinceLast = 1;
-    map[n].x1 = 5;
-    map[n].y1 = 5;
+    map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(5);
+    map[n].y1 = LONG_TO_EIGHTEEN_FOURTEEN(5);
     map[n].sizeX = 0x16;
 	map[n].sizeY = 0;
     map[n].color = 0x00;
