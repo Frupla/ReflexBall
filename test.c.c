@@ -26,7 +26,7 @@ void main() {
     map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
     map[n].y1 = LONG_TO_EIGHTEEN_FOURTEEN(64);
     //map[n].direction = {0, 0};
-    map[n].sizeX = 0x16;
+    map[n].sizeX = 0x04;
 	map[n].sizeY = 0;
     map[n].color = 0x00;
     n++;
@@ -51,7 +51,7 @@ void main() {
     map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(5);
     map[n].y1 = LONG_TO_EIGHTEEN_FOURTEEN(5);
     map[n].sizeX = 0x16;
-	map[n].sizeY = 0;
+	map[n].sizeY = 0x04;
     map[n].color = 0x00;
     n++;
     map[n].whatIsThis = 0x00;

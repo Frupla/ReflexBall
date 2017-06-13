@@ -54,7 +54,7 @@ void initiate(){
 // If you just have the map, pass &map[i]
 void drawPlayer(entity* object){
 	int i;
-	for(i = 0; i <= ((object->sizeX)*5); i++){
+	for(i = 0; i <= ((object->sizeX)*0x05); i++){
 		gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + i,EIGHTEEN_FOURTEEN_TO_INT(object->y1));
 		printf("%c", PLAYERTEXTURE);
 	}
@@ -311,7 +311,7 @@ void ballMovement(entity *map) {
     tempX = EIGHTEEN_FOURTEEN_TO_INT(map[1].x1 + map[1].direction.x);
 	tempY = EIGHTEEN_FOURTEEN_TO_INT(map[1].y1 + map[1].direction.y);
     //flag = collisionCheck(map[1].x1 + ((map[1].direction.x) + 0x2000) >> 14,map[1].y1 + ((map[1].direction.y) + 0x2000) >> 14, map);
-    flag = collisionCheck(tempX, tempY, map);
+    flag = collisionCheck(tempX, tempY, &map);
     switch(flag){
     	case 0x00:
             break;
