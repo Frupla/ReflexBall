@@ -2,7 +2,7 @@
 #define _ENGINE_H_
 
 #define MAPSIZE 100
-#define LONG_TO_1814(a) (a << 14)
+#define LONG_TO_EIGHTEEN_FOURTEEN(a) (a << 14)
 
 //kode
 typedef struct{
