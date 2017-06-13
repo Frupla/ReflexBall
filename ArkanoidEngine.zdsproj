@@ -7,16 +7,15 @@
 <file filter-key="">.\ansi.c</file>
 <file filter-key="">.\ansi.h</file>
 <file filter-key="">.\engine.c</file>
-<file filter-key="">.\engine.h</file>
 <file filter-key="">.\math.h</file>
 <file filter-key="">.\sinLUT.c</file>
 <file filter-key="">.\sinLUT.h</file>
 <file filter-key="">.\Z8encore.h</file>
 <file filter-key="">.\Z8encore.c</file>
-<file filter-key="">.\test.c.c</file>
 <file filter-key="">.\math.c</file>
 <file filter-key="">.\standalone_timer.c</file>
 <file filter-key="">.\standalone_timer.h</file>
+<file filter-key="">.\menu_test.c</file>
 </files>
 
 <!-- configuration information -->

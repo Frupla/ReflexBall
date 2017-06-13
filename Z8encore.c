@@ -80,7 +80,7 @@ void LEDInit(){
 }
 
 void updateBuffer(){
-	int i, j, romln = romstrLength(LEDtext_p);
+	int i, j, romln = strLength(LEDtext_p);
 	for(i = Letter; (i < romln) && (i < 5 + Letter); i++){
 		for(j = 0; j < 5; j++){
 			Buffer[i - Letter][j] = character_data[LEDtext_p[i] - 0x20][j];

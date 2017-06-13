@@ -144,30 +144,41 @@ void main() {
     do {
         window(10, 10, 50, 20, "Main menu", 1);
         gotoxy(12, 12);
-        printf(" > Start game\n   Show controls\n   Show high scores\n   Exit game\n");
+        printf(" > Start game");
+		gotoxy(13,13);
+		printf("  Show controls");
+		gotoxy(13,14);
+		printf("  Show high scores");
+		gotoxy(13,15);
+		printf("  Exit game");
         do {
             LEDUpdate();
             button = readKey();
-
-
             if ((button != 0x00) && (!flag2)) {
-                switch (readKey()) {
+                switch (button) {
                     case 0x01 :
-                        output += 1;
-                        gotoxy(13, 12 + output - 1);
-                        printf(" ");
-                        gotoxy(13, 12 + output);
-                        printf(">");
-                        break;
+						if(output <= 2 && output >= 0){
+							output += 1;
+                        	gotoxy(13, 12 + output - 1);
+                        	printf(" ");
+                        	gotoxy(13, 12 + output);
+                        	printf(">");
+							gotoxy(13,12);
+					   	}
+						break;
                     case 0x04 :
-                        output -= 1;
-                        gotoxy(13, 12 + output - 1);
-                        printf(" ");
-                        gotoxy(13, 12 + output);
-                        printf(">");
+						if(output <= 2 && output >= 0){
+							output -= 1;
+							gotoxy(13, 12 + output + 1);
+                        	printf(" ");
+                        	gotoxy(13, 12 + output);
+                        	printf(">");
+							gotoxy(13,12);
+						}
                         break;
                     case 0x02 :
                         flag1 = 0;
+						gotoxy(13,12);
                         break;
                 }
                 flag2 = 1;
@@ -186,6 +197,7 @@ void main() {
                 string[1] = 'o';
                 string[2] = 'p';
                 string[3] = 'e';
+				printf("case 1");
                 LEDSetString(string);
                 break;
             case 2:
@@ -193,16 +205,19 @@ void main() {
                 string[1] = 'o';
                 string[2] = 'p';
                 string[3] = 'e';
-                LEDSetString(string);
+                printf("case 2");
+				LEDSetString(string);
                 break;
             case 3:
                 string[0] = 'N';
                 string[1] = 'o';
                 string[2] = 'p';
                 string[3] = 'e';
-                LEDSetString(string);
+                printf("case 3");
+				LEDSetString(string);
                 break;
         }
+		output = 0;
         flag1 = 1;
     } while (1);
 
