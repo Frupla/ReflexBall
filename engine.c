@@ -87,7 +87,7 @@ void killBreakable(entity* object){
         for (i = 0; i <= (object->sizeX); i++) {
             for (j = 0; j <= (object->sizeY); j++) {
                 gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + i, EIGHTEEN_FOURTEEN_TO_INT(object->y1) + j);
-                printf("%c", BACKGROUNDTEXTURE + object->color);
+                printf("%c", BACKGROUNDTEXTURE);
             }
         }
         object->changedSinceLast = 0;
@@ -96,7 +96,7 @@ void killBreakable(entity* object){
         for (i = 0; i <= (object->sizeX); i++) {
             for (j = 0; j <= (object->sizeY); j++) {
                 gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + i, EIGHTEEN_FOURTEEN_TO_INT(object->y1) + j);
-                printf("%c", BREAKABLETEXTURE); //TODO: vary breakable texture after n.o. lives
+                printf("%c", BREAKABLETEXTURE + object->color); //TODO: vary breakable texture after n.o. lives
             }
         }
         object->changedSinceLast = 0;
