@@ -244,7 +244,7 @@ char collisionCheck(int x1, int y1, player_t* players, breakable_t* breakables) 
 		flag = 0x09;// dead ball
         return flag;
 	}
-    while (players[i].whatIsThis != 0x00){
+    while (players[i].whatIsThis != 0x00){ // there is a glitch, where the ball will occasionally go through the paddle
         if (y1 == players[i].y1) {
             if ((x1 >= players[i].x1) &&
                 (x1 < (players[i].x1 + players[i].sizeX))) {
@@ -256,7 +256,7 @@ char collisionCheck(int x1, int y1, player_t* players, breakable_t* breakables) 
                 flag = 0x0B;
                 return flag; // middle left side of paddle
             }
-            if ((x1 >= (players[i].x1 + players[i].sizeX) * 2) &&
+            if ((x1 >= (players[i].x1 + (players[i].sizeX) * 2)) &&
                 (x1 < (players[i].x1) + (3 * (players[i].sizeX)))) {
                 flag = 0x0C;
                 return flag; // middle of paddle

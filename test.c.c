@@ -13,8 +13,10 @@
 rom char string[LED_MAX_STR_LEN] = "Shit";
 
 void main() {
-    entity map[11];
-    long i, j;
+    player_t player[2];
+    ball_t ball[2];
+    breakable_t breakable[3];
+    int i, j;
     int n = 0;
     Tvector tempVec;
 	char button;
@@ -22,45 +24,45 @@ void main() {
 	init_uart(_UART0,_DEFFREQ,_DEFBAUD);  // set-up UART0 to 57600, 8n1
 	clrscr();
 	// player setup
-    map[n].whatIsThis = 0x01;
-    map[n].changedSinceLast = 1;
-    map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
-    map[n].y1 = LONG_TO_EIGHTEEN_FOURTEEN(62);
+    player[0].whatIsThis = 0x01;
+    player[0].changedSinceLast = 1;
+    player[0].x1 = 50;
+    player[0].y1 = 62;
     //map[n].direction = {0, 0};
-    map[n].sizeX = 0x04;
-	map[n].sizeY = 0;
-    map[n].color = 0x00;
-    n++;
+    player[0].sizeX = 0x04;
+    player[0].color = 0x00;
 
     // Ball setup
     tempVec.x = convert(0);
     tempVec.y = convert(-1);
     rotate(&tempVec, 47);
-    map[n].whatIsThis = 0x02;
-    map[n].changedSinceLast = 1;
-    map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(7);
-    map[n].y1 = LONG_TO_EIGHTEEN_FOURTEEN(10);
-    map[n].direction = tempVec;
-    map[n].sizeX = 0x00;
-	map[n].sizeY = 0x00;
-    map[n].color = 0x00;
-    n++;
-
+    ball[0].whatIsThis = 0x02;
+    ball[0].changedSinceLast = 1;
+    ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(7);
+    ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(10);
+    ball[0].direction = tempVec;
+    ball[0].size = 0x00;
+    ball[0].color = 0x00;
+	
+	i = 5;
+	j = 5;
     //Breakable setup
     for(i = 10; i <= 90; i += 40){
-        for(j = 5; j <= 20; j += 5){
-            map[n].whatIsThis = 0x03;
-            map[n].changedSinceLast = 1;
-            map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(i);
-            map[n].y1 = LONG_TO_EIGHTEEN_FOURTEEN(j);
-            map[n].sizeX = 0x16;
-            map[n].sizeY = 0x01;
-            map[n].color = 0x03;
+    	for(j = 4; j <= 8; j += 4){
+            breakable[n].whatIsThis = 0x03;
+            breakable[n].changedSinceLast = 1;
+            breakable[n].x1 = i;
+            breakable[n].y1 = j;
+            breakable[n].sizeX = 0x16;
+            breakable[n].sizeY = 0x01;
+            breakable[n].lives = 0x03;
             n++;
-        }
+       	}
     }
 
-    map[n].whatIsThis = 0x00;
+    breakable[n].whatIsThis = 0x00;
+    ball[1].whatIsThis = 0x00;
+    player[1].whatIsThis = 0x00;
     n++;
 
 
@@ -68,7 +70,7 @@ void main() {
     timer1Setup();
 	LEDInit();
     LEDSetString(string);
-    drawMap(map);
+    drawMap(player, ball, breakable);
     do {
         do {
             do {
@@ -77,7 +79,7 @@ void main() {
                 //Do this for 0.1 s
             } while (timer1() < time1);
             //Then move the player
-            playerMovement(button, map);
+            playerMovement(button, player);
 
             LEDUpdate();
             //Reenter the above while - loop
@@ -85,7 +87,7 @@ void main() {
             //Do this for 0.5 s
         } while (timer1() < time2);
         //Then move the ball
-        ballMovement(map);
+        ballMovement(ball, player, breakable);
 
         LEDUpdate();
 
