@@ -319,19 +319,37 @@ void ballMovement(entity *map) {
             map[1].direction.y = - map[1].direction.y;
             break;
         case 0x09 :
-            rotate(&map[1].direction, 10);
+            //TODO : Change it from a fixed reflect angle,
+            // to something that varies with the incoming angle
+            map[1].direction.y = -map[1].direction.y;
+            rotate(&map[1].direction, 48);
+            if (map[1].direction.y > -(0x1000)) {
+                rotate(&map[1].direction, -12);
+            }
             break;
         case 0x0a :
-            rotate(&map[1].direction, 36);
+            map[1].direction.y = -map[1].direction.y;
+            rotate(&map[1].direction, 24);
+            if (map[1].direction.y > -(0x1000)) {
+                rotate(&map[1].direction, -12);
+            }
             break;
         case 0x0b :
-            rotate(&map[1].direction, 36);
+            map[1].direction.y = -map[1].direction.y;
             break;
         case 0x0c :
-            rotate(&map[1].direction, 36);
+            map[1].direction.y = -map[1].direction.y;
+            rotate(&map[1].direction, -24);
+            if (map[1].direction.y > -(0x1000)) {
+                rotate(&map[1].direction, 12);
+            }
             break;
         case 0x0d :
-            rotate(&map[1].direction, 36);
+            map[1].direction.y = -map[1].direction.y;
+            rotate(&map[1].direction, -48);
+            if (map[1].direction.y > -(0x1000)) {
+                rotate(&map[1].direction, 12);
+            }
             break;
         default: 
         	break;
