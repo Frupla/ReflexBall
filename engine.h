@@ -22,13 +22,13 @@ typedef struct{
 
 void initiate();
 
-void drawPlayer(entity);
+//void drawPlayer(entity *);
 
-void drawBall(entity);
+//void drawBall(entity *);
 
-void drawBreakable(entity);
+//void drawBreakable(entity *);
 
-void drawSolid(entity);
+//void drawSolid(entity *);
 
 void drawMap(entity *);
 

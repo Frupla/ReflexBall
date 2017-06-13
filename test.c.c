@@ -34,7 +34,7 @@ void main() {
     // Ball setup
     tempVec.x = convert(0);
     tempVec.y = convert(-1);
-    //rotate(&tempVec, -47);
+    rotate(&tempVec, 47);
     map[n].whatIsThis = 0x02;
     map[n].changedSinceLast = 1;
     map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(7);

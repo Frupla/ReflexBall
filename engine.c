@@ -3,7 +3,6 @@
 #include "ansi.h"
 #include "math.h"
 #include "Z8encore.h"
-#include "engine.h"
 
 #define MAPSIZE 100
 #define SOLIDTEXTURE 219
@@ -71,7 +70,7 @@ void drawBall(entity* object){
 
 void drawBreakable(entity* object){
 	int i, j;
-    object->color = 3; //change if you want to change n.o. lives
+    object->color = 2; //change if you want to change n.o. lives
 	for(i = 0; i <= (object->sizeX); i++){
 		for(j = 0; j <= (object->sizeY); j++){
 			gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + i,EIGHTEEN_FOURTEEN_TO_INT(object->y1) + j);
@@ -117,7 +116,7 @@ void drawSolid(entity* object){
 
 //pre: map must be nothing-terminated
 //     map is a 1D array containing all objects on the map
-void drawMap(entity* map) {
+void drawMap(entity* map) {	
     while(map->whatIsThis) {
         switch (map->whatIsThis) {
             case 0x01:
@@ -219,7 +218,7 @@ char collisionCheck(int x1, int y1, entity* map[]) { // an array of breakables, 
 				flag = 0x0D;
 				return flag; // right middle side of paddle
 			}
-			if ((x1 >= (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + ((map[i]->sizeX)*4))) && (x1 < (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + (5*(map[i]->sizeX))))){
+			if ((x1 >= (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + ((map[i]->sizeX)*4))) && (x1 <= (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + (5*(map[i]->sizeX))))){
 				flag = 0x0E;
 				return flag; // right side of paddle
 			}
@@ -348,16 +347,16 @@ void ballMovement(entity *map) {
             //TODO : Change it from a fixed reflect angle,
             // to something that varies with the incoming angle
             map[1].direction.y = -map[1].direction.y;
-            rotate(&map[1].direction, 48);
+            rotate(&map[1].direction, -48);
             if (map[1].direction.y > -(0x1000)) {
-                rotate(&map[1].direction, -12);
+                rotate(&map[1].direction, 12);
             }
             break;
         case 0x0b :
             map[1].direction.y = -map[1].direction.y;
-            rotate(&map[1].direction, 24);
+            rotate(&map[1].direction, -24);
             if (map[1].direction.y > -(0x1000)) {
-                rotate(&map[1].direction, -12);
+                rotate(&map[1].direction, 12);
             }
             break;
         case 0x0c :
@@ -365,16 +364,16 @@ void ballMovement(entity *map) {
             break;
         case 0x0d :
             map[1].direction.y = -map[1].direction.y;
-            rotate(&map[1].direction, -24);
+            rotate(&map[1].direction, 24);
             if (map[1].direction.y > -(0x1000)) {
-                rotate(&map[1].direction, 12);
+                rotate(&map[1].direction, -12);
             }
             break;
         case 0x0e :
             map[1].direction.y = -map[1].direction.y;
-            rotate(&map[1].direction, -48);
+            rotate(&map[1].direction, 48);
             if (map[1].direction.y > -(0x1000)) {
-                rotate(&map[1].direction, 12);
+                rotate(&map[1].direction, -12);
             }
             break;
         default: 
