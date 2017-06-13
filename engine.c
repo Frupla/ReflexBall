@@ -25,13 +25,11 @@ typedef struct{
 					//nothing          - 0x00
 	long x1; //1. coordinate, placement, 18.14
 	long y1; //2. coordiante, placement, 18.14
-	Tvector direction; // Speed and direction (only relevant for the ball)
-	//zones? - so far no zones
+    Tvector direction; // Speed and direction (only relevant for the ball) Uses 18.14 encoding.
 	char sizeX; // represent the horizontal size factor
     char sizeY;	// represent the vertical size factor
 	char color; // n.o. lives for breakables  (color breakables after this). Is set to 3 in drawBreakables
                 // 0x00 - dead, no lives
-    // TODO: give life to breakables
 } entity;
 
 void initiate(){

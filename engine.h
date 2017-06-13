@@ -4,7 +4,7 @@
 #define MAPSIZE 64
 #define LONG_TO_EIGHTEEN_FOURTEEN(a) (a << 14)
 
-//kode
+
 typedef struct{
     char changedSinceLast;
     char whatIsThis;//player     - 0x01
@@ -14,28 +14,15 @@ typedef struct{
     //nothing    - 0x00
     long x1; //1. coordinate, placement
     long y1; //2. coordiante, placement
-    Tvector direction; //ADD THIS STRUCT TO THE INCLUDED CODE PLS
-    //zones? - so far no zones
+    Tvector direction; // Direction. Vector uses 18.14 encoding
     char sizeX, sizeY;
     char color;
 } entity;
 
 void initiate();
-
-//void drawPlayer(entity *);
-
-//void drawBall(entity *);
-
-//void drawBreakable(entity *);
-
-//void drawSolid(entity *);
-
 void drawMap(entity *);
-
 void playerMovement(char, entity *);
-
 void ballMovement(entity *);
-
 void collisionCheck(entity *);
 
 
