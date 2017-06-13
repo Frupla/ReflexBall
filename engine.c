@@ -228,13 +228,10 @@ char collisionCheck(int x1, int y1, entity *map) { // an array of breakables, so
 				return flag; // right side of paddle
 			}
 		}
-		if(map[i]->whatIsThis == 0x03) {    //checks & breaks breakables
-			printf("O");
+		if(map[i].whatIsThis == 0x03) {    //checks & breaks breakables
             if ((x1 >= (EIGHTEEN_FOURTEEN_TO_INT(map[i].x1))) &&
                 (x1 <= (EIGHTEEN_FOURTEEN_TO_INT(map[i].x1) + map[i].sizeX))) {
-            	printf("P");
                 if (y1 == (EIGHTEEN_FOURTEEN_TO_INT(map[i].y1))) {
-                	printf("k");
                     if (x1 == (EIGHTEEN_FOURTEEN_TO_INT(map[i].x1))) {
                         flag = 0x08;//top left corner
                         killBreakable(&map[i]);
