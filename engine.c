@@ -181,7 +181,7 @@ void playerMovement(char buttonPress, entity* object){
 }
 
 // pre: takes position that the ball would have (current position + direction), and checks it for overlap
-char collisionCheck(int x1, int y1, entity * map[]) { // an array of breakables, solids and a ball
+char collisionCheck(int x1, int y1, entity *map) { // an array of breakables, solids and a ball
 	char flag = 0;
 	int i = 0;
 	if(x1 >= MAPSIZE * 2){ // returns true if hit wall
@@ -200,78 +200,84 @@ char collisionCheck(int x1, int y1, entity * map[]) { // an array of breakables,
 		flag = 0x09;// dead ball
         return flag;
 	}
-	while(map[i]->whatIsThis != 0x00){
-		if((map[i]->whatIsThis == 0x01) && (y1 == EIGHTEEN_FOURTEEN_TO_INT(map[i]->y1))) {
-			if ((x1 >= EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1)) && (x1 < (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + ((map[i]->sizeX))))){
+    while (map[i].whatIsThis != 0x00) {
+        if ((map[i].whatIsThis == 0x01) && (y1 == EIGHTEEN_FOURTEEN_TO_INT(map[i].y1))) {
+            if ((x1 >= EIGHTEEN_FOURTEEN_TO_INT(map[i].x1)) &&
+                (x1 < (EIGHTEEN_FOURTEEN_TO_INT(map[i].x1) + ((map[i].sizeX))))) {
 				flag = 0x0A;
 				return flag; // left side of paddle
 			}
-			if ((x1 >= (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + ((map[i]->sizeX)))) && (x1 < (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + (2*(map[i]->sizeX))))){
+            if ((x1 >= (EIGHTEEN_FOURTEEN_TO_INT(map[i].x1) + ((map[i].sizeX)))) &&
+                (x1 < (EIGHTEEN_FOURTEEN_TO_INT(map[i].x1) + (2 * (map[i].sizeX))))) {
 				flag = 0x0B;
 				return flag; // middle left side of paddle
 			}
-			if ((x1 >= (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + ((map[i]->sizeX)*2))) && (x1 < (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + (3*(map[i]->sizeX))))){
+            if ((x1 >= (EIGHTEEN_FOURTEEN_TO_INT(map[i].x1) + ((map[i].sizeX) * 2))) &&
+                (x1 < (EIGHTEEN_FOURTEEN_TO_INT(map[i].x1) + (3 * (map[i].sizeX))))) {
 				flag = 0x0C;
 				return flag; // middle of paddle
 			}
-			if ((x1 >= (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + ((map[i]->sizeX)*3))) && (x1 < (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + (4*(map[i]->sizeX))))){
+            if ((x1 >= (EIGHTEEN_FOURTEEN_TO_INT(map[i].x1) + ((map[i].sizeX) * 3))) &&
+                (x1 < (EIGHTEEN_FOURTEEN_TO_INT(map[i].x1) + (4 * (map[i].sizeX))))) {
 				flag = 0x0D;
 				return flag; // right middle side of paddle
 			}
-			if ((x1 >= (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + ((map[i]->sizeX)*4))) && (x1 <= (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + (5*(map[i]->sizeX))))){
+            if ((x1 >= (EIGHTEEN_FOURTEEN_TO_INT(map[i].x1) + ((map[i].sizeX) * 4))) &&
+                (x1 <= (EIGHTEEN_FOURTEEN_TO_INT(map[i].x1) + (5 * (map[i].sizeX))))) {
 				flag = 0x0E;
 				return flag; // right side of paddle
 			}
 		}
-		if(map[i]->whatIsThis == 3) {    //checks & breaks breakables
+        if (map[i].whatIsThis == 3) {    //checks & breaks breakables
 			printf("O");
-            if ((x1 >= (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1))) && (x1 <= (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + map[i]->sizeX))) {
+            if ((x1 >= (EIGHTEEN_FOURTEEN_TO_INT(map[i].x1))) &&
+                (x1 <= (EIGHTEEN_FOURTEEN_TO_INT(map[i].x1) + map[i].sizeX))) {
             	printf("P");
-                if (y1 == (EIGHTEEN_FOURTEEN_TO_INT(map[i]->y1))) {
+                if (y1 == (EIGHTEEN_FOURTEEN_TO_INT(map[i].y1))) {
                 	printf("k");
-                    if (x1 == (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1))) {
+                    if (x1 == (EIGHTEEN_FOURTEEN_TO_INT(map[i].x1))) {
                         flag = 0x08;//top left corner
-                        killBreakable(map[i]);
+                        killBreakable(&map[i]);
                         return flag;
-                    } else if (x1 == (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + map[i]->sizeX)) {
+                    } else if (x1 == (EIGHTEEN_FOURTEEN_TO_INT(map[i].x1) + map[i].sizeX)) {
                         flag = 0x02;//top right corner
-                        killBreakable(map[i]);
+                        killBreakable(&map[i]);
                         return flag;
                     } else {
                         flag = 0x01; // hit top
-                        killBreakable(map[i]);
+                        killBreakable(&map[i]);
                         return flag;
                     }
-                } else if (y1 == (EIGHTEEN_FOURTEEN_TO_INT(map[i]->y1) + map[i]->sizeY)) {
-                    if (x1 == (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1))) {
+                } else if (y1 == (EIGHTEEN_FOURTEEN_TO_INT(map[i].y1) + map[i].sizeY)) {
+                    if (x1 == (EIGHTEEN_FOURTEEN_TO_INT(map[i].x1))) {
                         flag = 0x06;//bottom left corner
-                        killBreakable(map[i]);
+                        killBreakable(&map[i]);
                         return flag;
-                    } else if (x1 == (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + map[i]->sizeX)) {
+                    } else if (x1 == (EIGHTEEN_FOURTEEN_TO_INT(map[i].x1) + map[i].sizeX)) {
                         flag = 0x04;//bottom right corner
-                        killBreakable(map[i]);
+                        killBreakable(&map[i]);
                         return flag;
                     } else {
                         flag = 0x05; // hit bottom
-                        killBreakable(map[i]);
+                        killBreakable(&map[i]);
                         return flag;
                     }
                 }
             }
-            if ((y1 > (EIGHTEEN_FOURTEEN_TO_INT(map[i]->y1)))
-                && (y1 < (EIGHTEEN_FOURTEEN_TO_INT(map[i]->y1) + map[i]->sizeY))) {
-                if (x1 == (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1))) {
+            if ((y1 > (EIGHTEEN_FOURTEEN_TO_INT(map[i].y1)))
+                && (y1 < (EIGHTEEN_FOURTEEN_TO_INT(map[i].y1) + map[i].sizeY))) {
+                if (x1 == (EIGHTEEN_FOURTEEN_TO_INT(map[i].x1))) {
                     flag = 0x07; // hit left
-                    killBreakable(map[i]);
+                    killBreakable(&map[i]);
                     return flag;
-                } else if (x1 == (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + map[i]->sizeX)) {
+                } else if (x1 == (EIGHTEEN_FOURTEEN_TO_INT(map[i].x1) + map[i].sizeX)) {
                     flag = 0x03; // hit right
-                    killBreakable(map[i]);
+                    killBreakable(&map[i]);
                     return flag;
                 }
             }
         }
-	i++;
+        i++;
     }
 	return flag;
 }
@@ -314,7 +320,7 @@ void ballMovement(entity *map) {
     tempX = EIGHTEEN_FOURTEEN_TO_INT(map[1].x1 + map[1].direction.x);
 	tempY = EIGHTEEN_FOURTEEN_TO_INT(map[1].y1 + map[1].direction.y);
     //flag = collisionCheck(map[1].x1 + ((map[1].direction.x) + 0x2000) >> 14,map[1].y1 + ((map[1].direction.y) + 0x2000) >> 14, map);
-    flag = collisionCheck(tempX, tempY, &map);
+    flag = collisionCheck(tempX, tempY, map);
     switch(flag){
     	case 0x00:
             break;
