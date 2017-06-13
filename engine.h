@@ -22,7 +22,8 @@ typedef struct{
 void initiate();
 void drawMap(entity *);
 void playerMovement(char, entity *);
-void ballMovement(entity *);
+
+char ballMovement(entity *);
 void collisionCheck(entity *);
 
 

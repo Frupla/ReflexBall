@@ -17,7 +17,7 @@ char Buffer[5][6] = 	{{' ',' ',' ',' ',' ',' '},
 						 {' ',' ',' ',' ',' ',' '},
 						 {' ',' ',' ',' ',' ',' '},
 						 {' ',' ',' ',' ',' ',' '}};
-rom char* LEDtext_p;
+char *LEDtext_p;
 
 char readKey(){
 	char a,b,b1,b2,c=0x00;
@@ -47,6 +47,14 @@ int romstrLength(rom char* s){
 	int i=0;
 	while(s[i]!='\0'){
  	i++;}
+	return i;
+}
+
+int strLength(char *s) {
+	int i = 0;
+	while (s[i] != '\0') {
+		i++;
+	}
 	return i;
 }
 
@@ -87,7 +95,7 @@ void updateBuffer(){
 	}
 }
 
-void LEDSetString(rom char* src){
+void LEDSetString(char *src) {
 	LEDtext_p = src;
 	updateBuffer();
 	Letter++;
@@ -127,7 +135,7 @@ void LEDUpdate(){
 				Displacement = 1;
 			}
 		}
-		if(Letter > romstrLength(LEDtext_p) - 1){
+		if (Letter > strLength(LEDtext_p) - 1) {
 			Letter = 0;
 		}
 	}

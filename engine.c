@@ -194,7 +194,7 @@ char collisionCheck(int x1, int y1, entity *map) { // an array of breakables, so
 		flag = 0x05;// wall is hit
         return flag;
 	}
-	if (y1 > MAPSIZE){ // returns true if ball falls through floor
+    if (y1 >= MAPSIZE) { // returns true if ball falls through floor
 		flag = 0x09;// dead ball
         return flag;
 	}
@@ -295,7 +295,7 @@ char collisionCheck(int x1, int y1, entity *map) { // an array of breakables, so
 	 */
 
 //Ball movement ver 2
-void ballMovement(entity *map) {
+char ballMovement(entity *map) {
 	char flag;
 	int tempX;
 	int tempY,ty,tx;
@@ -321,31 +321,42 @@ void ballMovement(entity *map) {
             break;
 		case 0x01:
             map[1].direction.y = - map[1].direction.y;
+            flag = 0x01; //Ball hit breakable
             break;
 		case 0x02:
             map[1].direction.x = - map[1].direction.x;
             map[1].direction.y = - map[1].direction.y;
+            flag = 0x01;
             break;
 		case 0x03:
             map[1].direction.x = - map[1].direction.x;
+            flag = 0x01;
             break;
 		case 0x04:
 			map[1].direction.x = - map[1].direction.x;
             map[1].direction.y = - map[1].direction.y;
+            flag = 0x01;
             break;
 		case 0x05:
             map[1].direction.y = - map[1].direction.y;
+            flag = 0x01;
             break;
         case 0x06:
             map[1].direction.x = - map[1].direction.x;
             map[1].direction.y = - map[1].direction.y;
+            flag = 0x01;
             break;
         case 0x07:
             map[1].direction.x = - map[1].direction.x;
+            flag = 0x01;
             break;
         case 0x08:
             map[1].direction.x = - map[1].direction.x;
             map[1].direction.y = - map[1].direction.y;
+            flag = 0x01;
+            break;
+        case 0x09 :
+            flag = 0x02; // Ball out of bounds
             break;
         case 0x0a :
             //TODO : Change it from a fixed reflect angle,
@@ -355,6 +366,7 @@ void ballMovement(entity *map) {
             if (map[1].direction.y > -(0x1000)) {
                 rotate(&map[1].direction, 12);
             }
+            flag = 0x03; // Ball hit paddle
             break;
         case 0x0b :
             map[1].direction.y = -map[1].direction.y;
@@ -362,6 +374,7 @@ void ballMovement(entity *map) {
             if (map[1].direction.y > -(0x1000)) {
                 rotate(&map[1].direction, 12);
             }
+            flag = 0x03;
             break;
         case 0x0c :
             map[1].direction.y = -map[1].direction.y;
@@ -372,6 +385,7 @@ void ballMovement(entity *map) {
             if (map[1].direction.y > -(0x1000)) {
                 rotate(&map[1].direction, -12);
             }
+            flag = 0x03;
             break;
         case 0x0e :
             map[1].direction.y = -map[1].direction.y;
@@ -379,8 +393,10 @@ void ballMovement(entity *map) {
             if (map[1].direction.y > -(0x1000)) {
                 rotate(&map[1].direction, -12);
             }
+            flag = 0x03;
             break;
-        default: 
+        default:
+            flag = 0x00; //eh
         	break;
     }
     //Change position and print the new
@@ -389,4 +405,5 @@ void ballMovement(entity *map) {
 	gotoxy(EIGHTEEN_FOURTEEN_TO_INT(map[1].x1), EIGHTEEN_FOURTEEN_TO_INT(map[1].y1));
 	printf("%c", BALLTEXTURE);
 	gotoxy(1, 1);
+    return flag; //Nothing happended
 }
