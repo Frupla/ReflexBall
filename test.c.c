@@ -8,6 +8,7 @@
 #include "math.h"
 #include "Z8encore.h"
 #include "engine.h"
+#include "standalone_timer.h"
 
 rom char string[LED_MAX_STR_LEN] = "Shit";
 
@@ -16,7 +17,7 @@ void main() {
     int i, j, n = 0;
     Tvector tempVec;
 	char button;
-    int time1 = 100, time2 = 499;
+    int time1 = 1, time2 = 5;
 	init_uart(_UART0,_DEFFREQ,_DEFBAUD);  // set-up UART0 to 57600, 8n1
 	clrscr();
 	// player setup
@@ -48,7 +49,6 @@ void main() {
     map[n].changedSinceLast = 1;
     map[n].x1 = 5;
     map[n].y1 = 5;
-    //map[n].direction = {0, 0};
     map[n].sizeX = 0x16;
 	map[n].sizeY = 0;
     map[n].color = 0x00;
@@ -56,37 +56,42 @@ void main() {
     map[n].whatIsThis = 0x00;
     n++;
 	initiate();
+    timer1setup();
 	LEDInit();
     LEDSetString(string);
+    drawMap(map);
 
     do {
         do {
-            drawMap(map);
             do {
                 //Determine where to move
                 button = readKey();
 
                 //Remember to do this a lot
                 LEDUpdate();
-            } while (readMsec() < time1);
+
+                //Do this for 0.1 s
+            } while (timer1() < time1);
             //Then move the player
             playerMovement(button, map);
 
-            time1 += 50;
-
+            LEDUpdate();
+            //Reenter the above while - loop
+            time1++;
+            //Do this for 0.5 s
         } while (readMsec() < time2);
         //Then move the ball
         ballMovement(map);
-        //rotate(&(map[1].direction), 32);
-        //Check for collisions
-        //collisionCheck(map);
-        //Update the map
-        //drawMap(map);
+
         LEDUpdate();
-        time2 += 500;
-        if (readMsec() < 30) {
-            time1 = 50;
-            time2 = 499;
+
+        //Reenter above loop
+        time2 += 5;
+
+        //Reset timers
+        if (readMsec() < 1) {
+            time1 = 1;
+            time2 = 5;
         }
 	} while (1);
 }
