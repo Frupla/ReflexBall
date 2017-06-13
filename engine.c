@@ -133,13 +133,14 @@ void drawMap(entity* map) {
 }
 
 void playerMovement(char buttonPress, entity* object){
-	int i;	
+	int i;
+    long l = 1;
 	switch(buttonPress) {
 		case 0x01: //PF7
             gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1),EIGHTEEN_FOURTEEN_TO_INT(object->y1));
             printf("%c", 0x20);
 			if ((EIGHTEEN_FOURTEEN_TO_INT(object->x1) + 1 + object->sizeX) < 2 * MAPSIZE){
-				EIGHTEEN_FOURTEEN_TO_INT(object->x1)++;    //TODO: you can't just do thins, actually think!!!
+				object->x1 = object->x1 + LONG_TO_EIGHTEEN_FOURTEEN(l);
 			}
 			gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + EIGHTEEN_FOURTEEN_TO_INT(object->sizeX),EIGHTEEN_FOURTEEN_TO_INT(object->y1));
             printf("%c", PLAYERTEXTURE);
@@ -151,7 +152,7 @@ void playerMovement(char buttonPress, entity* object){
 			gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + EIGHTEEN_FOURTEEN_TO_INT(object->sizeX),EIGHTEEN_FOURTEEN_TO_INT(object->y1));
             printf("%c", 0x20);
 			if((EIGHTEEN_FOURTEEN_TO_INT(object->x1) - 1) > 1){
-				EIGHTEEN_FOURTEEN_TO_INT(object->x1)--;     //TODO: you can't just do thins, actually think!!!
+				object->x1= object->x1 - LONG_TO_EIGHTEEN_FOURTEEN(l);
 			}
 			gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1),EIGHTEEN_FOURTEEN_TO_INT(object->y1));
             printf("%c", PLAYERTEXTURE);
