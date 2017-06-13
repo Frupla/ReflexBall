@@ -29,7 +29,7 @@ typedef struct{
 	//zones? - so far no zones
 	char sizeX; // represent the horizontal size factor
     char sizeY;	// represent the vertical size factor
-	char color;
+	char color;  //TODO: give life to breakables
 } entity;
 
 void initiate(){
@@ -203,7 +203,7 @@ char collisionCheck(int x1, int y1, entity* map[]) { // an array of breakables, 
 				}
 			}
 		}
-        if(map[i]->whatIsThis == 0x03) {
+        if(map[i]->whatIsThis == 0x03) {    //checks & breaks breakables
             if ((x1 >= EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1)) && (x1 <= EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + map[i]->sizeX)) {
                 if (y1 == EIGHTEEN_FOURTEEN_TO_INT(map[i]->y1)) {
                     if (x1 == EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1)) {
@@ -212,20 +212,25 @@ char collisionCheck(int x1, int y1, entity* map[]) { // an array of breakables, 
                         return flag;
                     } else if (x1 == EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + map[i]->sizeX) {
                         flag = 0x02;//top right corner
+                        killBreakable(map[i]);
                         return flag;
                     } else {
                         flag = 0x01; // hit top
+                        killBreakable(map[i]);
                         return flag;
                     }
                 } else if (y1 == EIGHTEEN_FOURTEEN_TO_INT(map[i]->y1) + map[i]->sizeY) {
                     if (x1 == EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1)) {
                         flag = 0x06;//bottom left corner
+                        killBreakable(map[i]);
                         return flag;
                     } else if (x1 == EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + map[i]->sizeX) {
                         flag = 0x04;//bottom right corner
+                        killBreakable(map[i]);
                         return flag;
                     } else {
                         flag = 0x05; // hit bottom
+                        killBreakable(map[i]);
                         return flag;
                     }
                 }
@@ -234,9 +239,11 @@ char collisionCheck(int x1, int y1, entity* map[]) { // an array of breakables, 
                 && (y1 < EIGHTEEN_FOURTEEN_TO_INT(map[i]->y1) + map[i]->sizeY)) {
                 if (x1 == EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1)) {
                     flag = 0x07; // hit left
+                    killBreakable(map[i]);
                     return flag;
                 } else if (x1 == EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + map[i]->sizeX) {
                     flag = 0x03; // hit right
+                    killBreakable(map[i]);
                     return flag;
                 }
             }
