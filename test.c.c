@@ -18,7 +18,7 @@ void main() {
     int n = 0;
     Tvector tempVec;
 	char button;
-    int time1 = 1, time2 = 5;
+    int time1 = 1, time2 = 15;
 	init_uart(_UART0,_DEFFREQ,_DEFBAUD);  // set-up UART0 to 57600, 8n1
 	clrscr();
 	// player setup
@@ -48,7 +48,7 @@ void main() {
 
     //Breakable setup
     for(i = 10; i <= 90; i += 40){
-        for(j = 5; j <= 15; j += 5){
+        for(j = 5; j <= 20; j += 5){
             map[n].whatIsThis = 0x03;
             map[n].changedSinceLast = 1;
             map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(i);
@@ -90,12 +90,12 @@ void main() {
         LEDUpdate();
 
         //Reenter above loop
-        time2 += 5;
+        time2 += 15;
 
         //Reset timers
         if (timer1() < 20) {
             time1 = 1;
-            time2 = 5;
+            time2 = 15;
         }
 	} while (1);
 

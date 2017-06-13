@@ -70,15 +70,15 @@ void drawBall(entity* object){
 
 void drawBreakable(entity* object){
 	int i, j;
-    object->color = 2; //change if you want to change n.o. lives
-    fgcolor(6)
+    object->color = 3; //change if you want to change n.o. lives
+    fgcolor(4);
 	for(i = 0; i <= (object->sizeX); i++){
 		for(j = 0; j <= (object->sizeY); j++){
 			gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + i,EIGHTEEN_FOURTEEN_TO_INT(object->y1) + j);
 			printf("%c", BREAKABLETEXTURE);
 		}
 	}
-    fgcolor(15)
+    fgcolor(15);
 	object->changedSinceLast = 0;
 }
 
@@ -95,7 +95,7 @@ void killBreakable(entity* object){
         object->changedSinceLast = 0;
         object->whatIsThis = 0x05;
     } else {
-        fgcolor(6 - object->color);
+        fgcolor(7 - object->color);
         for (i = 0; i <= (object->sizeX); i++) {
             for (j = 0; j <= (object->sizeY); j++) {
                 gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1) + i, EIGHTEEN_FOURTEEN_TO_INT(object->y1) + j);
