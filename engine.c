@@ -184,7 +184,7 @@ char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, s
 	}
 	while(map[i].whatIsThis){
 		if(map[i].whatIsThis == 0x01) {
-			if ((x1 >= map[i].x1) && (x1 <= (map[i].x1 + map[i].sizeX))) {
+			if ((x1 >= map[i].x1) && (x1 <= (map[i].x1 + map[i].sizeX))){
 				if (y1 == map[i].y1) {
                     if (x1 == map[i].x1) {
                         flag = 0x08;//left corner of paddle
@@ -270,7 +270,7 @@ void ballMovement(entity *map) {
 	dy = (((map[1].direction.y) + 0x2000) >> 14);
 	//Remove the old ball
 	gotoxy(map[1].x1, map[1].y1);
-	printf("H");
+	printf(" ");
     tempX = map[1].x1 + (((map[1].direction.x) + 0x2000) >> 14);
 	tempY = map[1].y1 + (((map[1].direction.y) + 0x2000) >> 14);
     //flag = collisionCheck(map[1].x1 + ((map[1].direction.x) + 0x2000) >> 14,map[1].y1 + ((map[1].direction.y) + 0x2000) >> 14, map);

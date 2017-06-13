@@ -23,9 +23,9 @@ void main() {
     map[n].whatIsThis = 0x01;
     map[n].changedSinceLast = 1;
     map[n].x1 = 50;
-    map[n].y1 = 99;
+    map[n].y1 = 64;
     //map[n].direction = {0, 0};
-    map[n].sizeX = 0x16;
+    map[n].sizeX = 0x10;
 	map[n].sizeY = 0;
     map[n].color = 0x00;
     n++;
@@ -71,7 +71,11 @@ void main() {
             } while (readMsec() < time1);
             //Then move the player
             playerMovement(button, map);
-
+            gotoxy(map[0].x1, map[0].y1+1);
+            printf("-");
+            gotoxy(map[0].x1 + map[0].sizeX, map[0].y1+1);
+            printf("-");
+            gotoxy(1,1);
             time1 += 50;
 
         } while (readMsec() < time2);
