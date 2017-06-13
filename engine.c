@@ -3,6 +3,7 @@
 #include "ansi.h"
 #include "math.h"
 #include "Z8encore.h"
+#include "engine.h"
 
 #define MAPSIZE 100
 #define SOLIDTEXTURE 219
@@ -203,7 +204,7 @@ char collisionCheck(int x1, int y1, entity* map[]) { // an array of breakables, 
 	while(map[i]->whatIsThis){
 		if(map[i]->whatIsThis == 0x01 && y1 == EIGHTEEN_FOURTEEN_TO_INT(map[i]->y1)) {
 			if ((x1 >= EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1)) && (x1 < (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + ((map[i]->sizeX))))){
-				flag = 0x0A; 
+				flag = 0x0A;
 				return flag; // left side of paddle
 			}
 			if ((x1 >= (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + ((map[i]->sizeX)))) && (x1 < (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + (2*(map[i]->sizeX))))){
@@ -221,7 +222,7 @@ char collisionCheck(int x1, int y1, entity* map[]) { // an array of breakables, 
 			if ((x1 >= (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + ((map[i]->sizeX)*4))) && (x1 < (EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + (5*(map[i]->sizeX))))){
 				flag = 0x0E;
 				return flag; // right side of paddle
-			}			
+			}
 		}
         if(map[i]->whatIsThis == 0x03) {    //checks & breaks breakables
             if ((x1 >= EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1)) && (x1 <= EIGHTEEN_FOURTEEN_TO_INT(map[i]->x1) + map[i]->sizeX)) {
@@ -343,8 +344,39 @@ void ballMovement(entity *map) {
             map[1].direction.x = - map[1].direction.x;
             map[1].direction.y = - map[1].direction.y;
             break;
-        case 0x09:
-        	//TODO come up with something  - Or not
+        case 0x09 :
+            //TODO : Change it from a fixed reflect angle,
+            // to something that varies with the incoming angle
+            map[1].direction.y = -map[1].direction.y;
+            rotate(&map[1].direction, 48);
+            if (map[1].direction.y > -(0x1000)) {
+                rotate(&map[1].direction, -12);
+            }
+            break;
+        case 0x0a :
+            map[1].direction.y = -map[1].direction.y;
+            rotate(&map[1].direction, 24);
+            if (map[1].direction.y > -(0x1000)) {
+                rotate(&map[1].direction, -12);
+            }
+            break;
+        case 0x0b :
+            map[1].direction.y = -map[1].direction.y;
+            break;
+        case 0x0c :
+            map[1].direction.y = -map[1].direction.y;
+            rotate(&map[1].direction, -24);
+            if (map[1].direction.y > -(0x1000)) {
+                rotate(&map[1].direction, 12);
+            }
+            break;
+        case 0x0d :
+            map[1].direction.y = -map[1].direction.y;
+            rotate(&map[1].direction, -48);
+            if (map[1].direction.y > -(0x1000)) {
+                rotate(&map[1].direction, 12);
+            }
+            break;
         default: 
         	break;
     }
