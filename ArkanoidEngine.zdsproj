@@ -15,6 +15,8 @@
 <file filter-key="">.\Z8encore.c</file>
 <file filter-key="">.\test.c.c</file>
 <file filter-key="">.\math.c</file>
+<file filter-key="">.\standalone_timer.c</file>
+<file filter-key="">.\standalone_timer.h</file>
 </files>
 
 <!-- configuration information -->
@@ -309,17 +311,8 @@
 
 <!-- watch information -->
 <watch-elements>
-<watch-element expression="x1" />
-<watch-element expression="y1" />
-<watch-element expression="flag" />
-<watch-element expression="tempX" />
-<watch-element expression="tempY" />
-<watch-element expression="MAPSIZE" />
-<watch-element expression="map[1].x1" />
-<watch-element expression="tx" />
-<watch-element expression="ty" />
-<watch-element expression="dx" />
-<watch-element expression="dy" />
+<watch-element expression="map[i].whatIsThis" />
+<watch-element expression="i" />
 </watch-elements>
 
 <!-- breakpoint information -->

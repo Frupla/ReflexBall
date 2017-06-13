@@ -57,7 +57,6 @@ void drawPlayer(entity* object){
 }
 
 void drawBall(entity* object){
-	int i, j;
 	gotoxy(object->x1,object->y1);
 	printf("%c", BALLTEXTURE);
 	object->changedSinceLast = 0;
@@ -165,11 +164,7 @@ void playerMovement(char buttonPress, entity* object){
 // pre: takes position that the ball would have (current position + direction), and checks it for overlap
 char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, solids and a ball
 	char flag = 0;
-<<<<<<< HEAD
-	int i = 2; // i is equal to number of players + number of balls
-=======
 	int i = 0;
->>>>>>> Frederik
 	if(x1 >= MAPSIZE * 2){ // returns true if hit wall
 		flag = 0x07;// hit right wall
         return flag;
@@ -187,11 +182,6 @@ char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, s
         return flag;
 	}
 	while(map[i].whatIsThis){
-<<<<<<< HEAD
-        if(map[i].whatIsThis == 0x03) {
-            if ((x1 >= map[i].x1)
-                && (x1 <= map[i].x1 + map[i].sizeX)) {
-=======
 		if(map[i].whatIsThis == 0x01) {
 			if ((x1 >= map[i].x1) && (x1 <= (map[i].x1 + map[i].sizeX))){
 				if (y1 == map[i].y1) {
@@ -210,7 +200,6 @@ char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, s
 		}
         if(map[i].whatIsThis == 0x03) {
             if ((x1 >= map[i].x1) && (x1 <= map[i].x1 + map[i].sizeX)) {
->>>>>>> Frederik
                 if (y1 == map[i].y1) {
                     if (x1 == map[i].x1) {
                         flag = 0x08;//top left corner
@@ -245,19 +234,11 @@ char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, s
                     return flag;
                 }
             }
-<<<<<<< HEAD
-        i++;
         }
-    }
-	return flag;
-	}
-=======
-        }
-        i++;
+	i++;
     }
 	return flag;
 }
->>>>>>> Frederik
 	/* flag encoding
 	 * 0x00 = no collision
 	 * 0x01 = object hit top side
@@ -288,11 +269,7 @@ void ballMovement(entity *map) {
 	dy = (((map[1].direction.y) + 0x2000) >> 14);
 	//Remove the old ball
 	gotoxy(map[1].x1, map[1].y1);
-<<<<<<< HEAD
-	printf("H");
-=======
 	printf(" ");
->>>>>>> Frederik
     tempX = map[1].x1 + (((map[1].direction.x) + 0x2000) >> 14);
 	tempY = map[1].y1 + (((map[1].direction.y) + 0x2000) >> 14);
     //flag = collisionCheck(map[1].x1 + ((map[1].direction.x) + 0x2000) >> 14,map[1].y1 + ((map[1].direction.y) + 0x2000) >> 14, map);

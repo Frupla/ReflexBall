@@ -3,14 +3,11 @@
 //
 #include <eZ8.h>                          // special encore constants, macros and flash functions
 #include <sio.h>                          // special encore serial i/o functions
-#include "ansi.h"
-#include "charset.h"
 #include "standalone_timer.h"
 
 int timerValue = 0;            // counts the time in 0.1 s, resets at 32001
 
 #pragma interrupt
-
 void timer1int() {
     timerValue += 1;
     if (timerValue == 32000) {

@@ -17,7 +17,7 @@ void main() {
     int i, j, n = 0;
     Tvector tempVec;
 	char button;
-    int time1 = 1, time2 = 5;
+    int time1 = 1, time2 = 15;
 	init_uart(_UART0,_DEFFREQ,_DEFBAUD);  // set-up UART0 to 57600, 8n1
 	clrscr();
 	// player setup
@@ -39,8 +39,8 @@ void main() {
     map[n].x1 = 60;
     map[n].y1 = 50;
     map[n].direction = tempVec;
-    map[n].sizeX = 0x01;
-	map[n].sizeY = 0x01;
+    map[n].sizeX = 0x00;
+	map[n].sizeY = 0x00;
     map[n].color = 0x00;
     n++;
 
@@ -64,8 +64,9 @@ void main() {
     drawMap(map);
     do {
         do {
-            drawMap(map);
-
+            do {
+                button = readKey();
+                LEDUpdate();
                 //Do this for 0.1 s
             } while (timer1() < time1);
             //Then move the player
@@ -75,7 +76,7 @@ void main() {
             //Reenter the above while - loop
             time1++;
             //Do this for 0.5 s
-        } while (readMsec() < time2);
+        } while (timer1() < time2);
         //Then move the ball
         ballMovement(map);
 
@@ -85,10 +86,11 @@ void main() {
         time2 += 15;
 
         //Reset timers
-        if (readMsec() < 1) {
+        if (timer1() < 20) {
             time1 = 1;
             time2 = 15;
         }
 	} while (1);
+
 }
 
