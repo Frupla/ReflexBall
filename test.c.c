@@ -32,9 +32,9 @@ void main() {
     n++;
 
     // Ball setup
-    tempVec.x = -0x2000;
-    tempVec.y = -0x2000;
-    rotate(&tempVec, 47);
+    tempVec.x = convert(1);
+    tempVec.y = convert(0);
+    rotate(&tempVec, -47);
     map[n].whatIsThis = 0x02;
     map[n].changedSinceLast = 1;
     map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(60);
