@@ -1,0 +1,2986 @@
+; ZiLOG Z8 Encore! ANSI C Compiler Release 3.32
+; -alias -bitfieldsize=32 -charsize=8 -const=RAM -debug
+; -doublesize=32 -floatsize=32 -intsize=16 -intsrc -localcse
+; -longsize=32 -model=L -nooptlink -optsize -peephole
+; -regvar -revaa -nosdiopt -nostkck -swap 
+	DEFINE engine_TEXT,SPACE=ROM
+	FILE	".\ENGINE.C"
+.debug "C"
+	SEGMENT engine_TEXT
+.begrec "fmt_type",11
+.define "status"
+.value 0
+.class 8
+.type 12
+.type 0
+.endef
+.define "flags"
+.value 1
+.class 8
+.type 12
+.type 0
+.endef
+.define "size"
+.value 2
+.class 8
+.type 2
+.type 0
+.endef
+.define "chr"
+.value 3
+.class 8
+.type 2
+.type 0
+.endef
+.define "type"
+.value 4
+.class 8
+.type 2
+.type 0
+.endef
+.define "field_width"
+.value 5
+.class 8
+.type 2
+.type 0
+.endef
+.define "precision"
+.value 6
+.class 8
+.type 2
+.type 0
+.endef
+.define "set_begin"
+.value 7
+.class 8
+.type 162
+.type 0
+.endef
+.define "set_end"
+.value 9
+.class 8
+.type 162
+.type 0
+.endef
+.endrec "fmt_type"
+.begrec "flt_info",12
+.define "flags"
+.value 0
+.class 8
+.type 12
+.type 0
+.endef
+.define "exp"
+.value 1
+.class 8
+.type 2
+.type 0
+.endef
+.define "digits"
+.value 2
+.class 8
+.dim 10
+.type 108
+.type 0
+.endef
+.endrec "flt_info"
+.begrec "NONAME0",6
+.define "baudRate"
+.value 0
+.class 8
+.type 5
+.type 0
+.endef
+.define "stopBits"
+.value 4
+.class 8
+.type 12
+.type 0
+.endef
+.define "parity"
+.value 5
+.class 8
+.type 12
+.type 0
+.endef
+.endrec "NONAME0"
+.begrec "NONAME1",5
+.define "pBuffer"
+.value 0
+.class 8
+.type 44
+.type 0
+.endef
+.define "next_in"
+.value 2
+.class 8
+.type 12
+.type 0
+.endef
+.define "next_out"
+.value 3
+.class 8
+.type 12
+.type 0
+.endef
+.define "size"
+.value 4
+.class 8
+.type 12
+.type 0
+.endef
+.endrec "NONAME1"
+.begrec "NONAME2",8
+.define "x"
+.value 0
+.class 8
+.type 5
+.type 0
+.endef
+.define "y"
+.value 4
+.class 8
+.type 5
+.type 0
+.endef
+.endrec "NONAME2"
+;    1	#include <eZ8.h>  						  // special encore constants, macros and flash functions
+;    2	#include <sio.h>	                      // special encore serial i/o functions
+;    3	#include "ansi.h"
+;    4	#include "math.h"
+;    5	#include "Z8encore.h"
+;    6	
+;    7	#define MAPSIZE 100
+;    8	#define SOLIDTEXTURE 219
+;    9	#define PLAYERTEXTURE 223
+;   10	#define BALLTEXTURE 184
+;   11	#define BREAKABLETEXTURE 177
+;   12	#define BACKGROUNDTEXTURE 32
+;   13	
+;   14	
+;   15	typedef struct{
+;   16		char changedSinceLast;
+;   17		char whatIsThis;//player           - 0x01
+;   18						//ball             - 0x02
+;   19						//breakable        - 0x03
+;   20						//solid            - 0x04
+;   21	                    //broken breakable - 0x05
+;   22						//nothing          - 0x00
+;   23		int x1; //1. coordinate, placement
+;   24		int y1; //2. coordiante, placement
+;   25		Tvector direction; // Speed and direction (only relevant for the ball)
+;   26		//zones? - so far no zones
+;   27		char sizeX; // represent the horizontal size factor
+;   28	    char sizeY;	// represent the vertical size factor
+;   29		char color;
+;   30	} entity;
+.begrec "NONAME3",17
+.define "changedSinceLast"
+.value 0
+.class 8
+.type 2
+.type 0
+.endef
+.define "whatIsThis"
+.value 1
+.class 8
+.type 2
+.type 0
+.endef
+.define "x1"
+.value 2
+.class 8
+.type 3
+.type 0
+.endef
+.define "y1"
+.value 4
+.class 8
+.type 3
+.type 0
+.endef
+.define "direction"
+.value 6
+.class 8
+.tag "NONAME2"
+.type 8
+.type 0
+.endef
+.define "sizeX"
+.value 14
+.class 8
+.type 2
+.type 0
+.endef
+.define "sizeY"
+.value 15
+.class 8
+.type 2
+.type 0
+.endef
+.define "color"
+.value 16
+.class 8
+.type 2
+.type 0
+.endef
+.endrec "NONAME3"
+;   31	
+;   32	void initiate(){
+_initiate:
+.define "_initiate"
+.value _initiate
+.class 2
+.type 65
+.type 0
+.endef
+.begfunc "initiate",32,"_initiate"
+.line 32
+.define "i"
+.class 4
+.reg 17
+.type 3
+.type 0
+	LD	R9,#2
+	CALL	__frameset0
+.endef
+	CLR	R0
+	LD	R1,#1
+;   33		int i;
+;   34		for(i = 1; i <= MAPSIZE; i++){
+.line 34
+	JR	_1_L_3
+_1_L_1:
+;   35			gotoxy(1, i);
+.line 35
+	PUSH	R1
+	PUSH	R0
+	CLR	R2
+	LD	R3,#1
+	PUSH	R3
+	PUSH	R2
+	LDX	-1(RR14),R0
+	LDX	-2(RR14),R1
+	CALL	_gotoxy
+	POP	R2
+	POP	R2
+	POP	R2
+	POP	R2
+;   36			printf("%c", SOLIDTEXTURE);
+.line 36
+	LDX	___print_xputch,#high(___print_uputch)
+	LDX	___print_xputch+1,#low(___print_uputch)
+	LDX	___print_buff,#219
+	LDX	___print_buff+1,#-0
+	CALL	___print_send
+	LDX	R1,-2(RR14)
+	LDX	R0,-1(RR14)
+	LDX	___print_xputch,#high(___print_sputch)
+	LDX	___print_xputch+1,#low(___print_sputch)
+;   37			gotoxy((2 * MAPSIZE), i);
+.line 37
+	PUSH	R1
+	PUSH	R0
+	CLR	R2
+	LD	R3,#200
+	PUSH	R3
+	PUSH	R2
+	CALL	_gotoxy
+	POP	R2
+	POP	R2
+	POP	R2
+	POP	R2
+;   38			printf("%c", SOLIDTEXTURE);
+.line 38
+	LDX	___print_xputch,#high(___print_uputch)
+	LDX	___print_xputch+1,#low(___print_uputch)
+	LDX	___print_buff,#219
+	LDX	___print_buff+1,#-0
+	CALL	___print_send
+	LDX	R1,-2(RR14)
+	LDX	R0,-1(RR14)
+	LDX	___print_xputch,#high(___print_sputch)
+	LDX	___print_xputch+1,#low(___print_sputch)
+	INCW	RR0
+;   39		}
+_1_L_3:
+.line 39
+	CP	R1,#100
+	CPC	R0,#-0
+	JR	LE,_1_L_1
+	CLR	R0
+	LD	R1,#1
+;   40		for(i = 1; i <= (2 * MAPSIZE); i++){
+.line 40
+	JR	_1_L_7
+_1_L_5:
+;   41			gotoxy(i, 1);
+.line 41
+	CLR	R2
+	LD	R3,#1
+	PUSH	R3
+	PUSH	R2
+	PUSH	R1
+	PUSH	R0
+	LDX	-1(RR14),R0
+	LDX	-2(RR14),R1
+	CALL	_gotoxy
+	POP	R2
+	POP	R2
+	POP	R2
+	POP	R2
+;   42			printf("%c", 220);
+.line 42
+	LDX	___print_xputch,#high(___print_uputch)
+	LDX	___print_xputch+1,#low(___print_uputch)
+	LDX	___print_buff,#220
+	LDX	___print_buff+1,#-0
+	CALL	___print_send
+	LDX	R1,-2(RR14)
+	LDX	R0,-1(RR14)
+	LDX	___print_xputch,#high(___print_sputch)
+	LDX	___print_xputch+1,#low(___print_sputch)
+	INCW	RR0
+;   43		}
+_1_L_7:
+.line 43
+	CP	R1,#200
+	CPC	R0,#-0
+	JR	LE,_1_L_5
+;   44	}
+.line 44
+	CALL	__framereset
+	RET	
+
+
+;**************************** _initiate ***************************
+;Name                         Addr/Register   Size   Type
+;___print_sputch                     IMPORT  -----   function
+;___print_send                       IMPORT  -----   function
+;___print_buff                       IMPORT      0   variable
+;___print_xputch                     IMPORT      1   variable
+;___print_uputch                     IMPORT  -----   function
+;_gotoxy                             IMPORT  -----   function
+;i                                      RR0      1   variable
+
+
+; Aggregate Stack Size: -2 (words)
+
+
+.endfunc "initiate",44,"_initiate"
+;   45	
+;   46	
+;   47	//draw and kill functions take pointers. If you already have a pointer to the Map pass 'map' pass ?? (possibly just
+;   48	// increment map and pass that, possible pass map[i], let me check)
+;   49	// If you just have the map, pass &map[i]
+;   50	void drawPlayer(entity* object){
+_drawPlayer:
+.define "_drawPlayer"
+.value _drawPlayer
+.class 2
+.type 65
+.type 0
+.endef
+.begfunc "drawPlayer",50,"_drawPlayer"
+.line 50
+.define "object"
+.class 9
+.value 4
+.tag "NONAME3"
+.type 168
+.type 0
+.endef
+.define "i"
+.class 4
+.reg 17
+.type 3
+.type 0
+	LD	R9,#2
+	CALL	__frameset0
+.endef
+	CLR	R0
+	CLR	R1
+;   51		int i;
+;   52		for(i = 0; i <= (object->sizeX); i++){
+.line 52
+	JR	_2_L_13
+_2_L_11:
+;   53			gotoxy(object->x1 + i,object->y1);
+.line 53
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	LDX	R4,4(RR2)
+	LDX	R5,5(RR2)
+	PUSH	R5
+	PUSH	R4
+	LDX	R4,4(RR14)
+	LDX	R5,5(RR14)
+	LDX	R3,2(RR4)
+	LDX	R2,3(RR4)
+	ADD	R2,R1
+	ADC	R3,R0
+	PUSH	R2
+	PUSH	R3
+	LDX	-1(RR14),R0
+	LDX	-2(RR14),R1
+	CALL	_gotoxy
+	POP	R2
+	POP	R2
+	POP	R2
+	POP	R2
+;   54			printf("%c", PLAYERTEXTURE);
+.line 54
+	LDX	___print_xputch,#high(___print_uputch)
+	LDX	___print_xputch+1,#low(___print_uputch)
+	LDX	___print_buff,#223
+	LDX	___print_buff+1,#-0
+	CALL	___print_send
+	LDX	R1,-2(RR14)
+	LDX	R0,-1(RR14)
+	LDX	___print_xputch,#high(___print_sputch)
+	LDX	___print_xputch+1,#low(___print_sputch)
+	INCW	RR0
+;   55		}
+_2_L_13:
+.line 55
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	LDX	R4,14(RR2)
+	LD	R2,R4
+	RL	R2
+	SBC	R2,R2
+	CP	R1,R4
+	CPC	R0,R2
+	JR	LE,_2_L_11
+;   56		object->changedSinceLast = 0;
+.line 56
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	CLR	R2
+	LDX	@RR0,R2
+;   57	}
+.line 57
+	CALL	__framereset
+	RET	
+
+
+;**************************** _drawPlayer ***************************
+;Name                         Addr/Register   Size   Type
+;___print_sputch                     IMPORT  -----   function
+;___print_send                       IMPORT  -----   function
+;___print_buff                       IMPORT      0   variable
+;___print_xputch                     IMPORT      1   variable
+;___print_uputch                     IMPORT  -----   function
+;_gotoxy                             IMPORT  -----   function
+;i                                      RR0      1   variable
+;object                               R15+4      1   parameter
+
+
+; Aggregate Stack Size: -2 (words)
+
+
+.endfunc "drawPlayer",57,"_drawPlayer"
+;   58	
+;   59	void drawBall(entity* object){
+_drawBall:
+.define "_drawBall"
+.value _drawBall
+.class 2
+.type 65
+.type 0
+.endef
+.begfunc "drawBall",59,"_drawBall"
+.line 59
+.define "object"
+.class 9
+.value 4
+.tag "NONAME3"
+.type 168
+.type 0
+.endef
+	CALL	__frameset00
+;   60		gotoxy(object->x1,object->y1);
+.line 60
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	LDX	R2,4(RR0)
+	LDX	R3,5(RR0)
+	PUSH	R3
+	PUSH	R2
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	LDX	R2,2(RR0)
+	LDX	R3,3(RR0)
+	PUSH	R3
+	PUSH	R2
+	CALL	_gotoxy
+	POP	R0
+	POP	R0
+	POP	R0
+	POP	R0
+;   61		printf("%c", BALLTEXTURE);
+.line 61
+	LDX	___print_xputch,#high(___print_uputch)
+	LDX	___print_xputch+1,#low(___print_uputch)
+	LDX	___print_buff,#184
+	LDX	___print_buff+1,#-0
+	CALL	___print_send
+	LDX	___print_xputch,#high(___print_sputch)
+	LDX	___print_xputch+1,#low(___print_sputch)
+;   62		object->changedSinceLast = 0;
+.line 62
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	CLR	R2
+	LDX	@RR0,R2
+;   63	}
+.line 63
+	CALL	__framereset
+	RET	
+
+
+;**************************** _drawBall ***************************
+;Name                         Addr/Register   Size   Type
+;___print_sputch                     IMPORT  -----   function
+;___print_send                       IMPORT  -----   function
+;___print_buff                       IMPORT      0   variable
+;___print_xputch                     IMPORT      1   variable
+;___print_uputch                     IMPORT  -----   function
+;_gotoxy                             IMPORT  -----   function
+;object                               R15+4      1   parameter
+
+
+; Aggregate Stack Size: 0 (words)
+
+
+.endfunc "drawBall",63,"_drawBall"
+;   64	
+;   65	void drawBreakable(entity* object){
+_drawBreakable:
+.define "_drawBreakable"
+.value _drawBreakable
+.class 2
+.type 65
+.type 0
+.endef
+.begfunc "drawBreakable",65,"_drawBreakable"
+.line 65
+.define "object"
+.class 9
+.value 4
+.tag "NONAME3"
+.type 168
+.type 0
+.endef
+.define "j"
+.class 4
+.reg 17
+.type 3
+.type 0
+.endef
+.define "i"
+.class 4
+.reg 18
+.type 3
+.type 0
+	LD	R9,#4
+	CALL	__frameset0
+.endef
+	CLR	R2
+	CLR	R3
+;   66		int i, j;
+;   67		for(i = 0; i <= (object->sizeX); i++){
+.line 67
+	JR	_4_L_24
+_4_L_22:
+	CLR	R0
+	CLR	R1
+;   68			for(j = 0; j <= (object->sizeY); j++){
+.line 68
+	JR	_4_L_21
+_4_L_19:
+;   69				gotoxy(object->x1 + i,object->y1 + j);
+.line 69
+	LDX	R6,4(RR14)
+	LDX	R7,5(RR14)
+	LDX	R5,4(RR6)
+	LDX	R4,5(RR6)
+	ADD	R4,R1
+	ADC	R5,R0
+	PUSH	R4
+	PUSH	R5
+	LDX	R6,4(RR14)
+	LDX	R7,5(RR14)
+	LDX	R5,2(RR6)
+	LDX	R4,3(RR6)
+	ADD	R4,R3
+	ADC	R5,R2
+	PUSH	R4
+	PUSH	R5
+	LDX	-1(RR14),R0
+	LDX	-2(RR14),R1
+	LDX	-3(RR14),R2
+	LDX	-4(RR14),R3
+	CALL	_gotoxy
+	POP	R4
+	POP	R4
+	POP	R4
+	POP	R4
+;   70				printf("%c", BREAKABLETEXTURE);
+.line 70
+	LDX	___print_xputch,#high(___print_uputch)
+	LDX	___print_xputch+1,#low(___print_uputch)
+	LDX	___print_buff,#177
+	LDX	___print_buff+1,#-0
+	CALL	___print_send
+	LDX	R3,-4(RR14)
+	LDX	R2,-3(RR14)
+	LDX	R1,-2(RR14)
+	LDX	R0,-1(RR14)
+	LDX	___print_xputch,#high(___print_sputch)
+	LDX	___print_xputch+1,#low(___print_sputch)
+	INCW	RR0
+;   71			}
+_4_L_21:
+.line 71
+	LDX	R4,4(RR14)
+	LDX	R5,5(RR14)
+	LDX	R6,15(RR4)
+	LD	R4,R6
+	RL	R4
+	SBC	R4,R4
+	CP	R1,R6
+	CPC	R0,R4
+	JR	LE,_4_L_19
+	INCW	RR2
+;   72		}
+_4_L_24:
+.line 72
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	LDX	R4,14(RR0)
+	LD	R0,R4
+	RL	R0
+	SBC	R0,R0
+	CP	R3,R4
+	CPC	R2,R0
+	JR	LE,_4_L_22
+;   73		object->changedSinceLast = 0;
+.line 73
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	CLR	R2
+	LDX	@RR0,R2
+;   74	}
+.line 74
+	CALL	__framereset
+	RET	
+
+
+;**************************** _drawBreakable ***************************
+;Name                         Addr/Register   Size   Type
+;___print_sputch                     IMPORT  -----   function
+;___print_send                       IMPORT  -----   function
+;___print_buff                       IMPORT      0   variable
+;___print_xputch                     IMPORT      1   variable
+;___print_uputch                     IMPORT  -----   function
+;_gotoxy                             IMPORT  -----   function
+;i                                      RR2      1   variable
+;j                                      RR0      1   variable
+;object                               R15+4      1   parameter
+
+
+; Aggregate Stack Size: -4 (words)
+
+
+.endfunc "drawBreakable",74,"_drawBreakable"
+;   75	
+;   76	void killBreakable(entity* object){
+_killBreakable:
+.define "_killBreakable"
+.value _killBreakable
+.class 2
+.type 65
+.type 0
+.endef
+.begfunc "killBreakable",76,"_killBreakable"
+.line 76
+.define "object"
+.class 9
+.value 4
+.tag "NONAME3"
+.type 168
+.type 0
+.endef
+.define "j"
+.class 4
+.reg 17
+.type 3
+.type 0
+.endef
+.define "i"
+.class 4
+.reg 18
+.type 3
+.type 0
+	LD	R9,#4
+	CALL	__frameset0
+.endef
+	CLR	R2
+	CLR	R3
+;   77		int i, j;
+;   78		for(i = 0; i <= (object->sizeX); i++){
+.line 78
+	JR	_5_L_34
+_5_L_32:
+	CLR	R0
+	CLR	R1
+;   79			for(j = 0; j <= (object->sizeY); j++){
+.line 79
+	JR	_5_L_31
+_5_L_29:
+;   80				gotoxy(object->x1 + i,object->y1 + j);
+.line 80
+	LDX	R6,4(RR14)
+	LDX	R7,5(RR14)
+	LDX	R5,4(RR6)
+	LDX	R4,5(RR6)
+	ADD	R4,R1
+	ADC	R5,R0
+	PUSH	R4
+	PUSH	R5
+	LDX	R6,4(RR14)
+	LDX	R7,5(RR14)
+	LDX	R5,2(RR6)
+	LDX	R4,3(RR6)
+	ADD	R4,R3
+	ADC	R5,R2
+	PUSH	R4
+	PUSH	R5
+	LDX	-1(RR14),R0
+	LDX	-2(RR14),R1
+	LDX	-3(RR14),R2
+	LDX	-4(RR14),R3
+	CALL	_gotoxy
+	POP	R4
+	POP	R4
+	POP	R4
+	POP	R4
+;   81				printf("%c", BACKGROUNDTEXTURE);
+.line 81
+	LDX	___print_xputch,#high(___print_uputch)
+	LDX	___print_xputch+1,#low(___print_uputch)
+	LDX	___print_buff,#32
+	LDX	___print_buff+1,#-0
+	CALL	___print_send
+	LDX	R3,-4(RR14)
+	LDX	R2,-3(RR14)
+	LDX	R1,-2(RR14)
+	LDX	R0,-1(RR14)
+	LDX	___print_xputch,#high(___print_sputch)
+	LDX	___print_xputch+1,#low(___print_sputch)
+	INCW	RR0
+;   82			}
+_5_L_31:
+.line 82
+	LDX	R4,4(RR14)
+	LDX	R5,5(RR14)
+	LDX	R6,15(RR4)
+	LD	R4,R6
+	RL	R4
+	SBC	R4,R4
+	CP	R1,R6
+	CPC	R0,R4
+	JR	LE,_5_L_29
+	INCW	RR2
+;   83		}
+_5_L_34:
+.line 83
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	LDX	R4,14(RR0)
+	LD	R0,R4
+	RL	R0
+	SBC	R0,R0
+	CP	R3,R4
+	CPC	R2,R0
+	JR	LE,_5_L_32
+;   84		object->changedSinceLast = 0;
+.line 84
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	CLR	R2
+	LDX	@RR0,R2
+;   85	    object->whatIsThis = 0x05;
+.line 85
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	LD	R2,#5
+	LDX	1(RR0),R2
+;   86	}
+.line 86
+	CALL	__framereset
+	RET	
+
+
+;**************************** _killBreakable ***************************
+;Name                         Addr/Register   Size   Type
+;___print_sputch                     IMPORT  -----   function
+;___print_send                       IMPORT  -----   function
+;___print_buff                       IMPORT      0   variable
+;___print_xputch                     IMPORT      1   variable
+;___print_uputch                     IMPORT  -----   function
+;_gotoxy                             IMPORT  -----   function
+;i                                      RR2      1   variable
+;j                                      RR0      1   variable
+;object                               R15+4      1   parameter
+
+
+; Aggregate Stack Size: -4 (words)
+
+
+.endfunc "killBreakable",86,"_killBreakable"
+;   87	
+;   88	void drawSolid(entity* object){
+_drawSolid:
+.define "_drawSolid"
+.value _drawSolid
+.class 2
+.type 65
+.type 0
+.endef
+.begfunc "drawSolid",88,"_drawSolid"
+.line 88
+.define "object"
+.class 9
+.value 4
+.tag "NONAME3"
+.type 168
+.type 0
+.endef
+.define "j"
+.class 4
+.reg 17
+.type 3
+.type 0
+.endef
+.define "i"
+.class 4
+.reg 18
+.type 3
+.type 0
+	LD	R9,#4
+	CALL	__frameset0
+.endef
+	CLR	R2
+	CLR	R3
+;   89		int i, j;
+;   90		for(i = 0; i <= (object->sizeX); i++){
+.line 90
+	JR	_6_L_44
+_6_L_42:
+	CLR	R0
+	CLR	R1
+;   91			for(j = 0; j <= (object->sizeY); j++){
+.line 91
+	JR	_6_L_41
+_6_L_39:
+;   92				gotoxy(object->x1 + i,object->y1 + j);
+.line 92
+	LDX	R6,4(RR14)
+	LDX	R7,5(RR14)
+	LDX	R5,4(RR6)
+	LDX	R4,5(RR6)
+	ADD	R4,R1
+	ADC	R5,R0
+	PUSH	R4
+	PUSH	R5
+	LDX	R6,4(RR14)
+	LDX	R7,5(RR14)
+	LDX	R5,2(RR6)
+	LDX	R4,3(RR6)
+	ADD	R4,R3
+	ADC	R5,R2
+	PUSH	R4
+	PUSH	R5
+	LDX	-1(RR14),R0
+	LDX	-2(RR14),R1
+	LDX	-3(RR14),R2
+	LDX	-4(RR14),R3
+	CALL	_gotoxy
+	POP	R4
+	POP	R4
+	POP	R4
+	POP	R4
+;   93				printf("%c", SOLIDTEXTURE);
+.line 93
+	LDX	___print_xputch,#high(___print_uputch)
+	LDX	___print_xputch+1,#low(___print_uputch)
+	LDX	___print_buff,#219
+	LDX	___print_buff+1,#-0
+	CALL	___print_send
+	LDX	R3,-4(RR14)
+	LDX	R2,-3(RR14)
+	LDX	R1,-2(RR14)
+	LDX	R0,-1(RR14)
+	LDX	___print_xputch,#high(___print_sputch)
+	LDX	___print_xputch+1,#low(___print_sputch)
+	INCW	RR0
+;   94			}
+_6_L_41:
+.line 94
+	LDX	R4,4(RR14)
+	LDX	R5,5(RR14)
+	LDX	R6,15(RR4)
+	LD	R4,R6
+	RL	R4
+	SBC	R4,R4
+	CP	R1,R6
+	CPC	R0,R4
+	JR	LE,_6_L_39
+	INCW	RR2
+;   95		}
+_6_L_44:
+.line 95
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	LDX	R4,14(RR0)
+	LD	R0,R4
+	RL	R0
+	SBC	R0,R0
+	CP	R3,R4
+	CPC	R2,R0
+	JR	LE,_6_L_42
+;   96		object->changedSinceLast = 0;
+.line 96
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	CLR	R2
+	LDX	@RR0,R2
+;   97	}
+.line 97
+	CALL	__framereset
+	RET	
+
+
+;**************************** _drawSolid ***************************
+;Name                         Addr/Register   Size   Type
+;___print_sputch                     IMPORT  -----   function
+;___print_send                       IMPORT  -----   function
+;___print_buff                       IMPORT      0   variable
+;___print_xputch                     IMPORT      1   variable
+;___print_uputch                     IMPORT  -----   function
+;_gotoxy                             IMPORT  -----   function
+;i                                      RR2      1   variable
+;j                                      RR0      1   variable
+;object                               R15+4      1   parameter
+
+
+; Aggregate Stack Size: -4 (words)
+
+
+.endfunc "drawSolid",97,"_drawSolid"
+;   98	
+;   99	//pre: map must be nothing-terminated
+;  100	//     map is a 1D array containing all objects on the map
+;  101	void drawMap(entity* map) {
+_drawMap:
+.define "_drawMap"
+.value _drawMap
+.class 2
+.type 65
+.type 0
+.endef
+.begfunc "drawMap",101,"_drawMap"
+.line 101
+.define "map"
+.class 9
+.value 4
+.tag "NONAME3"
+.type 168
+.type 0
+.endef
+	LD	R9,#2
+	CALL	__frameset0
+;  102	    while(map->whatIsThis) {
+.line 102
+	JR	_7_L_62
+_7_L_63:
+;  103	        switch (map->whatIsThis) {
+.line 103
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	LDX	R1,1(RR2)
+	LD	R0,R1
+	RL	R0
+	SBC	R0,R0
+	LD	R2,#high(L__21)
+	LD	R3,#low(L__21)
+	CALL	__ucase
+	JP	@RR0
+;  104	            case 0x01:
+_7_L_47:
+.line 104
+;  105	                if (map->changedSinceLast) {
+.line 105
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	LDX	R0,@RR2
+	OR	R0,R0
+	JR	Z,_7_L_61
+;  106	                    drawPlayer(map);
+.line 106
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	PUSH	R1
+	PUSH	R0
+	CALL	_drawPlayer
+	POP	R0
+	POP	R0
+;  107	                }
+;  108	                break;
+.line 108
+	JR	_7_L_61
+;  109	            case 0x02:
+_7_L_50:
+.line 109
+;  110	                if (map->changedSinceLast) {
+.line 110
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	LDX	R0,@RR2
+	OR	R0,R0
+	JR	Z,_7_L_61
+;  111	                    drawBall(map);
+.line 111
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	PUSH	R1
+	PUSH	R0
+	CALL	_drawBall
+	POP	R0
+	POP	R0
+;  112	                }
+;  113	                break;
+.line 113
+	JR	_7_L_61
+;  114	            case 0x03:
+_7_L_53:
+.line 114
+;  115	                if (map->changedSinceLast) {
+.line 115
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	LDX	R0,@RR2
+	OR	R0,R0
+	JR	Z,_7_L_61
+;  116	                    drawBreakable(map);
+.line 116
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	PUSH	R1
+	PUSH	R0
+	CALL	_drawBreakable
+	POP	R0
+	POP	R0
+;  117	                }
+;  118	                break;
+.line 118
+	JR	_7_L_61
+;  119	            case 0x04:
+_7_L_56:
+.line 119
+;  120	                if (map->changedSinceLast) {
+.line 120
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	LDX	R0,@RR2
+	OR	R0,R0
+	JR	Z,_7_L_61
+;  121	                    drawSolid(map);
+.line 121
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	PUSH	R1
+	PUSH	R0
+	CALL	_drawSolid
+	POP	R0
+	POP	R0
+;  122	                }
+;  123	                break;
+;  124	            default:
+;  125	                break;
+;  126	        }
+_7_L_61:
+.line 126
+;  127	        map++;
+.line 127
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	ADD	R1,#17
+	ADC	R0,#0
+	LDX	4(RR14),R0
+	LDX	5(RR14),R1
+;  128	    }
+_7_L_62:
+.line 128
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	LDX	R0,1(RR2)
+	OR	R0,R0
+	JR	Z,_7_L_64
+	JR	_7_L_63
+;  129	}
+_7_L_64:
+.line 129
+	CALL	__framereset
+	RET	
+;	Jump Table for Switch Statement at line 103
+L__21:
+	DW	4
+	DW	1
+	DW	_7_L_47
+	DW	2
+	DW	_7_L_50
+	DW	3
+	DW	_7_L_53
+	DW	4
+	DW	_7_L_56
+	DW	_7_L_61
+
+
+;**************************** _drawMap ***************************
+;Name                         Addr/Register   Size   Type
+;map                                  R15+4      1   parameter
+
+
+; Aggregate Stack Size: -2 (words)
+
+
+.endfunc "drawMap",129,"_drawMap"
+;  130	
+;  131	void playerMovement(char buttonPress, entity* object){
+_playerMovement:
+.define "_playerMovement"
+.value _playerMovement
+.class 2
+.type 65
+.type 0
+.endef
+.begfunc "playerMovement",131,"_playerMovement"
+.line 131
+.define "buttonPress"
+.class 9
+.value 4
+.type 2
+.type 0
+.endef
+.define "object"
+.class 9
+.value 5
+.tag "NONAME3"
+.type 168
+.type 0
+.endef
+	CALL	__frameset00
+;  132		int i;	
+;  133		switch(buttonPress) {
+.line 133
+	LDX	R1,4(RR14)
+	LD	R0,R1
+	RL	R0
+	SBC	R0,R0
+	LD	R2,#high(L__29)
+	LD	R3,#low(L__29)
+	CALL	__ucase
+	JP	@RR0
+;  134			case 0x01: //PF7
+_8_L_65:
+.line 134
+;  135	            gotoxy(object->x1,object->y1);
+.line 135
+	LDX	R0,5(RR14)
+	LDX	R1,6(RR14)
+	LDX	R2,4(RR0)
+	LDX	R3,5(RR0)
+	PUSH	R3
+	PUSH	R2
+	LDX	R0,5(RR14)
+	LDX	R1,6(RR14)
+	LDX	R2,2(RR0)
+	LDX	R3,3(RR0)
+	PUSH	R3
+	PUSH	R2
+	CALL	_gotoxy
+	POP	R0
+	POP	R0
+	POP	R0
+	POP	R0
+;  136	            printf("%c", 0x20);
+.line 136
+	LDX	___print_xputch,#high(___print_uputch)
+	LDX	___print_xputch+1,#low(___print_uputch)
+	LDX	___print_buff,#32
+	LDX	___print_buff+1,#-0
+	CALL	___print_send
+	LDX	___print_xputch,#high(___print_sputch)
+	LDX	___print_xputch+1,#low(___print_sputch)
+;  137				if ((object->x1 + 1 + object->sizeX) < 2 * MAPSIZE){
+.line 137
+	LDX	R4,5(RR14)
+	LDX	R5,6(RR14)
+	LDX	R2,2(RR4)
+	LDX	R1,3(RR4)
+	ADD	R1,#1
+	ADC	R2,#0
+	LDX	R4,5(RR14)
+	LDX	R5,6(RR14)
+	LDX	R3,14(RR4)
+	LD	R0,R3
+	RL	R0
+	SBC	R0,R0
+	ADD	R1,R3
+	ADC	R2,R0
+	CP	R1,#200
+	CPC	R2,#-0
+	JR	GE,_8_L_68
+;  138					object->x1++;
+.line 138
+	LDX	R2,5(RR14)
+	LDX	R3,6(RR14)
+	LDX	R4,5(RR14)
+	LDX	R5,6(RR14)
+	LDX	R0,2(RR2)
+	LDX	R1,3(RR2)
+	INCW	RR0
+	LDX	2(RR4),R0
+	LDX	3(RR4),R1
+;  139				}
+_8_L_68:
+.line 139
+;  140				gotoxy(object->x1 + object->sizeX,object->y1);
+.line 140
+	LDX	R0,5(RR14)
+	LDX	R1,6(RR14)
+	LDX	R2,4(RR0)
+	LDX	R3,5(RR0)
+	PUSH	R3
+	PUSH	R2
+	LDX	R0,5(RR14)
+	LDX	R1,6(RR14)
+	LDX	R3,14(RR0)
+	LD	R0,R3
+	RL	R0
+	SBC	R0,R0
+	LDX	R4,5(RR14)
+	LDX	R5,6(RR14)
+	LDX	R2,2(RR4)
+	LDX	R1,3(RR4)
+	ADD	R1,R3
+	ADC	R2,R0
+	PUSH	R1
+	PUSH	R2
+	CALL	_gotoxy
+	POP	R0
+	POP	R0
+	POP	R0
+	POP	R0
+;  141	            printf("%c", PLAYERTEXTURE);
+.line 141
+	LDX	___print_xputch,#high(___print_uputch)
+	LDX	___print_xputch+1,#low(___print_uputch)
+	LDX	___print_buff,#223
+	LDX	___print_buff+1,#-0
+	CALL	___print_send
+	LDX	___print_xputch,#high(___print_sputch)
+	LDX	___print_xputch+1,#low(___print_sputch)
+;  142				gotoxy(1,1);
+.line 142
+	CLR	R0
+	LD	R1,#1
+	PUSH	R1
+	PUSH	R0
+	PUSH	R1
+	PUSH	R0
+	CALL	_gotoxy
+	POP	R0
+	POP	R0
+	POP	R0
+	POP	R0
+;  143	            break;
+.line 143
+	JR	_8_L_76
+;  144			case 0x02: //PF6
+;  145				break;
+;  146			case 0x04: //PD3
+_8_L_70:
+.line 146
+;  147				gotoxy(object->x1 + object->sizeX,object->y1);
+.line 147
+	LDX	R0,5(RR14)
+	LDX	R1,6(RR14)
+	LDX	R2,4(RR0)
+	LDX	R3,5(RR0)
+	PUSH	R3
+	PUSH	R2
+	LDX	R0,5(RR14)
+	LDX	R1,6(RR14)
+	LDX	R3,14(RR0)
+	LD	R0,R3
+	RL	R0
+	SBC	R0,R0
+	LDX	R4,5(RR14)
+	LDX	R5,6(RR14)
+	LDX	R2,2(RR4)
+	LDX	R1,3(RR4)
+	ADD	R1,R3
+	ADC	R2,R0
+	PUSH	R1
+	PUSH	R2
+	CALL	_gotoxy
+	POP	R0
+	POP	R0
+	POP	R0
+	POP	R0
+;  148	            printf("%c", 0x20);
+.line 148
+	LDX	___print_xputch,#high(___print_uputch)
+	LDX	___print_xputch+1,#low(___print_uputch)
+	LDX	___print_buff,#32
+	LDX	___print_buff+1,#-0
+	CALL	___print_send
+	LDX	___print_xputch,#high(___print_sputch)
+	LDX	___print_xputch+1,#low(___print_sputch)
+;  149				if((object->x1 - 1) > 1){
+.line 149
+	LDX	R2,5(RR14)
+	LDX	R3,6(RR14)
+	LDX	R1,2(RR2)
+	LDX	R0,3(RR2)
+	SUB	R0,#1
+	SBC	R1,#0
+	CP	R0,#1
+	CPC	R1,#-0
+	JR	LE,_8_L_73
+;  150					object->x1--;
+.line 150
+	LDX	R2,5(RR14)
+	LDX	R3,6(RR14)
+	LDX	R4,5(RR14)
+	LDX	R5,6(RR14)
+	LDX	R0,2(RR2)
+	LDX	R1,3(RR2)
+	DECW	RR0
+	LDX	2(RR4),R0
+	LDX	3(RR4),R1
+;  151				}
+_8_L_73:
+.line 151
+;  152				gotoxy(object->x1,object->y1);
+.line 152
+	LDX	R0,5(RR14)
+	LDX	R1,6(RR14)
+	LDX	R2,4(RR0)
+	LDX	R3,5(RR0)
+	PUSH	R3
+	PUSH	R2
+	LDX	R0,5(RR14)
+	LDX	R1,6(RR14)
+	LDX	R2,2(RR0)
+	LDX	R3,3(RR0)
+	PUSH	R3
+	PUSH	R2
+	CALL	_gotoxy
+	POP	R0
+	POP	R0
+	POP	R0
+	POP	R0
+;  153	            printf("%c", PLAYERTEXTURE);
+.line 153
+	LDX	___print_xputch,#high(___print_uputch)
+	LDX	___print_xputch+1,#low(___print_uputch)
+	LDX	___print_buff,#223
+	LDX	___print_buff+1,#-0
+	CALL	___print_send
+	LDX	___print_xputch,#high(___print_sputch)
+	LDX	___print_xputch+1,#low(___print_sputch)
+;  154				gotoxy(1,1);
+.line 154
+	CLR	R0
+	LD	R1,#1
+	PUSH	R1
+	PUSH	R0
+	PUSH	R1
+	PUSH	R0
+	CALL	_gotoxy
+	POP	R0
+	POP	R0
+	POP	R0
+	POP	R0
+;  155				break;
+;  156			case 0x05:
+;  157				// when PD3 and PF7 is pressed at the same time, nothing happens
+;  158				break;
+;  159			default:
+;  160				break;
+;  161			}
+;  162	}
+_8_L_76:
+.line 162
+	CALL	__framereset
+	RET	
+;	Jump Table for Switch Statement at line 133
+L__29:
+	DW	4
+	DW	1
+	DW	_8_L_65
+	DW	2
+	DW	_8_L_76
+	DW	4
+	DW	_8_L_70
+	DW	5
+	DW	_8_L_76
+	DW	_8_L_76
+
+
+;**************************** _playerMovement ***************************
+;Name                         Addr/Register   Size   Type
+;___print_sputch                     IMPORT  -----   function
+;___print_send                       IMPORT  -----   function
+;___print_buff                       IMPORT      0   variable
+;___print_xputch                     IMPORT      1   variable
+;___print_uputch                     IMPORT  -----   function
+;_gotoxy                             IMPORT  -----   function
+;object                               R15+5      1   parameter
+;buttonPress                          R15+4      0   parameter
+
+
+; Aggregate Stack Size: 0 (words)
+
+
+.endfunc "playerMovement",162,"_playerMovement"
+;  163	
+;  164	// pre: takes position that the ball would have (current position + direction), and checks it for overlap
+;  165	char collisionCheck(int x1, int y1, entity map[]) { // an array of breakables, solids and a ball
+_collisionCheck:
+.define "_collisionCheck"
+.value _collisionCheck
+.class 2
+.type 66
+.type 0
+.endef
+.begfunc "collisionCheck",165,"_collisionCheck"
+.line 165
+.define "x1"
+.class 9
+.value 4
+.type 3
+.type 0
+.endef
+.define "y1"
+.class 9
+.value 6
+.type 3
+.type 0
+.endef
+.define "map"
+.class 9
+.value 8
+.tag "NONAME3"
+.type 168
+.type 0
+.endef
+.define "i"
+.class 4
+.reg 19
+.type 3
+.type 0
+.endef
+.define "flag"
+.class 4
+.reg 7
+.type 2
+.type 0
+.endef
+	CALL	__frameset00
+;  166		char flag = 0;
+.line 166
+	CLR	R6
+;  167		int i = 0;
+.line 167
+	CLR	R4
+	CLR	R5
+;  168		if(x1 >= MAPSIZE * 2){ // returns true if hit wall
+.line 168
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	CP	R1,#200
+	CPC	R0,#-0
+	JR	LT,_9_L_79
+;  169			flag = 0x07;// hit right wall
+.line 169
+	LD	R6,#7
+;  170	        return flag;
+.line 170
+	LD	R0,R6
+	JR	_9_L_119
+;  171		}
+_9_L_79:
+.line 171
+;  172		if(x1 <= 1){ 
+.line 172
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	CP	R1,#1
+	CPC	R0,#-0
+	JR	GT,_9_L_81
+;  173			flag = 0x03; // hit left wall
+.line 173
+	LD	R6,#3
+;  174			return flag;
+.line 174
+	LD	R0,R6
+	JR	_9_L_119
+;  175		}
+_9_L_81:
+.line 175
+;  176		if(y1 <= 1){ // returns true if ceiling
+.line 176
+	LDX	R0,6(RR14)
+	LDX	R1,7(RR14)
+	CP	R1,#1
+	CPC	R0,#-0
+	JR	GT,_9_L_83
+;  177			flag = 0x05;// wall is hit
+.line 177
+	LD	R6,#5
+;  178	        return flag;
+.line 178
+	LD	R0,R6
+	JR	_9_L_119
+;  179		}
+_9_L_83:
+.line 179
+;  180		if (y1 > MAPSIZE){ // returns true if ball falls through floor
+.line 180
+	LDX	R0,6(RR14)
+	LDX	R1,7(RR14)
+	CP	R1,#100
+	CPC	R0,#-0
+	JR	LE,_9_L_115
+;  181			flag = 0x09;// dead ball
+.line 181
+	LD	R6,#9
+;  182	        return flag;
+.line 182
+	LD	R0,R6
+	JR	_9_L_119
+;  183		}
+;  184		while(map[i].whatIsThis){
+_9_L_116:
+.line 184
+;  185			if(map[i].whatIsThis == 0x01) {
+.line 185
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R0,8(RR14)
+	LDX	R1,9(RR14)
+	ADD	R1,R3
+	ADC	R0,R2
+	LDX	R2,1(RR0)
+	CP	R2,#1
+	JR	NE,_9_L_112
+;  186				if ((x1 >= map[i].x1) && (x1 <= (map[i].x1 + map[i].sizeX))){
+.line 186
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R0,8(RR14)
+	LDX	R1,9(RR14)
+	ADD	R1,R3
+	ADC	R0,R2
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	LDX	R8,2(RR0)
+	LDX	R9,3(RR0)
+	CP	R3,R9
+	CPC	R2,R8
+	JR	LT,_9_L_112
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R8,8(RR14)
+	LDX	R9,9(RR14)
+	ADD	R9,R3
+	ADC	R8,R2
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R0,8(RR14)
+	LDX	R1,9(RR14)
+	ADD	R1,R3
+	ADC	R0,R2
+	LDX	R3,14(RR0)
+	LD	R0,R3
+	RL	R0
+	SBC	R0,R0
+	LDX	R2,2(RR8)
+	LDX	R1,3(RR8)
+	ADD	R1,R3
+	ADC	R2,R0
+	LDX	R8,4(RR14)
+	LDX	R9,5(RR14)
+	CP	R9,R1
+	CPC	R8,R2
+	JR	GT,_9_L_112
+;  187					if (y1 == map[i].y1) {
+.line 187
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R0,8(RR14)
+	LDX	R1,9(RR14)
+	ADD	R1,R3
+	ADC	R0,R2
+	LDX	R2,6(RR14)
+	LDX	R3,7(RR14)
+	LDX	R8,4(RR0)
+	LDX	R9,5(RR0)
+	CP	R3,R9
+	CPC	R2,R8
+	JR	NE,_9_L_112
+;  188	                    if (x1 == map[i].x1) {
+.line 188
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R0,8(RR14)
+	LDX	R1,9(RR14)
+	ADD	R1,R3
+	ADC	R0,R2
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	LDX	R6,2(RR0)
+	LDX	R7,3(RR0)
+	CP	R3,R7
+	CPC	R2,R6
+	JR	NE,_9_L_88
+;  189	                        flag = 0x08;//left corner of paddle
+.line 189
+	LD	R0,#8
+;  190	                        return flag;
+.line 190
+	JR	_9_L_119
+;  191	                    } else if (x1 == map[i].x1 + map[i].sizeX) {
+_9_L_88:
+.line 191
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R6,8(RR14)
+	LDX	R7,9(RR14)
+	ADD	R7,R3
+	ADC	R6,R2
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R0,8(RR14)
+	LDX	R1,9(RR14)
+	ADD	R1,R3
+	ADC	R0,R2
+	LDX	R3,14(RR0)
+	LD	R0,R3
+	RL	R0
+	SBC	R0,R0
+	LDX	R2,2(RR6)
+	LDX	R1,3(RR6)
+	ADD	R1,R3
+	ADC	R2,R0
+	LDX	R6,4(RR14)
+	LDX	R7,5(RR14)
+	CP	R7,R1
+	CPC	R6,R2
+	JR	NE,_9_L_86
+;  192	                        flag = 0x02;// right corner of paddle
+.line 192
+	LD	R0,#2
+;  193	                        return flag;
+.line 193
+	JR	_9_L_119
+;  194	                    } else {
+_9_L_86:
+.line 194
+;  195	                        flag = 0x01; // middle of paddle
+.line 195
+	LD	R6,#1
+;  196	                        return flag;
+.line 196
+	LD	R0,R6
+	JR	_9_L_119
+;  197	                    }
+;  198					}
+;  199				}
+;  200			}
+_9_L_112:
+.line 200
+;  201	        if(map[i].whatIsThis == 0x03) {
+.line 201
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R0,8(RR14)
+	LDX	R1,9(RR14)
+	ADD	R1,R3
+	ADC	R0,R2
+	LDX	R2,1(RR0)
+	CP	R2,#3
+	JR	NE,_9_L_114
+;  202	            if ((x1 >= map[i].x1) && (x1 <= map[i].x1 + map[i].sizeX)) {
+.line 202
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R0,8(RR14)
+	LDX	R1,9(RR14)
+	ADD	R1,R3
+	ADC	R0,R2
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	LDX	R8,2(RR0)
+	LDX	R9,3(RR0)
+	CP	R3,R9
+	CPC	R2,R8
+	JR	LT,_9_L_110
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R8,8(RR14)
+	LDX	R9,9(RR14)
+	ADD	R9,R3
+	ADC	R8,R2
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R0,8(RR14)
+	LDX	R1,9(RR14)
+	ADD	R1,R3
+	ADC	R0,R2
+	LDX	R3,14(RR0)
+	LD	R0,R3
+	RL	R0
+	SBC	R0,R0
+	LDX	R2,2(RR8)
+	LDX	R1,3(RR8)
+	ADD	R1,R3
+	ADC	R2,R0
+	LDX	R8,4(RR14)
+	LDX	R9,5(RR14)
+	CP	R9,R1
+	CPC	R8,R2
+	JR	GT,_9_L_110
+;  203	                if (y1 == map[i].y1) {
+.line 203
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R0,8(RR14)
+	LDX	R1,9(RR14)
+	ADD	R1,R3
+	ADC	R0,R2
+	LDX	R2,6(RR14)
+	LDX	R3,7(RR14)
+	LDX	R8,4(RR0)
+	LDX	R9,5(RR0)
+	CP	R3,R9
+	CPC	R2,R8
+	JR	NE,_9_L_103
+;  204	                    if (x1 == map[i].x1) {
+.line 204
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R0,8(RR14)
+	LDX	R1,9(RR14)
+	ADD	R1,R3
+	ADC	R0,R2
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	LDX	R6,2(RR0)
+	LDX	R7,3(RR0)
+	CP	R3,R7
+	CPC	R2,R6
+	JR	NE,_9_L_96
+;  205	                        flag = 0x08;//top left corner
+.line 205
+	LD	R0,#8
+;  206	                        return flag;
+.line 206
+	JR	_9_L_119
+;  207	                    } else if (x1 == map[i].x1 + map[i].sizeX) {
+_9_L_96:
+.line 207
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R6,8(RR14)
+	LDX	R7,9(RR14)
+	ADD	R7,R3
+	ADC	R6,R2
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R0,8(RR14)
+	LDX	R1,9(RR14)
+	ADD	R1,R3
+	ADC	R0,R2
+	LDX	R3,14(RR0)
+	LD	R0,R3
+	RL	R0
+	SBC	R0,R0
+	LDX	R2,2(RR6)
+	LDX	R1,3(RR6)
+	ADD	R1,R3
+	ADC	R2,R0
+	LDX	R6,4(RR14)
+	LDX	R7,5(RR14)
+	CP	R7,R1
+	CPC	R6,R2
+	JR	NE,_9_L_94
+;  208	                        flag = 0x02;//top right corner
+.line 208
+	LD	R0,#2
+;  209	                        return flag;
+.line 209
+	JR	_9_L_119
+;  210	                    } else {
+_9_L_94:
+.line 210
+;  211	                        flag = 0x01; // hit top
+.line 211
+	LD	R6,#1
+;  212	                        return flag;
+.line 212
+	LD	R0,R6
+	JR	_9_L_119
+;  213	                    }
+;  214	                } else if (y1 == map[i].y1 + map[i].sizeY) {
+_9_L_103:
+.line 214
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R8,8(RR14)
+	LDX	R9,9(RR14)
+	ADD	R9,R3
+	ADC	R8,R2
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R0,8(RR14)
+	LDX	R1,9(RR14)
+	ADD	R1,R3
+	ADC	R0,R2
+	LDX	R3,15(RR0)
+	LD	R0,R3
+	RL	R0
+	SBC	R0,R0
+	LDX	R2,4(RR8)
+	LDX	R1,5(RR8)
+	ADD	R1,R3
+	ADC	R2,R0
+	LDX	R8,6(RR14)
+	LDX	R9,7(RR14)
+	CP	R9,R1
+	CPC	R8,R2
+	JR	NE,_9_L_110
+;  215	                    if (x1 == map[i].x1) {
+.line 215
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R0,8(RR14)
+	LDX	R1,9(RR14)
+	ADD	R1,R3
+	ADC	R0,R2
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	LDX	R6,2(RR0)
+	LDX	R7,3(RR0)
+	CP	R3,R7
+	CPC	R2,R6
+	JR	NE,_9_L_100
+;  216	                        flag = 0x06;//bottom left corner
+.line 216
+	LD	R0,#6
+;  217	                        return flag;
+.line 217
+	JR	_9_L_119
+;  218	                    } else if (x1 == map[i].x1 + map[i].sizeX) {
+_9_L_100:
+.line 218
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R6,8(RR14)
+	LDX	R7,9(RR14)
+	ADD	R7,R3
+	ADC	R6,R2
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R0,8(RR14)
+	LDX	R1,9(RR14)
+	ADD	R1,R3
+	ADC	R0,R2
+	LDX	R3,14(RR0)
+	LD	R0,R3
+	RL	R0
+	SBC	R0,R0
+	LDX	R2,2(RR6)
+	LDX	R1,3(RR6)
+	ADD	R1,R3
+	ADC	R2,R0
+	LDX	R6,4(RR14)
+	LDX	R7,5(RR14)
+	CP	R7,R1
+	CPC	R6,R2
+	JR	NE,_9_L_98
+;  219	                        flag = 0x04;//bottom right corner
+.line 219
+	LD	R0,#4
+;  220	                        return flag;
+.line 220
+	JR	_9_L_119
+;  221	                    } else {
+_9_L_98:
+.line 221
+;  222	                        flag = 0x05; // hit bottom
+.line 222
+	LD	R6,#5
+;  223	                        return flag;
+.line 223
+	LD	R0,R6
+	JR	_9_L_119
+;  224	                    }
+;  225	                }
+;  226	            }
+_9_L_110:
+.line 226
+;  227	            if ((y1 > map[i].y1)
+.line 227
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R0,8(RR14)
+	LDX	R1,9(RR14)
+	ADD	R1,R3
+	ADC	R0,R2
+	LDX	R2,6(RR14)
+	LDX	R3,7(RR14)
+	LDX	R8,4(RR0)
+	LDX	R9,5(RR0)
+	CP	R3,R9
+	CPC	R2,R8
+	JR	LE,_9_L_114
+;  228	                && (y1 < map[i].y1 + map[i].sizeY)) {
+.line 228
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R8,8(RR14)
+	LDX	R9,9(RR14)
+	ADD	R9,R3
+	ADC	R8,R2
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R0,8(RR14)
+	LDX	R1,9(RR14)
+	ADD	R1,R3
+	ADC	R0,R2
+	LDX	R3,15(RR0)
+	LD	R0,R3
+	RL	R0
+	SBC	R0,R0
+	LDX	R2,4(RR8)
+	LDX	R1,5(RR8)
+	ADD	R1,R3
+	ADC	R2,R0
+	LDX	R8,6(RR14)
+	LDX	R9,7(RR14)
+	CP	R9,R1
+	CPC	R8,R2
+	JR	GE,_9_L_114
+;  229	                if (x1 == map[i].x1) {
+.line 229
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R0,8(RR14)
+	LDX	R1,9(RR14)
+	ADD	R1,R3
+	ADC	R0,R2
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	LDX	R8,2(RR0)
+	LDX	R9,3(RR0)
+	CP	R3,R9
+	CPC	R2,R8
+	JR	NE,_9_L_108
+;  230	                    flag = 0x07; // hit left
+.line 230
+	LD	R6,#7
+;  231	                    return flag;
+.line 231
+	LD	R0,R6
+	JR	_9_L_119
+;  232	                } else if (x1 == map[i].x1 + map[i].sizeX) {
+_9_L_108:
+.line 232
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R8,8(RR14)
+	LDX	R9,9(RR14)
+	ADD	R9,R3
+	ADC	R8,R2
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R0,8(RR14)
+	LDX	R1,9(RR14)
+	ADD	R1,R3
+	ADC	R0,R2
+	LDX	R3,14(RR0)
+	LD	R0,R3
+	RL	R0
+	SBC	R0,R0
+	LDX	R2,2(RR8)
+	LDX	R1,3(RR8)
+	ADD	R1,R3
+	ADC	R2,R0
+	LDX	R8,4(RR14)
+	LDX	R9,5(RR14)
+	CP	R9,R1
+	CPC	R8,R2
+	JR	NE,_9_L_114
+;  233	                    flag = 0x03; // hit right
+.line 233
+	LD	R6,#3
+;  234	                    return flag;
+.line 234
+	LD	R0,R6
+	JR	_9_L_119
+;  235	                }
+;  236	            }
+;  237	        }
+_9_L_114:
+.line 237
+;  238		i++;
+.line 238
+	INCW	RR4
+;  239	    }
+_9_L_115:
+.line 239
+	CLR	R2
+	LD	R3,#17
+	LD	R0,R4
+	LD	R1,R5
+	CALL	__swmul
+	LDX	R0,8(RR14)
+	LDX	R1,9(RR14)
+	ADD	R1,R3
+	ADC	R0,R2
+	LDX	R2,1(RR0)
+	OR	R2,R2
+	JR	NE,_9_L_116
+;  240		return flag;
+.line 240
+	LD	R0,R6
+;  241	}
+_9_L_119:
+.line 241
+	CALL	__framereset
+	RET	
+
+
+;**************************** _collisionCheck ***************************
+;Name                         Addr/Register   Size   Type
+;flag                                    R6      0   variable
+;i                                      RR4      1   variable
+;map                                  R15+8      1   parameter
+;y1                                   R15+6      1   parameter
+;x1                                   R15+4      1   parameter
+
+
+; Aggregate Stack Size: 0 (words)
+
+
+.endfunc "collisionCheck",241,"_collisionCheck"
+;  242		/* flag encoding
+;  243		 * 0x00 = no collision
+;  244		 * 0x01 = object hit top side
+;  245		 * 0x02 = object hit top right  corner
+;  246		 * 0x03 = object hit right side or left wall
+;  247		 * 0x04 = object hit bottom right corner
+;  248		 * 0x05 = object hit bottom side or ceiling
+;  249		 * 0x06 = object hit bottom left corner
+;  250		 * 0x07 = object hit left side or right wall
+;  251		 * 0x08 = object hit top left corner
+;  252		 * 0x09 = object passed through floor??? - maybe do this in out of bounds check???
+;  253		 */
+;  254	
+;  255	//Ball movement ver 2
+;  256	void ballMovement(entity *map) {
+_ballMovement:
+.define "_ballMovement"
+.value _ballMovement
+.class 2
+.type 65
+.type 0
+.endef
+.begfunc "ballMovement",256,"_ballMovement"
+.line 256
+.define "map"
+.class 9
+.value 4
+.tag "NONAME3"
+.type 168
+.type 0
+.endef
+.define "flag"
+.class 4
+.reg -1
+.type 2
+.type 0
+.endef
+.define "tempX"
+.class 1
+.value -2
+.type 3
+.type 0
+.endef
+.define "tempY"
+.class 1
+.value -4
+.type 3
+.type 0
+.endef
+.define "dx"
+.class 1
+.value -8
+.type 5
+.type 0
+.endef
+.define "dy"
+.class 1
+.value -12
+.type 5
+.type 0
+.endef
+.define "ty"
+.class 1
+.value -14
+.type 3
+.type 0
+.endef
+.define "tx"
+.class 1
+.value -16
+.type 3
+.type 0
+.endef
+	LD	R9,#25
+	CALL	__frameset0
+;  257		char flag;
+;  258		int tempX;
+;  259		int tempY,ty,tx;
+;  260		long dx,dy;
+;  261		//Variables
+;  262	
+;  263		//int where;
+;  264		//Find the ball entity (uncomment if not at 1)
+;  265		//for(where=1; map[where].whatIsThis != 0x02; where++){}
+;  266		ty = map[1].y1;
+.line 266
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	ADD	R3,#17
+	ADC	R2,#0
+	LDX	R6,4(RR2)
+	LDX	R7,5(RR2)
+	LDX	-14(RR14),R6
+	LDX	-13(RR14),R7
+;  267		tx = map[1].x1;
+.line 267
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	ADD	R3,#17
+	ADC	R2,#0
+	LDX	R6,2(RR2)
+	LDX	R7,3(RR2)
+	LDX	-16(RR14),R6
+	LDX	-15(RR14),R7
+;  268		dx = (((map[1].direction.x) + 0x2000) >> 14);
+.line 268
+	LDX	R6,4(RR14)
+	LDX	R7,5(RR14)
+	ADD	R7,#17
+	ADC	R6,#0
+	LDX	R3,6(RR6)
+	LDX	R2,7(RR6)
+	LDX	R1,8(RR6)
+	LDX	R0,9(RR6)
+	ADD	R0,#0
+	ADC	R1,#32
+	ADC	R2,#0
+	ADC	R3,#0
+	LD	R6,#14
+L__61:
+	SRA	R3
+	RRC	R2
+	RRC	R1
+	RRC	R0
+	DJNZ	R6,L__61
+	LDX	-8(RR14),R3
+	LDX	-7(RR14),R2
+	LDX	-6(RR14),R1
+	LDX	-5(RR14),R0
+;  269		dy = (((map[1].direction.y) + 0x2000) >> 14);
+.line 269
+	LDX	R6,4(RR14)
+	LDX	R7,5(RR14)
+	ADD	R7,#17
+	ADC	R6,#0
+	LDX	R3,10(RR6)
+	LDX	R2,11(RR6)
+	LDX	R1,12(RR6)
+	LDX	R0,13(RR6)
+	ADD	R0,#0
+	ADC	R1,#32
+	ADC	R2,#0
+	ADC	R3,#0
+	LD	R6,#14
+L__62:
+	SRA	R3
+	RRC	R2
+	RRC	R1
+	RRC	R0
+	DJNZ	R6,L__62
+	LDX	-12(RR14),R3
+	LDX	-11(RR14),R2
+	LDX	-10(RR14),R1
+	LDX	-9(RR14),R0
+;  270		//Remove the old ball
+;  271		gotoxy(map[1].x1, map[1].y1);
+.line 271
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	ADD	R3,#17
+	ADC	R2,#0
+	LDX	R6,4(RR2)
+	LDX	R7,5(RR2)
+	PUSH	R7
+	PUSH	R6
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	ADD	R3,#17
+	ADC	R2,#0
+	LDX	R6,2(RR2)
+	LDX	R7,3(RR2)
+	PUSH	R7
+	PUSH	R6
+	CALL	_gotoxy
+	POP	R0
+	POP	R0
+	POP	R0
+	POP	R0
+;  272		printf(" ");
+.line 272
+	LDX	___print_xputch,#high(___print_uputch)
+	LDX	___print_xputch+1,#low(___print_uputch)
+	LD	R0,#32
+	PUSH	R0
+	CALL	___print_uputch
+	POP	R0
+	LDX	___print_xputch,#high(___print_sputch)
+	LDX	___print_xputch+1,#low(___print_sputch)
+;  273	    tempX = map[1].x1 + (((map[1].direction.x) + 0x2000) >> 14);
+.line 273
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	ADD	R3,#17
+	ADC	R2,#0
+	LDX	R8,3(RR2)
+	LDX	R9,2(RR2)
+	LDX	R6,4(RR14)
+	LDX	R7,5(RR14)
+	ADD	R7,#17
+	ADC	R6,#0
+	LDX	R3,6(RR6)
+	LDX	R2,7(RR6)
+	LDX	R1,8(RR6)
+	LDX	R0,9(RR6)
+	ADD	R0,#0
+	ADC	R1,#32
+	ADC	R2,#0
+	ADC	R3,#0
+	LD	R6,#14
+L__63:
+	SRA	R3
+	RRC	R2
+	RRC	R1
+	RRC	R0
+	DJNZ	R6,L__63
+	ADD	R8,R0
+	ADC	R9,R1
+	LDX	-2(RR14),R9
+	LDX	-1(RR14),R8
+;  274		tempY = map[1].y1 + (((map[1].direction.y) + 0x2000) >> 14);
+.line 274
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	ADD	R3,#17
+	ADC	R2,#0
+	LDX	R8,5(RR2)
+	LDX	R9,4(RR2)
+	LDX	R6,4(RR14)
+	LDX	R7,5(RR14)
+	ADD	R7,#17
+	ADC	R6,#0
+	LDX	R3,10(RR6)
+	LDX	R2,11(RR6)
+	LDX	R1,12(RR6)
+	LDX	R0,13(RR6)
+	ADD	R0,#0
+	ADC	R1,#32
+	ADC	R2,#0
+	ADC	R3,#0
+	LD	R6,#14
+L__64:
+	SRA	R3
+	RRC	R2
+	RRC	R1
+	RRC	R0
+	DJNZ	R6,L__64
+	ADD	R8,R0
+	ADC	R9,R1
+	LDX	-4(RR14),R9
+	LDX	-3(RR14),R8
+;  275	    //flag = collisionCheck(map[1].x1 + ((map[1].direction.x) + 0x2000) >> 14,map[1].y1 + ((map[1].direction.y) + 0x2000) >> 14, map);
+;  276	    flag = collisionCheck(tempX, tempY, map);
+.line 276
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	PUSH	R3
+	PUSH	R2
+	LDX	R2,-4(RR14)
+	LDX	R3,-3(RR14)
+	PUSH	R3
+	PUSH	R2
+	LDX	R2,-2(RR14)
+	LDX	R3,-1(RR14)
+	PUSH	R3
+	PUSH	R2
+	CALL	_collisionCheck
+	POP	R1
+	POP	R1
+	POP	R1
+	POP	R1
+	POP	R1
+	POP	R1
+	LD	R1,R0
+;  277	    switch(flag){
+.line 277
+	LD	R0,R1
+	RL	R0
+	SBC	R0,R0
+	LD	R2,#high(L__60)
+	LD	R3,#low(L__60)
+	CALL	__ucase
+	JP	@RR0
+;  278	    	case 0x00:
+;  279	            break;
+;  280			case 0x01:
+_10_L_121:
+.line 280
+;  281	            map[1].direction.y = - map[1].direction.y;
+.line 281
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	ADD	R1,#17
+	ADC	R0,#0
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	ADD	R3,#17
+	ADC	R2,#0
+	LDX	R7,10(RR0)
+	LDX	R6,11(RR0)
+	LDX	R5,12(RR0)
+	LDX	R4,13(RR0)
+	COM	R7
+	COM	R6
+	COM	R5
+	COM	R4
+	ADD	R4,#1
+	ADC	R5,#0
+	ADC	R6,#0
+	ADC	R7,#0
+	LDX	10(RR2),R7
+	LDX	11(RR2),R6
+	LDX	12(RR2),R5
+	LDX	13(RR2),R4
+;  282	            break;
+.line 282
+	JR	_10_L_131
+;  283			case 0x02:
+_10_L_122:
+.line 283
+;  284	            map[1].direction.x = - map[1].direction.x;
+.line 284
+	CLR	R0
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	ADD	R3,#17
+	ADC	R2,R0
+	LDX	R4,4(RR14)
+	LDX	R5,5(RR14)
+	ADD	R5,#17
+	ADC	R4,R0
+	LDX	R7,6(RR4)
+	LDX	R6,7(RR4)
+	LDX	R1,8(RR4)
+	LDX	R0,9(RR4)
+	COM	R7
+	COM	R6
+	COM	R1
+	COM	R0
+	ADD	R0,#1
+	ADC	R1,#0
+	ADC	R6,#0
+	ADC	R7,#0
+	LDX	6(RR2),R7
+	LDX	7(RR2),R6
+	LDX	8(RR2),R1
+	LDX	9(RR2),R0
+;  285	            map[1].direction.y = - map[1].direction.y;
+.line 285
+	LDX	R5,10(RR2)
+	LDX	R4,11(RR2)
+	LDX	R1,12(RR2)
+	LDX	R0,13(RR2)
+	COM	R5
+	COM	R4
+	COM	R1
+	COM	R0
+	ADD	R0,#1
+	ADC	R1,#0
+	ADC	R4,#0
+	ADC	R5,#0
+	LDX	10(RR2),R5
+	LDX	11(RR2),R4
+	LDX	12(RR2),R1
+	LDX	13(RR2),R0
+;  286	            break;
+.line 286
+	JR	_10_L_131
+;  287			case 0x03:
+_10_L_123:
+.line 287
+;  288	            map[1].direction.x = - map[1].direction.x;
+.line 288
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	ADD	R1,#17
+	ADC	R0,#0
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	ADD	R3,#17
+	ADC	R2,#0
+	LDX	R7,6(RR0)
+	LDX	R6,7(RR0)
+	LDX	R5,8(RR0)
+	LDX	R4,9(RR0)
+	COM	R7
+	COM	R6
+	COM	R5
+	COM	R4
+	ADD	R4,#1
+	ADC	R5,#0
+	ADC	R6,#0
+	ADC	R7,#0
+	LDX	6(RR2),R7
+	LDX	7(RR2),R6
+	LDX	8(RR2),R5
+	LDX	9(RR2),R4
+;  289	            break;
+.line 289
+	JR	_10_L_131
+;  290			case 0x04:
+_10_L_124:
+.line 290
+;  291				map[1].direction.x = - map[1].direction.x;
+.line 291
+	CLR	R0
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	ADD	R3,#17
+	ADC	R2,R0
+	LDX	R4,4(RR14)
+	LDX	R5,5(RR14)
+	ADD	R5,#17
+	ADC	R4,R0
+	LDX	R7,6(RR4)
+	LDX	R6,7(RR4)
+	LDX	R1,8(RR4)
+	LDX	R0,9(RR4)
+	COM	R7
+	COM	R6
+	COM	R1
+	COM	R0
+	ADD	R0,#1
+	ADC	R1,#0
+	ADC	R6,#0
+	ADC	R7,#0
+	LDX	6(RR2),R7
+	LDX	7(RR2),R6
+	LDX	8(RR2),R1
+	LDX	9(RR2),R0
+;  292	            map[1].direction.y = - map[1].direction.y;
+.line 292
+	LDX	R5,10(RR2)
+	LDX	R4,11(RR2)
+	LDX	R1,12(RR2)
+	LDX	R0,13(RR2)
+	COM	R5
+	COM	R4
+	COM	R1
+	COM	R0
+	ADD	R0,#1
+	ADC	R1,#0
+	ADC	R4,#0
+	ADC	R5,#0
+	LDX	10(RR2),R5
+	LDX	11(RR2),R4
+	LDX	12(RR2),R1
+	LDX	13(RR2),R0
+;  293	            break;
+.line 293
+	JR	_10_L_131
+;  294			case 0x05:
+_10_L_125:
+.line 294
+;  295	            map[1].direction.y = - map[1].direction.y;
+.line 295
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	ADD	R1,#17
+	ADC	R0,#0
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	ADD	R3,#17
+	ADC	R2,#0
+	LDX	R7,10(RR0)
+	LDX	R6,11(RR0)
+	LDX	R5,12(RR0)
+	LDX	R4,13(RR0)
+	COM	R7
+	COM	R6
+	COM	R5
+	COM	R4
+	ADD	R4,#1
+	ADC	R5,#0
+	ADC	R6,#0
+	ADC	R7,#0
+	LDX	10(RR2),R7
+	LDX	11(RR2),R6
+	LDX	12(RR2),R5
+	LDX	13(RR2),R4
+;  296	            break;
+.line 296
+	JR	_10_L_131
+;  297	        case 0x06:
+_10_L_126:
+.line 297
+;  298	            map[1].direction.x = - map[1].direction.x;
+.line 298
+	CLR	R0
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	ADD	R3,#17
+	ADC	R2,R0
+	LDX	R4,4(RR14)
+	LDX	R5,5(RR14)
+	ADD	R5,#17
+	ADC	R4,R0
+	LDX	R7,6(RR4)
+	LDX	R6,7(RR4)
+	LDX	R1,8(RR4)
+	LDX	R0,9(RR4)
+	COM	R7
+	COM	R6
+	COM	R1
+	COM	R0
+	ADD	R0,#1
+	ADC	R1,#0
+	ADC	R6,#0
+	ADC	R7,#0
+	LDX	6(RR2),R7
+	LDX	7(RR2),R6
+	LDX	8(RR2),R1
+	LDX	9(RR2),R0
+;  299	            map[1].direction.y = - map[1].direction.y;
+.line 299
+	LDX	R5,10(RR2)
+	LDX	R4,11(RR2)
+	LDX	R1,12(RR2)
+	LDX	R0,13(RR2)
+	COM	R5
+	COM	R4
+	COM	R1
+	COM	R0
+	ADD	R0,#1
+	ADC	R1,#0
+	ADC	R4,#0
+	ADC	R5,#0
+	LDX	10(RR2),R5
+	LDX	11(RR2),R4
+	LDX	12(RR2),R1
+	LDX	13(RR2),R0
+;  300	            break;
+.line 300
+	JR	_10_L_131
+;  301	        case 0x07:
+_10_L_127:
+.line 301
+;  302	            map[1].direction.x = - map[1].direction.x;
+.line 302
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	ADD	R1,#17
+	ADC	R0,#0
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	ADD	R3,#17
+	ADC	R2,#0
+	LDX	R7,6(RR0)
+	LDX	R6,7(RR0)
+	LDX	R5,8(RR0)
+	LDX	R4,9(RR0)
+	COM	R7
+	COM	R6
+	COM	R5
+	COM	R4
+	ADD	R4,#1
+	ADC	R5,#0
+	ADC	R6,#0
+	ADC	R7,#0
+	LDX	6(RR2),R7
+	LDX	7(RR2),R6
+	LDX	8(RR2),R5
+	LDX	9(RR2),R4
+;  303	            break;
+.line 303
+	JR	_10_L_131
+;  304	        case 0x08:
+_10_L_128:
+.line 304
+;  305	            map[1].direction.x = - map[1].direction.x;
+.line 305
+	CLR	R0
+	LDX	R2,4(RR14)
+	LDX	R3,5(RR14)
+	ADD	R3,#17
+	ADC	R2,R0
+	LDX	R4,4(RR14)
+	LDX	R5,5(RR14)
+	ADD	R5,#17
+	ADC	R4,R0
+	LDX	R7,6(RR4)
+	LDX	R6,7(RR4)
+	LDX	R1,8(RR4)
+	LDX	R0,9(RR4)
+	COM	R7
+	COM	R6
+	COM	R1
+	COM	R0
+	ADD	R0,#1
+	ADC	R1,#0
+	ADC	R6,#0
+	ADC	R7,#0
+	LDX	6(RR2),R7
+	LDX	7(RR2),R6
+	LDX	8(RR2),R1
+	LDX	9(RR2),R0
+;  306	            map[1].direction.y = - map[1].direction.y;
+.line 306
+	LDX	R5,10(RR2)
+	LDX	R4,11(RR2)
+	LDX	R1,12(RR2)
+	LDX	R0,13(RR2)
+	COM	R5
+	COM	R4
+	COM	R1
+	COM	R0
+	ADD	R0,#1
+	ADC	R1,#0
+	ADC	R4,#0
+	ADC	R5,#0
+	LDX	10(RR2),R5
+	LDX	11(RR2),R4
+	LDX	12(RR2),R1
+	LDX	13(RR2),R0
+;  307	            break;
+;  308	        case 0x09:
+;  309	        	//TODO come up with something  - Or not
+;  310	        default: 
+;  311	        	break;
+;  312	    }
+_10_L_131:
+.line 312
+;  313	    //Change position and print the new
+;  314	    map[1].x1 += ((map[1].direction.x) + 0x2000) >> 14;
+.line 314
+	CLR	R2
+	LDX	R0,4(RR14)
+	LDX	R1,5(RR14)
+	ADD	R1,#17
+	ADC	R0,R2
+	LDX	R4,4(RR14)
+	LDX	R5,5(RR14)
+	ADD	R5,#17
+	ADC	R4,R2
+;  315	    map[1].y1 += ((map[1].direction.y) + 0x2000) >> 14;
+	LD	R8,R0
+	LD	R9,R1
+	LD	R10,R0
+	LD	R11,R1
+;  316		gotoxy(map[1].x1, map[1].y1);
+	LD	R12,R0
+	LD	R13,R1
+	LDX	R6,3(RR4)
+	LDX	-18(RR14),R6
+	LDX	-22(RR14),R2
+	LDX	R2,2(RR4)
+	LDX	-21(RR14),R2
+	LDX	R2,-22(RR14)
+	LDX	R6,4(RR14)
+	LDX	R7,5(RR14)
+	ADD	R7,#17
+	ADC	R6,R2
+	LDX	R5,6(RR6)
+	LDX	R4,7(RR6)
+	LDX	R3,8(RR6)
+	LDX	R2,9(RR6)
+	ADD	R2,#0
+	ADC	R3,#32
+	ADC	R4,#0
+	ADC	R5,#0
+	LD	R6,#14
+L__65:
+	SRA	R5
+	RRC	R4
+	RRC	R3
+	RRC	R2
+	DJNZ	R6,L__65
+	LDX	R6,-18(RR14)
+	ADD	R6,R2
+	LDX	-18(RR14),R6
+	LDX	R2,-21(RR14)
+	ADC	R2,R3
+	LDX	-21(RR14),R2
+	LDX	2(RR0),R2
+	LDX	3(RR0),R6
+.line 315
+	LDX	R7,5(RR0)
+	LDX	-19(RR14),R9
+	LDX	R9,4(RR0)
+	LDX	-18(RR14),R9
+	LDX	R9,-19(RR14)
+	LDX	R5,10(RR8)
+	LDX	R4,11(RR8)
+	LDX	R3,12(RR8)
+	LDX	R2,13(RR8)
+	ADD	R2,#0
+	ADC	R3,#32
+	ADC	R4,#0
+	ADC	R5,#0
+	LD	R6,#14
+L__66:
+	SRA	R5
+	RRC	R4
+	RRC	R3
+	RRC	R2
+	DJNZ	R6,L__66
+	ADD	R7,R2
+	LDX	-19(RR14),R9
+	LDX	R9,-18(RR14)
+	ADC	R9,R3
+	LDX	-18(RR14),R9
+	LDX	4(RR10),R9
+	LDX	R9,-19(RR14)
+	LDX	5(RR10),R7
+.line 316
+	LDX	R2,4(RR0)
+	LDX	R3,5(RR0)
+	PUSH	R3
+	PUSH	R2
+	LDX	R0,2(RR12)
+	LDX	R1,3(RR12)
+	PUSH	R1
+	PUSH	R0
+	CALL	_gotoxy
+	POP	R0
+	POP	R0
+	POP	R0
+	POP	R0
+;  317		printf("%c", BALLTEXTURE);
+.line 317
+	LDX	___print_xputch,#high(___print_uputch)
+	LDX	___print_xputch+1,#low(___print_uputch)
+	LDX	___print_buff,#184
+	LDX	___print_buff+1,#-0
+	CALL	___print_send
+	LDX	___print_xputch,#high(___print_sputch)
+	LDX	___print_xputch+1,#low(___print_sputch)
+;  318		gotoxy(1, 1);
+.line 318
+	CLR	R0
+	LD	R1,#1
+	PUSH	R1
+	PUSH	R0
+	PUSH	R1
+	PUSH	R0
+	CALL	_gotoxy
+	POP	R0
+	POP	R0
+	POP	R0
+	POP	R0
+.line 319
+	CALL	__framereset
+	RET	
+;	Jump Table for Switch Statement at line 277
+L__60:
+	DW	10
+	DW	0
+	DW	_10_L_131
+	DW	1
+	DW	_10_L_121
+	DW	2
+	DW	_10_L_122
+	DW	3
+	DW	_10_L_123
+	DW	4
+	DW	_10_L_124
+	DW	5
+	DW	_10_L_125
+	DW	6
+	DW	_10_L_126
+	DW	7
+	DW	_10_L_127
+	DW	8
+	DW	_10_L_128
+	DW	9
+	DW	_10_L_131
+	DW	_10_L_131
+
+
+;**************************** _ballMovement ***************************
+;Name                         Addr/Register   Size   Type
+;___print_send                       IMPORT  -----   function
+;___print_buff                       IMPORT      0   variable
+;___print_sputch                     IMPORT  -----   function
+;___print_xputch                     IMPORT      1   variable
+;___print_uputch                     IMPORT  -----   function
+;_gotoxy                             IMPORT  -----   function
+;tx                                  R15-16      1   variable
+;ty                                  R15-14      1   variable
+;dy                                  R15-12      2   variable
+;dx                                   R15-8      2   variable
+;tempY                                R15-4      1   variable
+;tempX                                R15-2      1   variable
+;flag                           <optimized>      0   variable
+;map                                  R15+4      1   parameter
+
+
+; Aggregate Stack Size: -25 (words)
+
+
+.endfunc "ballMovement",319,"_ballMovement"
+	XREF _gotoxy:ROM
+	XREF ___print_xputch:EDATA
+	XREF ___print_sputch:ROM
+	XREF ___print_uputch:ROM
+	XREF ___print_send:ROM
+	XREF ___print_buff:EDATA
+	XREF __swmul:ROM
+	XREF __ucase:ROM
+	XREF __framereset:ROM
+	XREF __frameset0:ROM
+	XREF __frameset00:ROM
+	XDEF _ballMovement
+	XDEF _collisionCheck
+	XDEF _playerMovement
+	XDEF _drawMap
+	XDEF _drawSolid
+	XDEF _killBreakable
+	XDEF _drawBreakable
+	XDEF _drawBall
+	XDEF _drawPlayer
+	XDEF _initiate
+	END
