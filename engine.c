@@ -3,6 +3,7 @@
 #include "ansi.h"
 #include "math.h"
 #include "Z8encore.h"
+#include "engine.h"
 
 #define MAPSIZE 100
 #define SOLIDTEXTURE 219
@@ -245,18 +246,24 @@ char collisionCheck(int x1, int y1, entity* map[]) { // an array of breakables, 
     }
 	return flag;
 }
-	/* flag encoding
-	 * 0x00 = no collision
-	 * 0x01 = object hit top side
-	 * 0x02 = object hit top right  corner
-	 * 0x03 = object hit right side or left wall
-	 * 0x04 = object hit bottom right corner
-	 * 0x05 = object hit bottom side or ceiling
-	 * 0x06 = object hit bottom left corner
-	 * 0x07 = object hit left side or right wall
-	 * 0x08 = object hit top left corner
-	 * 0x09 = object passed through floor??? - maybe do this in out of bounds check???
-	 */
+/* flag encoding
+ * 0x00 = no collision
+ * 0x01 = object hit top side
+ * 0x02 = object hit top right  corner
+ * 0x03 = object hit right side or left wall
+ * 0x04 = object hit bottom right corner
+ * 0x05 = object hit bottom side or ceiling
+ * 0x06 = object hit bottom left corner
+ * 0x07 = object hit left side or right wall
+ * 0x08 = object hit top left corner
+ * 0x09 = object hit paddle left
+ * 0x0a = object hit paddle little left
+ * 0x0b = object hit paddle middle
+ * 0x0c = object hit paddle little right
+ * 0x0d = object hit paddle right
+ * 0x0f = object hit  ???
+ * 0x0e = object hit ?? ??
+ */
 
 //Ball movement ver 2
 void ballMovement(entity *map) {
@@ -311,8 +318,21 @@ void ballMovement(entity *map) {
             map[1].direction.x = - map[1].direction.x;
             map[1].direction.y = - map[1].direction.y;
             break;
-        case 0x09:
-        	//TODO come up with something  - Or not
+        case 0x09 :
+            rotate(&map[1].direction, 10);
+            break;
+        case 0x0a :
+            rotate(&map[1].direction, 36);
+            break;
+        case 0x0b :
+            rotate(&map[1].direction, 36);
+            break;
+        case 0x0c :
+            rotate(&map[1].direction, 36);
+            break;
+        case 0x0d :
+            rotate(&map[1].direction, 36);
+            break;
         default: 
         	break;
     }
