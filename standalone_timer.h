@@ -5,7 +5,7 @@
 #ifndef REFLEXBALL_STANDALONE_TIMER_H
 #define REFLEXBALL_STANDALONE_TIMER_H
 
-void timer1setup();
+void timer1Setup();
 
 int timer1();
 

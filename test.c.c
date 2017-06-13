@@ -24,7 +24,7 @@ void main() {
     map[n].whatIsThis = 0x01;
     map[n].changedSinceLast = 1;
     map[n].x1 = 50;
-    map[n].y1 = 99;
+    map[n].y1 = 64;
     //map[n].direction = {0, 0};
     map[n].sizeX = 0x16;
 	map[n].sizeY = 0;
@@ -56,7 +56,7 @@ void main() {
     map[n].whatIsThis = 0x00;
     n++;
 	initiate();
-    timer1setup();
+    timer1Setup();
 	LEDInit();
     LEDSetString(string);
     drawMap(map);
@@ -86,12 +86,12 @@ void main() {
         LEDUpdate();
 
         //Reenter above loop
-        time2 += 5;
+        time2 += 15;
 
         //Reset timers
         if (readMsec() < 1) {
             time1 = 1;
-            time2 = 5;
+            time2 = 15;
         }
 	} while (1);
 }

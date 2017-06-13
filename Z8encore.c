@@ -51,7 +51,7 @@ int romstrLength(rom char* s){
 }
 
 void timerSetup(){
-	T0CTL = 0x01;
+ 	T0CTL = 0x01;
 	T0H = 0x1;
     T0L = 0x0;
 	T0RH = 0x07;
