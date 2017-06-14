@@ -159,6 +159,18 @@ void killBreakable(breakable_t* object){
         object->changedSinceLast = 0;
     }
 }
+
+char didYouWin(breakable_t* breakables) {
+    int i = 0;
+    while (breakables[i].whatIsThis){
+        if (breakables[i].whatIsThis != 0x05){
+            return 0x00 //no you didn't
+        }
+        i++;
+    }
+    return 0x01; //yes you did
+}
+
  /* //Actually a struct for this as well as all the remainig code for handling
   * DON'T DELETE
 void drawSolid(entity* object){
@@ -454,6 +466,16 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                 rotate(&ball->direction, -12);
             }
             flag = 0x03; // Ball hit paddle
+            break;
+        case 0x10: //Right wall
+            ball->direction.x = -ball->direction.x;
+            flag = 0x04; //Ball hit wall
+            break;
+        case 0x20: //Left wall
+            ball->direction.x = -ball->direction.x;
+            break;
+        case 0x30: //Ceiling
+            ball->direction.y = -ball->direction.y;
             break;
         default:
             flag = 0x00; //eh
