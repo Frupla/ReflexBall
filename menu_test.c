@@ -9,6 +9,7 @@
 #include "Z8encore.h"
 #include "engine.h"
 #include "standalone_timer.h"
+#include "levels.h"
 
 #define STDWINDOWX 10
 #define STDWINDOWY 10
@@ -25,13 +26,13 @@ int findMaxScore(breakable_t* breakables){
 int startGame() {
     player_t player[2];
     ball_t ball[2];
-    breakable_t breakable[60];
+    breakable_t * breakable;
     int i, j, n = 0;
     Tvector tempVec;
     char button;
     int score = 0;
     int max_score = 0;
-    char string[LED_MAX_STR_LEN] = "   5";
+    char string[LED_MAX_STR_LEN] = " 5/5";
     int time1 = 1, time2 = 15;
 	string[0] = 0x7F;
 
@@ -55,37 +56,16 @@ int startGame() {
     ball[0].direction = tempVec;
     ball[0].size = 0x00;
     ball[0].color = 0x0A;
-    //Breakable setup
-    for (i = 15; i <= 105 ; i += 15) {
-        for (j = 4; j <= 20; j += 4) {
-            breakable[n].whatIsThis = 0x03;
-            breakable[n].changedSinceLast = 1;
-            breakable[n].x1 = i;
-            breakable[n].y1 = j;
-            breakable[n].sizeX = 0x0A;
-            breakable[n].sizeY = 0x01;
-            breakable[n].lives = 0x03;
-            n++;
-       }
-    }
+    
+    breakable = level1();
 
-    breakable[2].lives = 1;
-    breakable[4].lives = 1;
-    breakable[6].lives = 1;
-    breakable[10].lives = 2;
-    breakable[14].lives = 2;
-    breakable[12].lives = 4;
-
-    breakable[n].whatIsThis = 0x00;
     ball[1].whatIsThis = 0x00;
     player[1].whatIsThis = 0x00;
-    n++;
 
     max_score = findMaxScore(breakable);
 
     initiate();
     timer1Setup();
-    LEDInit();
     LEDSetString(string);
     drawMap(player, ball, breakable);
     gotoxy(5,62);
@@ -160,7 +140,11 @@ void addHighscore(int * score, int * highscore){
             positionoflowest = i;  
         }
     }
-    highscore[positionoflowest] = *score;
+    if (*score > highscore[positionoflowest]){
+        highscore[positionoflowest] = *score;
+        gotoxy(20,62);
+        printf("You made the highscore");
+    }
 }
 
 void printHighscore(int * highscore){
@@ -175,35 +159,41 @@ void printHighscore(int * highscore){
             }
         }     
     }
-    window(STDWINDOWX, STDWINDOWY, 50, 20, "Highscore", 1);
+    window(STDWINDOWX, STDWINDOWY, 50, 21, "Highscore", 1);
     for (i = 0; i < 5; i++){
         gotoxy(12,12 +i);
         printf("%d.  %d", i+1, highscore[i]);
     }
     do{
+        LEDUpdate();
         if (readKey() == 0x00){
             flag = 0;
         }
     }while(!readKey() || (flag));
+    for (i = 0; i >=23; i++){
+         gotoxy(20+i,62);
+         printf(" ");
+    }
 }
 
 void printf();
 
 void showControls() {
     int i, flag = 1;
-    window(STDWINDOWX, STDWINDOWY, 50, 30, "Help!", 1);
+    window(STDWINDOWX, STDWINDOWY, 50, 21, "Help!", 1);
     gotoxy(STDWINDOWX + 2, STDWINDOWY + 2);
-    printf("You have three buttons:\r\n");
+    printf("You have three buttons:");
+    gotoxy(STDWINDOWX + 2, STDWINDOWY + 3);
     printf(" < - Left   ^ - Action  > - Right\r\n");
     gotoxy(STDWINDOWX + 2, STDWINDOWY + 5);
     printf("Hit these:   With this:");
     gotoxy(STDWINDOWX + 2, STDWINDOWY + 7);
     fgcolor(5);
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < 8; i++) {
         printf("%c", BREAKABLETEXTURE);
     }
     gotoxy(STDWINDOWX + 2, STDWINDOWY + 8);
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < 8; i++) {
         printf("%c", BREAKABLETEXTURE);
     }
     gotoxy(STDWINDOWX + 20, STDWINDOWY + 7);
@@ -213,6 +203,7 @@ void showControls() {
     gotoxy(STDWINDOWX + 2, STDWINDOWY + 10);
     printf("You have %d lives!", 5);
     do {
+        LEDUpdate();
         if (readKey() == 0x00) {
             flag = 0;
         }
@@ -227,10 +218,11 @@ void main() {
     char string[LED_MAX_STR_LEN] = "Hello";
     init_uart(_UART0, _DEFFREQ, _DEFBAUD);  // set-up UART0 to 57600, 8n1
     clrscr();
+    LEDInit();
     LEDSetString(string);
 
     do {
-        window(STDWINDOWX, STDWINDOWY, 50, 30, "Main menu", 1);
+        window(STDWINDOWX, STDWINDOWY, 50, 21, "Main menu", 1);
         gotoxy(12, 12);
         printf(" > Start game");
 		gotoxy(13,13);

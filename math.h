@@ -2,7 +2,7 @@
 #define _MATH_H_
 #define GRANDE 0x01ff
 
-typedef struct{
+typedef struct what{
 	long x;
 	long y;
 }Tvector;

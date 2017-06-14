@@ -27,7 +27,7 @@ typedef struct{
     char color;
 } entity;
 */
-typedef struct{
+typedef struct stufftemp{
     char changedSinceLast;
     //not sure if I need this
     char whatIsThis;//player           - 0x01

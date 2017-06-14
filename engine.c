@@ -35,7 +35,7 @@ typedef struct{
 } entity;
 */
 
-typedef struct{
+typedef struct stuffTemp{
     char changedSinceLast;
     //not sure if I need this
     char whatIsThis;//player           - 0x01
