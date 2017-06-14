@@ -57,6 +57,13 @@ void startGame() {
        }
     }
 
+    breakable[2].lives = 1;
+    breakable[4].lives = 1;
+    breakable[6].lives = 1;
+    breakable[10].lives = 2;
+    breakable[14].lives = 2;
+    breakable[12].lives = 4;
+
     breakable[n].whatIsThis = 0x00;
     ball[1].whatIsThis = 0x00;
     player[1].whatIsThis = 0x00;

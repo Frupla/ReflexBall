@@ -10,6 +10,7 @@
 #define BALLTEXTURE 184
 #define BREAKABLETEXTURE 219
 #define BACKGROUNDTEXTURE 32
+#define STDTEXTCOLOR 15
 
 #define EIGHTEEN_FOURTEEN_TO_INT(a) ((int)((a + 0x2000) >> 14))  //this is kinda shitty, cuts 2 MSB when recast as int, and it will be
 #define LONG_TO_EIGHTEEN_FOURTEEN(a) (a << 14)
@@ -107,15 +108,17 @@ void drawPlayer(player_t * object){
         fgcolor(object->color);
 		printf("%c", PLAYERTEXTURE);
 	}
-    fgcolor(15);
+    fgcolor(STDTEXTCOLOR);
 	object->changedSinceLast = 0;
 }
 
 void drawBall(ball_t* object){
 	int i, j;
 	gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1),EIGHTEEN_FOURTEEN_TO_INT(object->y1));
+    fgcolor(object[0].color);
 	printf("%c", BALLTEXTURE);
 	object->changedSinceLast = 0;
+    fgcolor(STDTEXTCOLOR);
 }
 
 void drawBreakable(breakable_t* object){
@@ -128,7 +131,7 @@ void drawBreakable(breakable_t* object){
 			printf("%c", BREAKABLETEXTURE);
 		}
 	}
-    fgcolor(15);
+    fgcolor(STDTEXTCOLOR);
 	object->changedSinceLast = 0;
 }
 
@@ -152,7 +155,7 @@ void killBreakable(breakable_t* object){
                 printf("%c", BREAKABLETEXTURE);
             }
         }
-        fgcolor(15);
+        fgcolor(STDTEXTCOLOR);
         object->changedSinceLast = 0;
     }
 }
