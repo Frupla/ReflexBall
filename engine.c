@@ -455,6 +455,16 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
             }
             flag = 0x03; // Ball hit paddle
             break;
+        case 0x10: //Right wall
+            ball->direction.x = -ball->direction.x;
+            flag = 0x04; //Ball hit wall
+            break;
+        case 0x20: //Left wall
+            ball->direction.x = -ball->direction.x;
+            break;
+        case 0x30: //Ceiling
+            ball->direction.y = -ball->direction.y;
+            break;
         default:
             flag = 0x00; //eh
         	break;
