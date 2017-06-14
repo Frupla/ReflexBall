@@ -13,7 +13,7 @@
 void startGame() {
     player_t player[2];
     ball_t ball[2];
-    breakable_t breakable[2];
+    breakable_t breakable[60];
     int i, j, n = 0;
     Tvector tempVec;
     char button;
@@ -44,18 +44,18 @@ void startGame() {
     i = 5;
     j = 5;
     //Breakable setup
-   // for (i = 10; i <= 90 ; i += 20) {
-     //   for (j = 4; j <= 20; j += 4) {
+    for (i = 5; i <= 105 ; i += 15) {
+        for (j = 4; j <= 20; j += 4) {
             breakable[n].whatIsThis = 0x03;
             breakable[n].changedSinceLast = 1;
             breakable[n].x1 = i;
             breakable[n].y1 = j;
-            breakable[n].sizeX = 0x10;
+            breakable[n].sizeX = 0x0A;
             breakable[n].sizeY = 0x01;
             breakable[n].lives = 0x03;
             n++;
-     //   }
-    //}
+       }
+    }
 
     breakable[n].whatIsThis = 0x00;
     ball[1].whatIsThis = 0x00;
@@ -74,6 +74,11 @@ void startGame() {
     do {
         do {
             do {
+				//reset timer
+				if (timer1() < 50) {
+            		time1 = 1;
+            		time2 = 15;
+        		}
                 button = readKey();
                 LEDUpdate();
                 //Do this for 0.1 s
@@ -83,7 +88,7 @@ void startGame() {
 
             LEDUpdate();
             //Reenter the above while - loop
-            time1++;
+            time1=timer1();
             //Do this for 0.5 s
         } while (timer1() < time2);
         //Then move the ball
@@ -111,13 +116,10 @@ void startGame() {
         LEDUpdate();
 
         //Reenter above loop
-        time2 += 15;
+        time2 = timer1();
 
         //Reset timers
-        if (timer1() < 20) {
-            time1 = 1;
-            time2 = 15;
-        }
+        
     } while (n);
 }
 
