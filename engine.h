@@ -1,7 +1,7 @@
 #ifndef _ENGINE_H_
 #define _ENGINE_H_
 
-#define MAPSIZE 64
+#define MAPSIZE 60
 #define LONG_TO_EIGHTEEN_FOURTEEN(a) (a << 14)
 
 //kode
