@@ -94,6 +94,8 @@ int startGame() {
             		time2 = 15;
         		}
                 button = readKey();
+                gotoxy(5,62);
+                printf("%d\n", score);
                 LEDUpdate();
                 //Do this for 0.1 s
             } while (timer1() < time1);

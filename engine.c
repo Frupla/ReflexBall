@@ -251,15 +251,15 @@ char collisionCheck(int x1, int y1, player_t* players, breakable_t* breakables) 
 	char flag = 0;
 	int i = 0;
 	if(x1 >= MAPSIZE * 2){ // returns true if hit wall
-		flag = 0x07;// hit right wall
+		flag = 0x10;// hit right wall
         return flag;
 	}
 	if(x1 <= 1){ 
-		flag = 0x03; // hit left wall
+		flag = 0x20; // hit left wall
 		return flag;
 	}
 	if(y1 <= 1){ // returns true if ceiling
-		flag = 0x05;// wall is hit
+		flag = 0x30;// wall is hit
         return flag;
 	}
     if (y1 >= MAPSIZE) { // returns true if ball falls through floor
@@ -417,12 +417,12 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
             break;
         case 0x07:
             ball->direction.x = - ball->direction.x;
-            flag = 0x01; //Ball hit breakable
+            flag = 0x01; //Ball hit wall
             break;
         case 0x08:
             ball->direction.x = - ball->direction.x;
             ball->direction.y = - ball->direction.y;
-            flag = 0x01; //Ball hit breakable
+            flag = 0x01; //Ball hit wall
             break;
         case 0x09 :
             flag = 0x02; // Ball out of bounds
