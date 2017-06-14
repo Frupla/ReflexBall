@@ -67,7 +67,7 @@ void startGame() {
     drawMap(player, ball, breakable);
 
     //n counts the health
-    n = 30000;
+    n = 5;
     do {
         do {
             do {
@@ -96,8 +96,8 @@ void startGame() {
                 break;
             case 0x02: //Ball dead
                 n--;
+                gotoxy(EIGHTEEN_FOURTEEN_TO_INT([0].x1), EIGHTEEN_FOURTEEN_TO_INT([0].y1));
                 printf(" ");
-                gotoxy(ball[0].x1, ball[0].y1);
                 ball[0].direction = tempVec;
                 ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
                 ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
@@ -113,10 +113,9 @@ void startGame() {
         LEDUpdate();
 
         //Reenter above loop
-        time2 = timer1();
+        // 15 can be changed to a variable, to increase difficulty
+        time2 = timer1() + 15;
 
-        //Reset timers
-        
     } while (n);
 }
 
