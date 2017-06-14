@@ -106,8 +106,8 @@ void startGame() {
                 break;
             case 0x02: //Ball dead
                 n--;
-                printf(" ");
-                gotoxy(map[1].x1, map[1].y1);
+                gotoxy(map[1].x1-1, map[1].y1);
+                printf("H");
                 map[1].direction = tempVec;
                 map[1].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
                 map[1].y1 = LONG_TO_EIGHTEEN_FOURTEEN(61);

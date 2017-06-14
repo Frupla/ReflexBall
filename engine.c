@@ -357,6 +357,8 @@ char ballMovement(entity *map) {
             break;
         case 0x09 :
             flag = 0x02; // Ball out of bounds
+            map[1].direction.x = 0;
+            map[1].direction.y = 0;
             break;
         case 0x0a :
             //TODO : Change it from a fixed reflect angle,
@@ -404,6 +406,5 @@ char ballMovement(entity *map) {
     map[1].y1 += map[1].direction.y;
 	gotoxy(EIGHTEEN_FOURTEEN_TO_INT(map[1].x1), EIGHTEEN_FOURTEEN_TO_INT(map[1].y1));
 	printf("%c", BALLTEXTURE);
-	gotoxy(1, 1);
     return flag; //Nothing happended
 }
