@@ -190,7 +190,7 @@ void printHighscore(int * highscore){
 void printf();
 
 void showControls() {
-    int i;
+    int i, flag = 1;
     window(STDWINDOWX, STDWINDOWY, 50, 30, "Help!", 1);
     gotoxy(STDWINDOWX + 2, STDWINDOWY + 2);
     printf("You have three buttons:\r\n");
@@ -212,6 +212,11 @@ void showControls() {
     fgcolor(STDTEXTCOLOR);
     gotoxy(STDWINDOWX + 2, STDWINDOWY + 10);
     printf("You have %d lives!", 5);
+    do {
+        if (readKey() == 0x00) {
+            flag = 0;
+        }
+    } while (!readKey() || (flag));
 }
 
 
