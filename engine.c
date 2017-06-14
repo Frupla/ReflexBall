@@ -10,6 +10,7 @@
 #define BALLTEXTURE 184
 #define BREAKABLETEXTURE 219
 #define BACKGROUNDTEXTURE 32
+#define STDTEXTCOLOR 15
 
 #define EIGHTEEN_FOURTEEN_TO_INT(a) ((int)((a + 0x2000) >> 14))  //this is kinda shitty, cuts 2 MSB when recast as int, and it will be
 #define LONG_TO_EIGHTEEN_FOURTEEN(a) (a << 14)
@@ -76,7 +77,8 @@ typedef struct{
     //zones? - so far no zones
     char sizeX; // represent the horizontal size factor
     char sizeY;	// represent the vertical size factor
-    char lives; // n.o. lives for breakables  (color breakables after this). Is set to 3 in drawBreakables
+    char lives; // n.o. lives for breakables  (color breakables after this).
+    // DO NOT FIVE IT MORE THAN 7 HEALTH.
     // 0x00 - dead, no lives
 } breakable_t;
 
@@ -103,29 +105,33 @@ void drawPlayer(player_t * object){
 	int i;
 	for(i = 0; i <= ((object->sizeX)*5); i++){
 		gotoxy(object->x1 + i,object->y1);
+        fgcolor(object->color);
 		printf("%c", PLAYERTEXTURE);
 	}
+    fgcolor(STDTEXTCOLOR);
 	object->changedSinceLast = 0;
 }
 
 void drawBall(ball_t* object){
 	int i, j;
 	gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1),EIGHTEEN_FOURTEEN_TO_INT(object->y1));
+    fgcolor(object[0].color);
 	printf("%c", BALLTEXTURE);
 	object->changedSinceLast = 0;
+    fgcolor(STDTEXTCOLOR);
 }
 
 void drawBreakable(breakable_t* object){
 	int i, j;
-    object->lives = 3; //change if you want to change n.o. lives
-    fgcolor(4);
+    //object->lives = 3; //change if you want to change n.o. lives
 	for(i = 0; i <= (object->sizeX); i++){
 		for(j = 0; j <= (object->sizeY); j++){
+            fgcolor(7 - object->lives);
 			gotoxy(object->x1 + i,object->y1 + j);
 			printf("%c", BREAKABLETEXTURE);
 		}
 	}
-    fgcolor(15);
+    fgcolor(STDTEXTCOLOR);
 	object->changedSinceLast = 0;
 }
 
@@ -149,7 +155,7 @@ void killBreakable(breakable_t* object){
                 printf("%c", BREAKABLETEXTURE);
             }
         }
-        fgcolor(15);
+        fgcolor(STDTEXTCOLOR);
         object->changedSinceLast = 0;
     }
 }
@@ -168,7 +174,7 @@ void drawSolid(entity* object){
   */
 
 //pre: all arrays must be nothing-terminated, ei have the last object have whatIsThis= 0x00
-//     arrays must contain all obejcts on map
+//     arrays must contain all objects on map
 void drawMap(player_t* players, ball_t* balls, breakable_t* breakables) {
     while (players->whatIsThis){
         if (players->whatIsThis == 0x01 && players->changedSinceLast){
@@ -195,25 +201,29 @@ void playerMovement(char buttonPress, player_t* object){
 	int i;
 	switch(buttonPress) {
 		case 0x01: //PF7
-            gotoxy(object->x1,object->y1);
-            printf("%c", 0x20);
 			if ((object->x1 + 1 + ((object->sizeX)*5)) < 2 * MAPSIZE){
+                gotoxy(object->x1, object->y1);
+                printf("%c", 0x20);
 				object->x1++;
 			}
 			gotoxy(object->x1 + ((object->sizeX)*5),object->y1);
+            fgcolor(object[0].color);
             printf("%c", PLAYERTEXTURE);
+            fgcolor(15);
 			gotoxy(1,1);
             break;
 		case 0x02: //PF6
 			break;
 		case 0x04: //PD3
-			gotoxy(object->x1 + ((object->sizeX)*5),object->y1);
-            printf("%c", 0x20);
 			if((object->x1 - 1) > 1){
+                gotoxy(object->x1 + ((object->sizeX) * 5), object->y1);
+                printf("%c", 0x20);
 				object->x1--;
 			}
 			gotoxy(object->x1,object->y1);
+            fgcolor(object[0].color);
             printf("%c", PLAYERTEXTURE);
+            fgcolor(15);
 			gotoxy(1,1);
 			break;
 		case 0x05:
@@ -352,15 +362,16 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
 	//Variables
 
 	//int where;
-	//Find the ball entity (uncomment if not at 1)
+    // --- Find the ball entity (uncomment if not at 1) ----
 	//for(where=1; map[where].whatIsThis != 0x02; where++){}
 
 	//Remove the old ball
 	gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball->x1), EIGHTEEN_FOURTEEN_TO_INT(ball->y1));
 	printf(" ");
+
+    //Calculate the next position, and pass this to collisionCheck.
     tempX = EIGHTEEN_FOURTEEN_TO_INT(ball->x1 + ball->direction.x);
 	tempY = EIGHTEEN_FOURTEEN_TO_INT(ball->y1 + ball->direction.y);
-    //flag = collisionCheck(ball->x1 + ((ball->direction.x) + 0x2000) >> 14,ball->y1 + ((ball->direction.y) + 0x2000) >> 14, map);
     flag = collisionCheck(tempX, tempY, players, breakables);
     switch(flag){
     	case 0x00:
@@ -372,34 +383,34 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
 		case 0x02:
             ball->direction.x = - ball->direction.x;
             ball->direction.y = - ball->direction.y;
-            flag = 0x01;
+            flag = 0x01; //Ball hit breakable
             break;
 		case 0x03:
             ball->direction.x = - ball->direction.x;
-            flag = 0x01;
+            flag = 0x01; //Ball hit breakable
             break;
 		case 0x04:
 			ball->direction.x = - ball->direction.x;
             ball->direction.y = - ball->direction.y;
-            flag = 0x01;
+            flag = 0x01; //Ball hit breakable
             break;
 		case 0x05:
             ball->direction.y = - ball->direction.y;
-            flag = 0x01;
+            flag = 0x01; //Ball hit breakable
             break;
         case 0x06:
             ball->direction.x = - ball->direction.x;
             ball->direction.y = - ball->direction.y;
-            flag = 0x01;
+            flag = 0x01; //Ball hit breakable
             break;
         case 0x07:
             ball->direction.x = - ball->direction.x;
-            flag = 0x01;
+            flag = 0x01; //Ball hit breakable
             break;
         case 0x08:
             ball->direction.x = - ball->direction.x;
             ball->direction.y = - ball->direction.y;
-            flag = 0x01;
+            flag = 0x01; //Ball hit breakable
             break;
         case 0x09 :
             flag = 0x02; // Ball out of bounds
@@ -422,10 +433,11 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
             if (ball->direction.y > -(0x1000)) {
                 rotate(&ball->direction, 12);
             }
-            flag = 0x03;
+            flag = 0x03; // Ball hit paddle
             break;
         case 0x0c :
             ball->direction.y = -ball->direction.y;
+            flag = 0x03; // Ball hit paddle
             break;
         case 0x0d :
             ball->direction.y = -ball->direction.y;
@@ -433,7 +445,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
             if (ball->direction.y > -(0x1000)) {
                 rotate(&ball->direction, -12);
             }
-            flag = 0x03;
+            flag = 0x03; // Ball hit paddle
             break;
         case 0x0e :
             ball->direction.y = -ball->direction.y;
@@ -441,7 +453,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
             if (ball->direction.y > -(0x1000)) {
                 rotate(&ball->direction, -12);
             }
-            flag = 0x03;
+            flag = 0x03; // Ball hit paddle
             break;
         default:
             flag = 0x00; //eh
@@ -450,7 +462,10 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
     //Change position and print the new
     ball->x1 += ball->direction.x;
     ball->y1 += ball->direction.y;
+    fgcolor(ball[0].color);
 	gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball->x1), EIGHTEEN_FOURTEEN_TO_INT(ball->y1));
 	printf("%c", BALLTEXTURE);
-    return flag; //Nothing happended
+    fgcolor(15);
+
+    return flag; // Give away information!
 }

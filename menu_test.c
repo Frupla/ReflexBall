@@ -40,7 +40,7 @@ int startGame() {
     ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
     ball[0].direction = tempVec;
     ball[0].size = 0x00;
-    ball[0].color = 0x00;
+    ball[0].color = 0x08;
 
     i = 5;
     j = 5;
@@ -57,6 +57,13 @@ int startGame() {
             n++;
        }
     }
+
+    breakable[2].lives = 1;
+    breakable[4].lives = 1;
+    breakable[6].lives = 1;
+    breakable[10].lives = 2;
+    breakable[14].lives = 2;
+    breakable[12].lives = 4;
 
     breakable[n].whatIsThis = 0x00;
     ball[1].whatIsThis = 0x00;
