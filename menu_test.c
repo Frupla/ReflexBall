@@ -13,7 +13,7 @@
 void startGame() {
     player_t player[2];
     ball_t ball[2];
-    breakable_t breakable[20];
+    breakable_t breakable[60];
     int i, j, n = 0;
     Tvector tempVec;
     char button;
@@ -35,8 +35,8 @@ void startGame() {
     rotate(&tempVec, 47);
     ball[0].whatIsThis = 0x02;
     ball[0].changedSinceLast = 1;
-    ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(7);
-    ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(10);
+    ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
+    ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(60);
     ball[0].direction = tempVec;
     ball[0].size = 0x00;
     ball[0].color = 0x00;
@@ -44,13 +44,13 @@ void startGame() {
     i = 5;
     j = 5;
     //Breakable setup
-    for (i = 10; i <= 90; i += 40) {
-        for (j = 4; j <= 8; j += 4) {
+    for (i = 10; i <= 90 ; i += 20) {
+        for (j = 4; j <= 20; j += 2) {
             breakable[n].whatIsThis = 0x03;
             breakable[n].changedSinceLast = 1;
             breakable[n].x1 = i;
             breakable[n].y1 = j;
-            breakable[n].sizeX = 0x16;
+            breakable[n].sizeX = 0x13;
             breakable[n].sizeY = 0x01;
             breakable[n].lives = 0x03;
             n++;
