@@ -98,7 +98,9 @@ void updateBuffer(){
 void LEDSetString(char *src) {
 	LEDtext_p = src;
 	updateBuffer();
-	Letter++;
+    if (Scrollon) {
+        Letter++;
+    }
 }
 
 void LEDUpdate(){
