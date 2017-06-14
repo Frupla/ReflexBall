@@ -47,8 +47,7 @@ typedef struct{
     //nothing          - 0x00
     int x1; //1. coordinate, placement, 18.14
     int y1; //2. coordiante, placement, 18.14
-    Tvector direction; // Speed and direction (only relevant for the ball)
-    //zones? - so far no zones
+    //Tvector direction; // Speed and direction (only relevant for the ball)
     char sizeX; // represent the horizontal size factor
     char color; // n.o. lives for breakables  (color breakables after this). Is set to 3 in drawBreakables
     // 0x00 - dead, no lives
@@ -59,8 +58,7 @@ typedef struct{
     char whatIsThis;
     int x1; //1. coordinate, placement, 18.14
     int y1; //2. coordiante, placement, 18.14
-    Tvector direction; // Speed and direction (only relevant for the ball)
-    //zones? - so far no zones
+    //Tvector direction; // Speed and direction (only relevant for the ball)
     char sizeX; // represent the horizontal size factor
     char sizeY;	// represent the vertical size factor
     char lives; // n.o. lives for breakables  (color breakables after this). Is set to 3 in drawBreakables
