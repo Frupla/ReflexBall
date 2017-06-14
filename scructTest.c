@@ -6,7 +6,7 @@
 #include <sio.h>	                      // special encore serial i/o functions
 #include "ansi.h"
 #include "Z8encore.h"
-
+#include "math.h"
 
 
 
@@ -225,10 +225,12 @@ void main(){
     breakable_three breakthree;
 
     init_uart(_UART0,_DEFFREQ,_DEFBAUD);
+    clrscr();
     eone.x1 = 1;
     eone.y1 = 1;
     eone.whatIsThis = 1;
-    eone.direction  ={1,1};
+    eone.direction.x = 1;
+	eone.direction.y = 1;
     eone.color = 1;
     eone.sizeX = 1;
     eone.sizeY = 1;
@@ -245,7 +247,8 @@ void main(){
     bone.changedSinceLast = 1;
     bone.whatIsThis = 1;
     bone.color = 1;
-    bone.direction = {1,1};
+    bone.direction.x = 1;
+    bone.direction.y = 1;
     bone.size = 1;
 
     breakone.whatIsThis = 1;
@@ -259,7 +262,8 @@ void main(){
     etwo.x1 = 1;
     etwo.y1 = 1;
     etwo.whatIsThis = 1;
-    etwo.direction  ={1,1};
+    etwo.direction.x  = 1;
+    etwo.direction.y = 1;
     etwo.color = 1;
     etwo.sizeX = 1;
     etwo.sizeY = 1;
@@ -276,7 +280,8 @@ void main(){
     btwo.changedSinceLast = 1;
     btwo.whatIsThis = 1;
     btwo.color = 1;
-    btwo.direction = {1,1};
+    btwo.direction.x = 1;
+    btwo.direction.y = 1;
     btwo.size = 1;
 
     breaktwo.whatIsThis = 1;
@@ -290,7 +295,8 @@ void main(){
     ethree.x1 = 1;
     ethree.y1 = 1;
     ethree.whatIsThis = 1;
-    ethree.direction  ={1,1};
+    ethree.direction.x = 1;
+    ethree.direction.y = 1;
     ethree.color = 1;
     ethree.sizeX = 1;
     ethree.sizeY = 1;
@@ -307,7 +313,8 @@ void main(){
     bthree.changedSinceLast = 1;
     bthree.whatIsThis = 1;
     bthree.color = 1;
-    bthree.direction = {1,1};
+    bthree.direction.x = 1;
+    bthree.direction.y = 1;
     bthree.size = 1;
 
     breakthree.whatIsThis = 1;

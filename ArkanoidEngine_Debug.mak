@@ -54,8 +54,8 @@ clean:
             del C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\math.obj
 	@if exist C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\standalone_timer.obj  \
             del C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\standalone_timer.obj
-	@if exist C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\test.c.obj  \
-            del C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\test.c.obj
+	@if exist C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\scructTest.obj  \
+            del C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\scructTest.obj
 
 rebuildall: clean Debug
 
@@ -71,7 +71,7 @@ OBJS =  \
             C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\Z8encore.obj  \
             C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\math.obj  \
             C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\standalone_timer.obj  \
-            C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\test.c.obj
+            C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\scructTest.obj
 
 ArkanoidEngine: $(OBJS)
 	 $(LINK)  @C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\ArkanoidEngine_Debug.linkcmd
@@ -162,8 +162,8 @@ C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\standalone_timer.obj :  \
             C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\STANDA~1.H
 	 $(CC)  $(CFLAGS) C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\standalone_timer.c
 
-C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\test.c.obj :  \
-            C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\test.c.c  \
+C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\scructTest.obj :  \
+            C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\scructTest.c  \
             C:\PROGRA~2\ZiLOG\ZDSII_~1.3\include\std\FORMAT.H  \
             C:\PROGRA~2\ZiLOG\ZDSII_~1.3\include\std\STDARG.H  \
             C:\PROGRA~2\ZiLOG\ZDSII_~1.3\include\std\STDIO.H  \
@@ -178,9 +178,6 @@ C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\test.c.obj :  \
             C:\PROGRA~2\ZiLOG\ZDSII_~1.3\include\zilog\uartdefs.h  \
             C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\Z8encore.h  \
             C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\ansi.h  \
-            C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\engine.h  \
-            C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\math.h  \
-            C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\sinLUT.h  \
-            C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\STANDA~1.H
-	 $(CC)  $(CFLAGS) C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\test.c.c
+            C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\math.h
+	 $(CC)  $(CFLAGS) C:\Users\tilfr\Dropbox\PROGRA~1\Project\REFLEX~1\scructTest.c
 

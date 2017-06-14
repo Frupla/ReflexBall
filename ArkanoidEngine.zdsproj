@@ -15,7 +15,7 @@
 <file filter-key="">.\math.c</file>
 <file filter-key="">.\standalone_timer.c</file>
 <file filter-key="">.\standalone_timer.h</file>
-<file filter-key="">.\test.c.c</file>
+<file filter-key="">.\scructTest.c</file>
 <file filter-key="">.\engine.h</file>
 </files>
 
