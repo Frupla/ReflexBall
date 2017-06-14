@@ -28,7 +28,7 @@ int startGame() {
     player[0].y1 = 58;
     //map[n].direction = {0, 0};
     player[0].sizeX = 0x04;
-    player[0].color = 0x00;
+    player[0].color = 0x0f;
 
     // Ball setup
     tempVec.x = convert(0);
