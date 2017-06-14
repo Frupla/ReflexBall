@@ -10,6 +10,14 @@
 #include "engine.h"
 #include "standalone_timer.h"
 
+int findMaxScore(breakable_t* breakables){
+    int max_score = 0;
+    while (breakables->whatIsThis){
+        max_score++;
+    }
+    return max_score;
+}
+
 int startGame() {
     player_t player[2];
     ball_t ball[2];
@@ -17,7 +25,8 @@ int startGame() {
     int i, j, n = 0;
     Tvector tempVec;
     char button;
-    int score = 0, max_score = 10;
+    int score = 0;
+    int max_score = findMaxScore(breakable);
     char string[LED_MAX_STR_LEN] = "<3 3";
     int time1 = 1, time2 = 15;
 
