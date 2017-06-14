@@ -76,7 +76,8 @@ int startGame() {
     LEDInit();
     LEDSetString(string);
     drawMap(player, ball, breakable);
-
+    gotoxy(5,62);
+    printf("score:");
     //n counts the health
     n = 5;
     do {
@@ -88,7 +89,7 @@ int startGame() {
             		time2 = 15;
         		}
                 button = readKey();
-                gotoxy(5,62);
+                gotoxy(10,62);
                 printf("%d\n", score);
                 LEDUpdate();
                 //Do this for 0.1 s
