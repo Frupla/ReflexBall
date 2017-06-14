@@ -10,7 +10,7 @@ int timerValue = 0;            // counts the time in 0.1 s, resets at 32001
 #pragma interrupt
 void timer1int() {
     timerValue += 1;
-    if (timerValue == 32000) {
+    if (timerValue >= 32000) {
         timerValue = 0;
     }
 }

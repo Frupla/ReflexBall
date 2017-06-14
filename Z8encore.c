@@ -17,7 +17,7 @@ char Buffer[5][6] = 	{{' ',' ',' ',' ',' ',' '},
 						 {' ',' ',' ',' ',' ',' '},
 						 {' ',' ',' ',' ',' ',' '},
 						 {' ',' ',' ',' ',' ',' '}};
-rom char* LEDtext_p;
+char *LEDtext_p;
 
 char readKey(){
 	char a,b,b1,b2,c=0x00;
@@ -50,6 +50,14 @@ int romstrLength(rom char* s){
 	return i;
 }
 
+int strLength(char *s) {
+	int i = 0;
+	while (s[i] != '\0') {
+		i++;
+	}
+	return i;
+}
+
 void timerSetup(){
  	T0CTL = 0x01;
 	T0H = 0x1;
@@ -72,7 +80,7 @@ void LEDInit(){
 }
 
 void updateBuffer(){
-	int i, j, romln = romstrLength(LEDtext_p);
+	int i, j, romln = strLength(LEDtext_p);
 	for(i = Letter; (i < romln) && (i < 5 + Letter); i++){
 		for(j = 0; j < 5; j++){
 			Buffer[i - Letter][j] = character_data[LEDtext_p[i] - 0x20][j];
@@ -87,10 +95,12 @@ void updateBuffer(){
 	}
 }
 
-void LEDSetString(rom char* src){
+void LEDSetString(char *src) {
 	LEDtext_p = src;
 	updateBuffer();
-	Letter++;
+    if (Scrollon) {
+        Letter++;
+    }
 }
 
 void LEDUpdate(){
@@ -127,7 +137,7 @@ void LEDUpdate(){
 				Displacement = 1;
 			}
 		}
-		if(Letter > romstrLength(LEDtext_p) - 1){
+		if (Letter > strLength(LEDtext_p) - 1) {
 			Letter = 0;
 		}
 	}

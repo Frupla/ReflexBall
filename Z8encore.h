@@ -4,7 +4,8 @@
 	
 void timerSetup();
 void LEDInit();
-void LEDSetString(rom char* string);
+
+void LEDSetString(char *string);
 void LEDUpdate();
 void LEDScroll();
 
