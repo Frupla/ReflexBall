@@ -187,8 +187,6 @@ void printHighscore(int * highscore){
     }while(!readKey() || (flag));
 }
 
-void printf();
-
 void showControls() {
     int i, flag = 1;
     window(STDWINDOWX, STDWINDOWY, 50, 30, "Help!", 1);
