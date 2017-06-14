@@ -99,7 +99,7 @@ void startGame() {
                 break;
             case 0x02: //Ball dead
                 n--;
-                gotoxy(EIGHTEEN_FOURTEEN_TO_INT([0].x1), EIGHTEEN_FOURTEEN_TO_INT([0].y1));
+                gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[0].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[0].y1));
                 printf(" ");
                 ball[0].direction = tempVec;
                 ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
