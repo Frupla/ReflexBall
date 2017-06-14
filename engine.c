@@ -164,7 +164,7 @@ char didYouWin(breakable_t* breakables) {
     int i = 0;
     while (breakables[i].whatIsThis){
         if (breakables[i].whatIsThis != 0x05){
-            return 0x00 //no you didn't
+            return 0x00; //no you didn't
         }
         i++;
     }

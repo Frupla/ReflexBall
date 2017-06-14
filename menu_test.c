@@ -15,8 +15,9 @@
 
 int findMaxScore(breakable_t* breakables){
     int max_score = 0;
-    while (breakables->whatIsThis){
-        max_score++;
+    while(breakables->whatIsThis){
+        max_score += breakables->lives;
+        breakables++;
     }
     return max_score;
 }
@@ -29,7 +30,7 @@ int startGame() {
     Tvector tempVec;
     char button;
     int score = 0;
-    int max_score = findMaxScore(breakable);
+    int max_score = 0;
     char string[LED_MAX_STR_LEN] = "<3 3";
     int time1 = 1, time2 = 15;
 
@@ -52,7 +53,7 @@ int startGame() {
     ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
     ball[0].direction = tempVec;
     ball[0].size = 0x00;
-    ball[0].color = 0x00;
+    ball[0].color = 0x0A;
     //Breakable setup
     for (i = 15; i <= 105 ; i += 15) {
         for (j = 4; j <= 20; j += 4) {
@@ -79,6 +80,7 @@ int startGame() {
     player[1].whatIsThis = 0x00;
     n++;
 
+    max_score = findMaxScore(breakable);
 
     initiate();
     timer1Setup();
@@ -87,6 +89,8 @@ int startGame() {
     drawMap(player, ball, breakable);
     gotoxy(5,62);
     printf("score:");
+    gotoxy(5,63);
+    printf("out of:   %d", max_score);
     //n counts the health
     n = 5;
     do {
@@ -98,8 +102,6 @@ int startGame() {
             		time2 = 15;
         		}
                 button = readKey();
-                gotoxy(10,62);
-                printf("%d\n", score);
                 LEDUpdate();
                 //Do this for 0.1 s
             } while (timer1() < time1);
@@ -117,6 +119,8 @@ int startGame() {
                 break;
             case 0x01: //Hit breakable
                 score++;
+                gotoxy(15,62);
+                printf("%d", score);
                 if(score >= max_score){
                     n = 0;
                 }
