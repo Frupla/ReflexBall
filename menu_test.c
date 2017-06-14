@@ -28,8 +28,9 @@ int startGame() {
     char button;
     int score = 0;
     int max_score = 0;
-    char string[LED_MAX_STR_LEN] = "<3 3";
+    char string[LED_MAX_STR_LEN] = "   5";
     int time1 = 1, time2 = 15;
+	string[0] = 0x7F;
 
     // player setup
     player[0].whatIsThis = 0x01;
