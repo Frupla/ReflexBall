@@ -31,8 +31,8 @@ int startGame() {
     player[0].color = 0x0f;
 
     // Ball setup
-    tempVec.x = convert(0);
-    tempVec.y = convert(-1);
+    tempVec.x = convert(-1);
+    tempVec.y = convert(0);
     rotate(&tempVec, 47);
     ball[0].whatIsThis = 0x02;
     ball[0].changedSinceLast = 1;
@@ -40,7 +40,7 @@ int startGame() {
     ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
     ball[0].direction = tempVec;
     ball[0].size = 0x00;
-    ball[0].color = 0x08;
+    ball[0].color = 0x0A;
 
     i = 5;
     j = 5;
@@ -132,6 +132,7 @@ int startGame() {
         time2 = timer1() + 15;
 
     } while (n);
+    return score;
 }
 
 void addHighscore(int * score, int * highscore){
