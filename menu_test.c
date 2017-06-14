@@ -176,8 +176,6 @@ void printHighscore(int * highscore){
     }
 }
 
-void printf();
-
 void showControls() {
     int i, flag = 1;
     window(STDWINDOWX, STDWINDOWY, 50, 21, "Help!", 1);
