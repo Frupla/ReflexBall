@@ -39,7 +39,7 @@ void startGame() {
     ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
     ball[0].direction = tempVec;
     ball[0].size = 0x00;
-    ball[0].color = 0x00;
+    ball[0].color = 0x08;
 
     i = 5;
     j = 5;

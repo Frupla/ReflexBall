@@ -459,7 +459,10 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
     //Change position and print the new
     ball->x1 += ball->direction.x;
     ball->y1 += ball->direction.y;
+    fgcolor(ball[0].color);
 	gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball->x1), EIGHTEEN_FOURTEEN_TO_INT(ball->y1));
 	printf("%c", BALLTEXTURE);
-    return flag; //Nothing happended
+    fgcolor(15);
+
+    return flag; // Give away information!
 }
