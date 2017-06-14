@@ -11,7 +11,9 @@
 #include "standalone_timer.h"
 
 void startGame() {
-    entity map[7];
+    player_t player[2];
+    ball_t ball[2];
+    breakable_t breakable[20];
     int i, j, n = 0;
     Tvector tempVec;
     char button;
@@ -19,59 +21,45 @@ void startGame() {
     int time1 = 1, time2 = 5;
 
     // player setup
-    map[n].whatIsThis = 0x01;
-    map[n].changedSinceLast = 1;
-    map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
-    map[n].y1 = LONG_TO_EIGHTEEN_FOURTEEN(62);
+    player[0].whatIsThis = 0x01;
+    player[0].changedSinceLast = 1;
+    player[0].x1 = 50;
+    player[0].y1 = 62;
     //map[n].direction = {0, 0};
-    map[n].sizeX = 0x04;
-    map[n].sizeY = 0;
-    map[n].color = 0x00;
-    n++;
+    player[0].sizeX = 0x04;
+    player[0].color = 0x00;
 
     // Ball setup
     tempVec.x = convert(0);
     tempVec.y = convert(-1);
     rotate(&tempVec, 47);
-    map[n].whatIsThis = 0x02;
-    map[n].changedSinceLast = 1;
-    map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
-    map[n].y1 = LONG_TO_EIGHTEEN_FOURTEEN(61);
-    map[n].direction = tempVec;
-    map[n].sizeX = 0x00;
-    map[n].sizeY = 0x00;
-    map[n].color = 0x00;
-    n++;
+    ball[0].whatIsThis = 0x02;
+    ball[0].changedSinceLast = 1;
+    ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(7);
+    ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(10);
+    ball[0].direction = tempVec;
+    ball[0].size = 0x00;
+    ball[0].color = 0x00;
 
+    i = 5;
+    j = 5;
     //Breakable setup
-    map[n].whatIsThis = 0x03;
-    map[n].changedSinceLast = 1;
-    map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(5);
-    map[n].y1 = LONG_TO_EIGHTEEN_FOURTEEN(5);
-    map[n].sizeX = 0x16;
-    map[n].sizeY = 0x01;
-    map[n].color = 0x03;
-    n++;
+    for (i = 10; i <= 90; i += 40) {
+        for (j = 4; j <= 8; j += 4) {
+            breakable[n].whatIsThis = 0x03;
+            breakable[n].changedSinceLast = 1;
+            breakable[n].x1 = i;
+            breakable[n].y1 = j;
+            breakable[n].sizeX = 0x16;
+            breakable[n].sizeY = 0x01;
+            breakable[n].lives = 0x03;
+            n++;
+        }
+    }
 
-    map[n].whatIsThis = 0x03;
-    map[n].changedSinceLast = 1;
-    map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(5);
-    map[n].y1 = LONG_TO_EIGHTEEN_FOURTEEN(20);
-    map[n].sizeX = 0x16;
-    map[n].sizeY = 0x01;
-    map[n].color = 0x02;
-    n++;
-
-    map[n].whatIsThis = 0x03;
-    map[n].changedSinceLast = 1;
-    map[n].x1 = LONG_TO_EIGHTEEN_FOURTEEN(5);
-    map[n].y1 = LONG_TO_EIGHTEEN_FOURTEEN(35);
-    map[n].sizeX = 0x16;
-    map[n].sizeY = 0x01;
-    map[n].color = 0x01;
-    n++;
-
-    map[n].whatIsThis = 0x00;
+    breakable[n].whatIsThis = 0x00;
+    ball[1].whatIsThis = 0x00;
+    player[1].whatIsThis = 0x00;
     n++;
 
 
@@ -79,7 +67,7 @@ void startGame() {
     timer1Setup();
     LEDInit();
     LEDSetString(string);
-    drawMap(map);
+    drawMap(player, ball, breakable);
 
     //n counts the health
     n = 3;
@@ -91,7 +79,7 @@ void startGame() {
                 //Do this for 0.1 s
             } while (timer1() < time1);
             //Then move the player
-            playerMovement(button, map);
+            playerMovement(button, player);
 
             LEDUpdate();
             //Reenter the above while - loop
@@ -99,7 +87,7 @@ void startGame() {
             //Do this for 0.5 s
         } while (timer1() < time2);
         //Then move the ball
-        switch (ballMovement(map)) {
+        switch (ballMovement(ball, player, breakable)) {
             case 0x00: //Nothing
                 break;
             case 0x01: //Hit breakable
@@ -107,10 +95,10 @@ void startGame() {
             case 0x02: //Ball dead
                 n--;
                 printf(" ");
-                gotoxy(map[1].x1, map[1].y1);
-                map[1].direction = tempVec;
-                map[1].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
-                map[1].y1 = LONG_TO_EIGHTEEN_FOURTEEN(61);
+                gotoxy(ball[0].x1, ball[0].y1);
+                ball[0].direction = tempVec;
+                ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
+                ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(61);
                 string[3] = n + 48;
                 LEDSetString(string);
                 break;

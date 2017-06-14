@@ -345,7 +345,7 @@ char collisionCheck(int x1, int y1, player_t* players, breakable_t* breakables) 
 	 */
 
 //Ball movement ver 2
-void ballMovement(ball_t* ball, player_t * players, breakable_t* breakables) { //1 ball, all the players and breakables
+char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //1 ball, all the players and breakables
 	char flag;
 	int tempX;
 	int tempY;
@@ -403,8 +403,8 @@ void ballMovement(ball_t* ball, player_t * players, breakable_t* breakables) { /
             break;
         case 0x09 :
             flag = 0x02; // Ball out of bounds
-            map[1].direction.x = 0;
-            map[1].direction.y = 0;
+            ball->direction.x = 0;
+            ball->direction.y = 0;
             break;
         case 0x0a :
             //TODO : Change it from a fixed reflect angle,
