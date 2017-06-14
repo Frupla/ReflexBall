@@ -40,11 +40,8 @@ void startGame() {
     ball[0].direction = tempVec;
     ball[0].size = 0x00;
     ball[0].color = 0x00;
-
-    i = 5;
-    j = 5;
     //Breakable setup
-    for (i = 5; i <= 105 ; i += 15) {
+    for (i = 15; i <= 105 ; i += 15) {
         for (j = 4; j <= 20; j += 4) {
             breakable[n].whatIsThis = 0x03;
             breakable[n].changedSinceLast = 1;
