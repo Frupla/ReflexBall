@@ -153,6 +153,18 @@ void killBreakable(breakable_t* object){
         object->changedSinceLast = 0;
     }
 }
+
+char didYouWin(breakable_t* breakables) {
+    int i = 0;
+    while (breakables[i].whatIsThis){
+        if (breakables[i].whatIsThis != 0x05){
+            return 0x00 //no you didn't
+        }
+        i++;
+    }
+    return 0x01; //yes you did
+}
+
  /* //Actually a struct for this as well as all the remainig code for handling
   * DON'T DELETE
 void drawSolid(entity* object){
