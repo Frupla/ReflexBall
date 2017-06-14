@@ -10,6 +10,9 @@
 #include "engine.h"
 #include "standalone_timer.h"
 
+#define STDWINDOWX 10
+#define STDWINDOWY 10
+
 int findMaxScore(breakable_t* breakables){
     int max_score = 0;
     while(breakables->whatIsThis){
@@ -172,7 +175,7 @@ void printHighscore(int * highscore){
             }
         }     
     }
-    window(10, 10, 50, 20, "Highscore", 1);
+    window(STDWINDOWX, STDWINDOWY, 50, 20, "Highscore", 1);
     for (i = 0; i < 5; i++){
         gotoxy(12,12 +i);
         printf("%d.  %d", i+1, highscore[i]);
@@ -182,6 +185,33 @@ void printHighscore(int * highscore){
             flag = 0;
         }
     }while(!readKey() || (flag));
+}
+
+void printf();
+
+void showControls() {
+    int i;
+    window(STDWINDOWX, STDWINDOWY, 50, 30, "Help!", 1);
+    gotoxy(STDWINDOWX + 2, STDWINDOWY + 2);
+    printf("You have three buttons:\r\n");
+    printf(" < - Left   ^ - Action  > - Right\r\n");
+    gotoxy(STDWINDOWX + 2, STDWINDOWY + 5);
+    printf("Hit these:   With this:");
+    gotoxy(STDWINDOWX + 2, STDWINDOWY + 7);
+    fgcolor(5);
+    for (i = 0; i < 4; i++) {
+        printf("%c", BREAKABLETEXTURE);
+    }
+    gotoxy(STDWINDOWX + 2, STDWINDOWY + 8);
+    for (i = 0; i < 4; i++) {
+        printf("%c", BREAKABLETEXTURE);
+    }
+    gotoxy(STDWINDOWX + 20, STDWINDOWY + 7);
+    fgcolor(0x0a);
+    printf("%c", BALLTEXTURE);
+    fgcolor(STDTEXTCOLOR);
+    gotoxy(STDWINDOWX + 2, STDWINDOWY + 10);
+    printf("You have %d lives!", 5);
 }
 
 
@@ -195,7 +225,7 @@ void main() {
     LEDSetString(string);
 
     do {
-        window(10, 10, 50, 20, "Main menu", 1);
+        window(STDWINDOWX, STDWINDOWY, 50, 30, "Main menu", 1);
         gotoxy(12, 12);
         printf(" > Start game");
 		gotoxy(13,13);
