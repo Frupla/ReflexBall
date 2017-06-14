@@ -10,13 +10,14 @@
 #include "engine.h"
 #include "standalone_timer.h"
 
-void startGame() {
+int startGame() {
     player_t player[2];
     ball_t ball[2];
     breakable_t breakable[60];
     int i, j, n = 0;
     Tvector tempVec;
     char button;
+    int score = 0, max_score = 10;
     char string[LED_MAX_STR_LEN] = "<3 3";
     int time1 = 1, time2 = 15;
 
@@ -53,6 +54,13 @@ void startGame() {
             n++;
        }
     }
+
+    breakable[2].lives = 1;
+    breakable[4].lives = 1;
+    breakable[6].lives = 1;
+    breakable[10].lives = 2;
+    breakable[14].lives = 2;
+    breakable[12].lives = 4;
 
     breakable[n].whatIsThis = 0x00;
     ball[1].whatIsThis = 0x00;
@@ -93,10 +101,14 @@ void startGame() {
             case 0x00: //Nothing
                 break;
             case 0x01: //Hit breakable
+                score++;
+                if(score >= max_score){
+                    n = 0;
+                }
                 break;
             case 0x02: //Ball dead
                 n--;
-                gotoxy(EIGHTEEN_FOURTEEN_TO_INT([0].x1), EIGHTEEN_FOURTEEN_TO_INT([0].y1));
+                gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[0].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[0].y1));
                 printf(" ");
                 ball[0].direction = tempVec;
                 ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
@@ -119,8 +131,45 @@ void startGame() {
     } while (n);
 }
 
+void addHighscore(int * score, int * highscore){
+    int i;
+    int positionoflowest = 0;
+    for(i = 1; i <= 5; i++){
+        if(highscore[positionoflowest] > highscore[i]){
+            positionoflowest = i;  
+        }
+    }
+    highscore[positionoflowest] = *score;
+}
+
+void printHighscore(int * highscore){
+    // bubble sort
+    int i, j, temp, flag = 1;
+    for(i = 0; i < 4; i++){
+        for (j = 0; j < 4-i; j++){
+            if(highscore[j] < highscore[j+1]){
+                temp = highscore[j+1];
+                highscore[j+1] = highscore[j];
+                highscore[j] = temp; 
+            }
+        }     
+    }
+    window(10, 10, 50, 20, "Highscore", 1);
+    for (i = 0; i < 5; i++){
+        gotoxy(12,12 +i);
+        printf("%d.  %d", i+1, highscore[i]);
+    }
+    do{
+        if (readKey() == 0x00){
+            flag = 0;
+        }
+    }while(!readKey() || (flag));
+}
+
 
 void main() {
+    int highscore[5] = {0,0,0,0,0};
+    int score;
     char button, flag1 = 1, flag2 = 0, output = 0;
     char string[LED_MAX_STR_LEN] = "Hello";
     init_uart(_UART0, _DEFFREQ, _DEFBAUD);  // set-up UART0 to 57600, 8n1
@@ -190,7 +239,9 @@ void main() {
         switch (output) {
             case 0:
                 clrscr();
-                startGame();
+                score = startGame();
+                addHighscore(&score, highscore);
+                printHighscore(highscore);
                 break;
             case 1:
                 string[0] = 'N';
@@ -207,6 +258,7 @@ void main() {
                 string[3] = 'e';
                 printf("case 2");
 				LEDSetString(string);
+                printHighscore(highscore);
                 break;
             case 3:
                 string[0] = 'N';
