@@ -496,7 +496,6 @@ ptn_Child12=Document-11
 ptn_Child13=Document-12
 ptn_Child14=Document-13
 ptn_Child15=Document-14
-ptn_Child16=Document-15
 ptn_Child2=Document-1
 ptn_Child3=Document-2
 ptn_Child4=Document-3
@@ -575,16 +574,6 @@ DocTemplateIndex=0
 DocumentString=IDE Document
 IsActiveChildFrame=False
 WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPMJAAAAAAMJAAAAAAMCFAAAAACBCAAAAA
-
-[WorkState_v1_1.Frames.ChildFrames.Document-15]
-ptn_Child1=ViewFrame-0
-
-[WorkState_v1_1.Frames.ChildFrames.Document-15.ViewFrame-0]
-DocPathName=.\engine.h
-DocTemplateIndex=0
-DocumentString=IDE Document
-IsActiveChildFrame=False
-WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPGLAAAAAAGLAAAAAAGEFAAAAAMCCAAAAA
 
 [WorkState_v1_1.Frames.ChildFrames.Document-2]
 ptn_Child1=ViewFrame-0
