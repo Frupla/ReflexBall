@@ -298,6 +298,7 @@ void main() {
                 string[3] = 'e';
 				printf("case 1");
                 LEDSetString(string);
+                showControls();
                 break;
             case 2:
                 string[0] = 'N';
