@@ -1,6 +1,8 @@
 #ifndef _ENGINE_H_
 #define _ENGINE_H_
 
+#include "math.h"
+
 #define MAPSIZE 60
 #define LONG_TO_EIGHTEEN_FOURTEEN(a) (a << 14)
 #define EIGHTEEN_FOURTEEN_TO_INT(a) ((int)((a + 0x2000) >> 14))

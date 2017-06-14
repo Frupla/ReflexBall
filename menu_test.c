@@ -26,8 +26,8 @@ int findMaxScore(breakable_t* breakables){
 int startGame() {
     player_t player[2];
     ball_t ball[2];
-    breakable_t * breakable;
     int i, j, n = 0;
+    breakable_t * breakable;
     Tvector tempVec;
     char button;
     int score = 0;
@@ -44,6 +44,7 @@ int startGame() {
     //map[n].direction = {0, 0};
     player[0].sizeX = 0x04;
     player[0].color = 0x0f;
+    player[1].whatIsThis = 0x00;
 
     // Ball setup
     tempVec.x = convert(-1);
@@ -56,11 +57,9 @@ int startGame() {
     ball[0].direction = tempVec;
     ball[0].size = 0x00;
     ball[0].color = 0x0A;
+    ball[1].whatIsThis = 0x00;
     
     breakable = level1();
-
-    ball[1].whatIsThis = 0x00;
-    player[1].whatIsThis = 0x00;
 
     max_score = findMaxScore(breakable);
 
@@ -73,6 +72,7 @@ int startGame() {
     gotoxy(5,63);
     printf("out of:   %d", max_score);
     //n counts the health
+
     n = 5;
     do {
         do {
@@ -282,7 +282,7 @@ void main() {
         switch (output) {
             case 0:
                 clrscr();
-                score = startGame();
+                startGame();
                 addHighscore(&score, highscore);
                 printHighscore(highscore);
                 break;
