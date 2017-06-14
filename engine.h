@@ -4,6 +4,12 @@
 #define MAPSIZE 60
 #define LONG_TO_EIGHTEEN_FOURTEEN(a) (a << 14)
 #define EIGHTEEN_FOURTEEN_TO_INT(a) ((int)((a + 0x2000) >> 14))
+#define SOLIDTEXTURE 219
+#define PLAYERTEXTURE 223
+#define BALLTEXTURE 184
+#define BREAKABLETEXTURE 219
+#define BACKGROUNDTEXTURE 32
+#define STDTEXTCOLOR 15
 
 //kode
 /*
