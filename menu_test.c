@@ -29,7 +29,7 @@ int startGame(char lvl) {
     ball_t ball[5];
     int i, j, n = 0;
     breakable_t breakable[LVLSIZE];
-    Tvector tempVec;
+    Tvector tempVec[4];
     char button, whatDidTheyHit;
     int score = 0;
     int max_score = 0;
@@ -56,12 +56,24 @@ int startGame(char lvl) {
     switch (lvl) {
         case 0x01:
             level1(breakable, ball);
+            //Update with number of Tempvecs!!!
+            for (i = 0; i < 4; i++) {
+                tempVec[i] = ball[i].direction;
+            }
             break;
         case 0x02:
             level2(breakable, ball);
+            //Update with number of Tempvecs!!!
+            for (i = 0; i < 4; i++) {
+                tempVec[i] = ball[i].direction;
+            }
             break;
         case 0x03:
             level3(breakable, ball);
+            //Update with number of Tempvecs!!!
+            for (i = 0; i < 4; i++) {
+                tempVec[i] = ball[i].direction;
+            }
             break;
         default:
             n = 0;
@@ -105,7 +117,7 @@ int startGame(char lvl) {
         whatDidTheyHit = ballMovement(ball, player, breakable);
         //Checks if it hit anything, and if so, how much
         if (whatDidTheyHit & 0x0F) {
-            score += (whatDidTheyHit & 0xF0) >> 4;
+            score += (whatDidTheyHit & 0x0F);
             gotoxy(15, 62);
                 printf("%d", score);
             if (score >= max_score) {
@@ -121,24 +133,24 @@ int startGame(char lvl) {
             }
                 string[3] = n + 48;
             if (whatDidTheyHit & 0x10) {
-                ball[0].direction = tempVec;
+                ball[0].direction = tempVec[0];
                 ball[0].x1 = ball[0].xs;
                 ball[0].y1 = ball[0].ys;
             }
             if (whatDidTheyHit & 0x20) {
-                ball[1].direction = tempVec;
+                ball[1].direction = tempVec[0];
                 ball[1].x1 = ball[1].xs;
                 ball[1].y1 = ball[1].ys;
             }
             if (whatDidTheyHit & 0x40) {
-                ball[2].direction = tempVec;
+                ball[2].direction = tempVec[0];
                 ball[2].x1 = ball[2].xs;
                 ball[2].y1 = ball[2].ys;
             }
             if (whatDidTheyHit & 0x80) {
-                ball[3].direction = tempVec;
-                ball[2].x1 = ball[1].xs;
-                ball[2].y1 = ball[1].ys;
+                ball[3].direction = tempVec[0];
+                ball[3].x1 = ball[3].xs;
+                ball[3].y1 = ball[3].ys;
             }
             LEDSetString(string);
         }
