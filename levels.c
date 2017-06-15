@@ -65,7 +65,7 @@ void level2(breakable_t * breakable, ball_t * ball){
     // Ball setup
     tempVec.x = convert(-1);
     tempVec.y = convert(0);
-    rotate(&tempVec, -47);
+    rotate(&tempVec, -64);
     ball[0].whatIsThis = 0x02;
     ball[0].changedSinceLast = 1;
     ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(182);
