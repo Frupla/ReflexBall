@@ -20,6 +20,7 @@ void level1(breakable_t* breakable){
 			} else{
 				breakable[n].lives = 0x02;
 			}
+            breakable[n].powerUp = 0x01;
 			flag++;
             n++;
        }
@@ -38,6 +39,7 @@ void level1(breakable_t* breakable){
 			} else{
 				breakable[n].lives = 0x02;
 			}
+            breakable[n].powerUp = 0x00;
 			flag++;
             n++;
        }

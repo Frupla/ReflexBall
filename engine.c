@@ -82,7 +82,8 @@ typedef struct{
     // DO NOT FIVE IT MORE THAN 7 HEALTH.
     // 0x00 - dead, no lives
     char powerUp;
-    //0x01 1 more life
+    //0x00 0 no powerUp
+    //0x01 1 more life <- attempted implementation
     //0x02 1 more ball
 } breakable_t;
 
@@ -153,9 +154,17 @@ void killBreakable(breakable_t* object, player_t* player){
         object->changedSinceLast = 0;
         object->whatIsThis = 0x05;
         if (object->powerUp){
-            if (object->powerUp == 0x01){
-                player->lives++;
+            switch (object->powerUp){
+                case 0x00:
+                    break;
+                case 0x01:
+                    if (player->lives < 9){
+                        player->lives++;
+                    }
+                default:
+                    break;
             }
+
         }
     //it's dead
     } else {
@@ -260,7 +269,7 @@ void playerMovement(char buttonPress, player_t* object){
 }
 
 // pre: takes position that the ball would have (current position + direction), and checks it for overlap
-char collisionCheck(int x1, int y1, char whichPlayer, player_t* player, breakable_t* breakables) { // an array of breakables, an array of players
+char collisionCheck(int x1, int y1, player_t* player, breakable_t* breakables) { // an array of breakables, an array of players
 	char flag = 0;
 	int i = 0;
 	if(x1 >= MAPSIZE * 4){ // returns true if hit wall
@@ -376,11 +385,11 @@ char collisionCheck(int x1, int y1, char whichPlayer, player_t* player, breakabl
 	 */
 
 //Ball movement ver 2
-char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //1 ball, all the players and breakables
+char ballMovement(ball_t *ball, player_t* player, breakable_t *breakables) { //1 ball, 1 player and list of breakables
 	char flag;
 	int tempX;
 	int tempY;
-    //TODO  merge with Asger for multiplayer, create whichPlayer, write appropriate testcode (modified copy of menu_test)
+    //TODO  Code for one player, write appropriate testcode (modified copy of menu_test)
 	//Variables
 
 	//int where;
@@ -394,7 +403,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
     //Calculate the next position, and pass this to collisionCheck.
     tempX = EIGHTEEN_FOURTEEN_TO_INT(ball->x1 + ball->direction.x);
 	tempY = EIGHTEEN_FOURTEEN_TO_INT(ball->y1 + ball->direction.y);
-    flag = collisionCheck(tempX, tempY, whichPlayer, players, breakables);
+    flag = collisionCheck(tempX, tempY, player, breakables);
     switch(flag){
     	case 0x00:
             break;
