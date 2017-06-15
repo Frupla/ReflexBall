@@ -389,7 +389,6 @@ char ballMovement(ball_t *ball, player_t* player, breakable_t *breakables) { //1
 	char flag;
 	int tempX;
 	int tempY;
-    //TODO  Code for one player, write appropriate testcode (modified copy of menu_test)
 	//Variables
 
 	//int where;

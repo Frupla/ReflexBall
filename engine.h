@@ -59,6 +59,7 @@ typedef struct{
     char sizeX; // represent the horizontal size factor
     char color; // n.o. lives for breakables  (color breakables after this). Is set to 3 in drawBreakables
     // 0x00 - dead, no lives
+    char lives;
 } player_t;
 
 typedef struct{

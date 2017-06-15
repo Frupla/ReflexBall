@@ -27,7 +27,7 @@ int findMaxScore(breakable_t* breakables){
 int startGame(char lvl) {
     player_t player;
     ball_t ball[2];
-    int i, j, n = 0;
+    int i, j;
     breakable_t breakable[LVLSIZE];
     Tvector tempVec;
     char button;
@@ -45,6 +45,7 @@ int startGame(char lvl) {
     //map[n].direction = {0, 0};
     player.sizeX = 0x04;
     player.color = 0x0f;
+    player.lives = 4;
 
     // Ball setup
     tempVec.x = convert(-1);
@@ -60,9 +61,8 @@ int startGame(char lvl) {
     ball[1].whatIsThis = 0x00;
 
     //n counts the health
-    n = 4;
-    string[1] = n + 0x30;
-    string[3] = n + 0x30;
+    string[1] = player.lives + 0x30;
+    string[3] = player.lives + 0x30;
 
     //Choose level
     switch (lvl) {
@@ -76,7 +76,7 @@ int startGame(char lvl) {
             level3(breakable);
             break;
         default:
-            n = 0;
+            player.lives = 0;
     }
 
 
@@ -120,17 +120,17 @@ int startGame(char lvl) {
                 gotoxy(15,62);
                 printf("%d", score);
                 if(score >= max_score){
-                    n = 0;
+                    player.lives = 0;
                 }
                 break;
             case 0x02: //Ball dead
-                n--;
+                player.lives--;
                 gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[0].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[0].y1));
                 printf(" ");
                 ball[0].direction = tempVec;
                 ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
                 ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(25);
-                string[3] = n + 48;
+                string[3] = player.lives + 48;
                 LEDSetString(string);
                 break;
             case 0x03: //Hit paddle
@@ -145,7 +145,7 @@ int startGame(char lvl) {
         // 15 can be changed to a variable, to increase difficulty
         time2 = timer1() + 15;
 
-    } while (n);
+    } while (player.lives);
     return score;
 }
 
