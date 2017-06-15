@@ -6,8 +6,8 @@
 void level1(breakable_t* breakable){
 	int i, j, n=0;
  	//Breakable setup
-    for (i = 15; i <= 105 ; i += 15) {
-        for (j = 4; j <= 20; j += 4) {
+    for (i = 1; i <= 50 ; i += 10) {
+        for (j = 4; j <= 8; j += 1) {
             breakable[n].whatIsThis = 0x03;
             breakable[n].changedSinceLast = 1;
             breakable[n].x1 = i;
@@ -27,7 +27,7 @@ void level1(breakable_t* breakable){
     breakable[n].whatIsThis = 0x00;
 }
 
-void level2(breakable_t *){
+void level2(breakable_t * breakable){
     int i, j, n=0;
     //Breakable setup
     for (i = 15; i <= 105 ; i += 10) {
@@ -51,7 +51,7 @@ void level2(breakable_t *){
     breakable[n].whatIsThis = 0x00;
 }
 
-void level3(breakable_t *){
+void level3(breakable_t * breakable){
     int i, j, n=0;
     //Breakable setup
     for (i = 15; i <= 105 ; i += 15) {
