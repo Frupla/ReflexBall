@@ -60,7 +60,6 @@ int startGame(char lvl) {
     ball[0].color = 0x0A;
     ball[1].whatIsThis = 0x00;
 
-    //n counts the health
     string[3] = player.lives + 0x30;
     string[1] = player.lives + 0x30;
 

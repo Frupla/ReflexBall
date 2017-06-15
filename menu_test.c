@@ -27,7 +27,7 @@ int findMaxScore(breakable_t* breakables){
 int startGame(char lvl) {
     player_t player[3];
     ball_t ball[5];
-    int i, j, n = 0;
+    int i, j;
     breakable_t breakable[LVLSIZE];
     Tvector tempVec[4];
     char button, whatDidTheyHit;
@@ -36,11 +36,6 @@ int startGame(char lvl) {
     char string[LED_MAX_STR_LEN] = " 5/5";
     int time1 = 1, time2 = 15;
 	string[0] = 0x7F;
-
-    //n counts the health
-    n = 4;
-    string[1] = n + 0x30;
-    string[3] = n + 0x30;
 
     //Choose level
     switch (lvl) {
@@ -66,9 +61,11 @@ int startGame(char lvl) {
             }
             break;
         default:
-            n = 0;
+            player[0].lives = 0;
     }
 
+    string[1] = player[0].lives + 0x30;
+    string[3] = player[0].lives + 0x30;
 
     max_score = findMaxScore(breakable);
 
@@ -103,23 +100,30 @@ int startGame(char lvl) {
         //Then move the ball
 
         whatDidTheyHit = ballMovement(ball, player, breakable);
+        if (string[1]-0x30 != player[0].lives) {
+            string[1] = player[0].lives+0x30;
+            LEDSetString(string);
+        }
         //Checks if it hit anything, and if so, how much
         if (whatDidTheyHit & 0x0F) {
             score += (whatDidTheyHit & 0x0F);
             gotoxy(15, 62);
                 printf("%d", score);
             if (score >= max_score) {
-                    n = 0;
+                    player[0].lives = 0;
                 }
         }
         //Checks if any of them died
         if (whatDidTheyHit & 0xF0) {
-            n -= 1;
+            player[0].lives -= (whatDidTheyHit & 0x10)>>4;
+            player[0].lives -= (whatDidTheyHit & 0x20)>>5;
+            player[0].lives -= (whatDidTheyHit & 0x40)>>6;
+            player[0].lives -= (whatDidTheyHit & 0x80)>>7;
             for (j = 0; ball[j].whatIsThis != 0x00; j++) {
                 gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[j].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[j].y1));
                 printf(" ");
             }
-                string[3] = n + 48;
+                string[3] = player[0].lives + 48;
             if (whatDidTheyHit & 0x10) {
                 ball[0].direction = tempVec[0];
                 ball[0].x1 = ball[0].xs;
@@ -149,7 +153,7 @@ int startGame(char lvl) {
         // 15 can be changed to a variable, to increase difficulty
         time2 = timer1() + 15;
 
-    } while (n);
+    } while (player[0].lives);
     return score;
 }
 
