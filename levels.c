@@ -14,6 +14,7 @@ void level1(breakable_t *breakable, ball_t *ball, player_t *player) {
     player[0].y1 = 57;
     player[0].sizeX = 0x04;
     player[0].color = 0x0f;
+    player[0].lives = 0x04;
     // Terminate array
     player[1].whatIsThis = 0x00;
 
@@ -107,6 +108,7 @@ void level2(breakable_t * breakable, ball_t * ball, player_t * player){
     player[0].y1 = 57;
     player[0].sizeX = 0x04;
     player[0].color = 0x0f;
+    player[0].lives = 0x04;
     // Paddle 2
     player[1].whatIsThis = 0x01;
     player[1].changedSinceLast = 1;
@@ -133,29 +135,33 @@ void level2(breakable_t * breakable, ball_t * ball, player_t * player){
     ball[1].whatIsThis = 0x00;
     //Breakable setup
     for (i = 1; i <= 9 ; i++) {
-        for (j = 1; j <= 9-i; j++) {
+        for (j = 1; j <= 9 - i; j++) {
             breakable[n].whatIsThis = 0x03;
             breakable[n].changedSinceLast = 1;
-            breakable[n].x1 = 20*i;
-            breakable[n].y1 = 5*j;
+            breakable[n].x1 = 20 * i;
+            breakable[n].y1 = 5 * j;
             breakable[n].sizeX = 0x0A;
             breakable[n].sizeY = 0x01;
-            breakable[n].lives = 5 - j/2;
+            breakable[n].lives = 5 - j / 2;
+            breakable[n].powerUp = 0x00;
             n++;
-       }
+        }
     }
-	    for (i = 9; i >= 1 ; i--) {
-        for (j = 9; j > 9-i; j--) {
+    for (i = 9; i >= 1 ; i--) {
+        for (j = 9; j > 9 - i; j--) {
             breakable[n].whatIsThis = 0x03;
             breakable[n].changedSinceLast = 1;
-            breakable[n].x1 = 20*i + 20;
-            breakable[n].y1 = 5*j + 5;
+            breakable[n].x1 = 20 * i + 20;
+            breakable[n].y1 = 5 * j + 5;
             breakable[n].sizeX = 0x0A;
             breakable[n].sizeY = 0x01;
-            breakable[n].lives = 5 - j/2;
+            breakable[n].lives = 5 - j / 2;
+            breakable[n].powerUp = 0x00;
             n++;
-       }
+        }
     }
+    breakable[0].powerUp = 0x01;
+    breakable[n-1].powerUp = 0x01;
     breakable[n].whatIsThis = 0x00;
 }
 
@@ -169,6 +175,7 @@ void level3(breakable_t * breakable, ball_t * ball, player_t * player){
     player[0].y1 = 57;
     player[0].sizeX = 0x04;
     player[0].color = 0x0f;
+    player[0].lives = 0x04;
     // Terminate array
     player[1].whatIsThis = 0x00;
 
@@ -196,12 +203,16 @@ void level3(breakable_t * breakable, ball_t * ball, player_t * player){
             breakable[n].sizeX = 0x0A;
             breakable[n].sizeY = 0x01;
             breakable[n].lives = 0x03;
+            breakable[n].powerUp = 0x00;
             n++;
        }
     }
     breakable[2].lives = 1;
+    breakable[3].powerUp = 0x01;
     breakable[4].lives = 1;
+    breakable[5].powerUp = 0x01;
     breakable[6].lives = 1;
+    breakable[8].powerUp = 0x01;
     breakable[10].lives = 2;
     breakable[14].lives = 2;
     breakable[12].lives = 4;
