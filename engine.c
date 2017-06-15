@@ -501,7 +501,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
             //Change position and print the new
             ball[i].x1 += ball[i].direction.x;
             ball[i].y1 += ball[i].direction.y;
-            fgcolor(ball[0].color);
+            fgcolor(ball[i].color);
             gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[i].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[i].y1));
             printf("%c", BALLTEXTURE);
             fgcolor(15);

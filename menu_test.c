@@ -37,24 +37,6 @@ int startGame(char lvl) {
     int time1 = 1, time2 = 15;
 	string[0] = 0x7F;
 
-    // player setup
-    player[0].whatIsThis = 0x01;
-    player[0].changedSinceLast = 1;
-    player[0].x1 = 50;
-    player[0].y1 = 57;
-    //map[n].direction = {0, 0};
-    player[0].sizeX = 0x04;
-    player[0].color = 0x0f;
-    // Player 2
-    player[1].whatIsThis = 0x01;
-    player[1].changedSinceLast = 1;
-    player[1].x1 = 50;
-    player[1].y1 = 10;
-    //map[n].direction = {0, 0};
-    player[1].sizeX = 0x04;
-    player[1].color = 0x0f;
-    player[2].whatIsThis = 0x00;
-
     //n counts the health
     n = 4;
     string[1] = n + 0x30;
@@ -63,21 +45,21 @@ int startGame(char lvl) {
     //Choose level
     switch (lvl) {
         case 0x01:
-            level1(breakable, ball);
+            level1(breakable, ball, player);
             //Update with number of Tempvecs!!!
             for (i = 0; i < 4; i++) {
                 tempVec[i] = ball[i].direction;
             }
             break;
         case 0x02:
-            level2(breakable, ball);
+            level2(breakable, ball, player);
             //Update with number of Tempvecs!!!
             for (i = 0; i < 4; i++) {
                 tempVec[i] = ball[i].direction;
             }
             break;
         case 0x03:
-            level3(breakable, ball);
+            level3(breakable, ball, player);
             //Update with number of Tempvecs!!!
             for (i = 0; i < 4; i++) {
                 tempVec[i] = ball[i].direction;
