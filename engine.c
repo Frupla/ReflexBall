@@ -205,25 +205,8 @@ void drawMap(player_t* players, ball_t* balls, breakable_t* breakables) {
         if (breakables[n].whatIsThis == 0x03 && breakables[n].changedSinceLast){
             drawBreakable(&breakables[n]);
         }
-		gotoxy(130 + i,5+j);
-        printf("n: %d, ? %d", n ,breakables[n].whatIsThis);
-        gotoxy(130 + i,6+j);
-        printf("x1: %d", breakables[n].x1);
-        gotoxy(130 + i,7+j);
-        printf("y1: %d", breakables[n].y1);
-        n++;
-        j += 4;
-        if(j > 20){
-        	i += 15;
-        	j = 4;
-        }
+		n++;
     }
-	gotoxy(130 + i,5+j);
-    printf("n: %d, ? %d", n ,breakables[n].whatIsThis);
-    gotoxy(130 + i,6+j);
-    printf("x1: %d", breakables[n].x1);
-    gotoxy(130 + i,7+j);
-    printf("y1: %d", breakables[n].y1);
     //Also add a whileloop here for solids if you want to implement them
 }
 

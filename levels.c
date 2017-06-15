@@ -6,7 +6,7 @@
 void level1(breakable_t* breakable){
 	int i, j, n=0, flag = 2;
  	//Breakable setup
-    for (i = 2; i <= 118 ; i += 29) {
+    for (i = 2; i <= 118 ; i += 30) {
         for (j = 8; j <= 16; j += 2) {
             breakable[n].whatIsThis = 0x03;
             breakable[n].changedSinceLast = 1;
