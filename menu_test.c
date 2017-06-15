@@ -25,7 +25,7 @@ int findMaxScore(breakable_t* breakables){
 }
 
 int startGame(char lvl) {
-    player_t player[2];
+    player_t player[3];
     ball_t ball[5];
     int i, j, n = 0;
     breakable_t breakable[LVLSIZE];
@@ -45,7 +45,15 @@ int startGame(char lvl) {
     //map[n].direction = {0, 0};
     player[0].sizeX = 0x04;
     player[0].color = 0x0f;
-    player[1].whatIsThis = 0x00;
+    // Player 2
+    player[1].whatIsThis = 0x01;
+    player[1].changedSinceLast = 1;
+    player[1].x1 = 50;
+    player[1].y1 = 10;
+    //map[n].direction = {0, 0};
+    player[1].sizeX = 0x04;
+    player[1].color = 0x0f;
+    player[2].whatIsThis = 0x00;
 
     //n counts the health
     n = 4;
