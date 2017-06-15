@@ -182,8 +182,20 @@ void drawBreakable(breakable_t* object){
 }
 
 void killBreakable(breakable_t* object, player_t* player){
-	int i, j;
+	int i, j, texture;
     object->lives--;
+    switch(object->powerUp){
+    	case 0x00: texture = BREAKABLETEXTURE;
+    	break;
+    	case 0x01: texture = MORELIFETEXTURE;
+    	break;
+    	case 0x02: texture = MOREBALLSTEXTURE;
+    	break;
+    	case 0x03: texture = WIDERPADDLETEXTURE;
+    	default: 
+    	texture = BREAKABLETEXTURE;
+    	break;
+    }
     if (!object->lives) {
         for (i = 0; i <= (object->sizeX); i++) {
             for (j = 0; j <= (object->sizeY); j++) {
@@ -212,7 +224,7 @@ void killBreakable(breakable_t* object, player_t* player){
         for (i = 0; i <= (object->sizeX); i++) {
             for (j = 0; j <= (object->sizeY); j++) {
                 gotoxy(object->x1 + i, object->y1 + j);
-                printf("%c", BREAKABLETEXTURE);
+                printf("%c", texture);
             }
         }
         fgcolor(STDTEXTCOLOR);

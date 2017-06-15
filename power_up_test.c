@@ -61,8 +61,8 @@ int startGame(char lvl) {
     ball[1].whatIsThis = 0x00;
 
     //n counts the health
-    string[1] = player.lives + 0x30;
     string[3] = player.lives + 0x30;
+    string[1] = player.lives + 0x30;
 
     //Choose level
     switch (lvl) {
@@ -122,7 +122,9 @@ int startGame(char lvl) {
                 if(score >= max_score){
                     player.lives = 0;
                 }
+                string[1] = player.lives + 0x30;
                 LEDSetString(string); //Burde gøre at LED opdaterer når du ændre liv, men er måske lidt overkill
+                LEDUpdate();
                 break;
             case 0x02: //Ball dead
                 player.lives--;
@@ -131,7 +133,7 @@ int startGame(char lvl) {
                 ball[0].direction = tempVec;
                 ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
                 ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(25);
-                string[3] = player.lives + 48;
+                string[1] = player.lives + 48;
                 LEDSetString(string);
                 break;
             case 0x03: //Hit paddle
