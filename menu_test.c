@@ -24,7 +24,7 @@ int findMaxScore(breakable_t* breakables){
     return max_score;
 }
 
-int startGame() {
+int startGame(char lvl) {
     player_t player[2];
     ball_t ball[2];
     int i, j, n = 0;
@@ -60,7 +60,26 @@ int startGame() {
     ball[0].color = 0x0A;
     ball[1].whatIsThis = 0x00;
 
-    level1(breakable);
+    //n counts the health
+    n = 4;
+    string[1] = n + 0x30;
+    string[3] = n + 0x30;
+
+    //Choose level
+    switch (lvl) {
+        case 0x01:
+            level1(breakable);
+            break;
+        case 0x02:
+            level2(breakable);
+            break;
+        case 0x03:
+            level3(breakable);
+            break;
+        default:
+            n = 0;
+    }
+
 
     max_score = findMaxScore(breakable);
 
@@ -72,9 +91,7 @@ int startGame() {
     printf("score:");
     gotoxy(5,63);
     printf("out of:   %d", max_score);
-    //n counts the health
 
-    n = 5;
     do {
         do {
             do {
@@ -209,6 +226,90 @@ void showControls() {
     } while (!readKey() || (flag));
 }
 
+int lvlMenu() {
+    char exit_flag = 1, flag1 = 1, flag2 = 0, output = 0, button = 0x00;
+    int score;
+
+    do {
+        window(STDWINDOWX, STDWINDOWY, 50, 21, "Choose level", 1);
+        gotoxy(12, 12);
+        printf(" > Level 1");
+        gotoxy(13, 13);
+        printf("  Level 2");
+        gotoxy(13, 14);
+        printf("  Level 3");
+        gotoxy(13, 15);
+        printf("  Go back");
+        do {
+            LEDUpdate();
+            button = readKey();
+            if ((button != 0x00) && (!flag2)) {
+                switch (button) {
+                    case 0x01 :
+                        output += 1;
+                        if (output <= 3 && output >= 0) {
+                            gotoxy(13, 12 + output - 1);
+                            printf(" ");
+                            gotoxy(13, 12 + output);
+                            printf(">");
+                            gotoxy(13, 12);
+                        } else {
+                            output -= 1;
+                            gotoxy(13, 12 + output - 1);
+                            printf(" ");
+                            gotoxy(13, 12 + output);
+                            printf(">");
+                            gotoxy(13, 12);
+                        }
+                        break;
+                    case 0x04 :
+                        output -= 1;
+                        if (output <= 3 && output >= 0) {
+                            gotoxy(13, 12 + output + 1);
+                            printf(" ");
+                            gotoxy(13, 12 + output);
+                            printf(">");
+                            gotoxy(13, 12);
+                        } else {
+                            output += 1;
+                            gotoxy(13, 12 + output - 1);
+                            printf(" ");
+                            gotoxy(13, 12 + output);
+                            printf(">");
+                            gotoxy(13, 12);
+                        }
+                        break;
+                    case 0x02 :
+                        flag1 = 0;
+                        gotoxy(13, 12);
+                        break;
+                }
+                flag2 = 1;
+            } else if (flag2 && (button == 0x00)) {
+                flag2 = 0;
+            }
+        } while (flag1);
+
+        switch (output) {
+            case 0:
+                clrscr();
+                score = startGame(0x01);
+                break;
+            case 1:
+                score = startGame(0x02);
+                break;
+            case 2:
+                score = startGame(0x03);
+                break;
+            case 3:
+                exit_flag = 0;
+                break;
+        }
+        output = 0;
+        flag1 = 1;
+    } while (exit_flag);
+    return score;
+}
 
 void main() {
     int highscore[5] = {0,0,0,0,0};
@@ -283,7 +384,7 @@ void main() {
         switch (output) {
             case 0:
                 clrscr();
-                startGame();
+                score = lvlMenu();
                 addHighscore(&score, highscore);
                 printHighscore(highscore);
                 break;
