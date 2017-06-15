@@ -109,6 +109,14 @@ void initiate(){
 	}
 }
 
+int findMaxScore(breakable_t* breakables){
+    int max_score = 0, i=0;
+    while(breakables[i].whatIsThis){
+        max_score += breakables[i].lives;
+        i++;
+    }
+    return max_score;
+}
 
 //draw and kill functions take pointers. If you already have a pointer to the Map pass 'map' pass ?? (possibly just
 // increment map and pass that, possible pass map[i], let me check)

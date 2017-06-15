@@ -79,6 +79,8 @@ typedef struct{
 
 void initiate();
 
+int findMaxScore(breakable_t*);
+
 //void drawPlayer(entity *);
 
 //void drawBall(entity *);
