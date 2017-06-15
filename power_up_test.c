@@ -85,7 +85,7 @@ int startGame(char lvl) {
     initiate();
     timer1Setup();
     LEDSetString(string);
-    drawMap(player, ball, breakable);
+    drawMap(&player, ball, breakable);
     gotoxy(5,62);
     printf("score:");
     gotoxy(5,63);
@@ -104,7 +104,7 @@ int startGame(char lvl) {
                 //Do this for 0.1 s
             } while (timer1() < time1);
             //Then move the player
-            playerMovement(button, player);
+            playerMovement(button, &player);
 
             LEDUpdate();
             //Reenter the above while - loop

@@ -175,7 +175,7 @@ void killBreakable(breakable_t* object, player_t* player){
                 printf("%c", BREAKABLETEXTURE);
             }
         }
-        fgcolor(STDTEXTCOLOR)
+        fgcolor(STDTEXTCOLOR);
         object->changedSinceLast = 0;
      //it isn't dead
     }
@@ -322,29 +322,29 @@ char collisionCheck(int x1, int y1, player_t* player, breakable_t* breakables) {
                 if (y1 == (breakables[i].y1)) {
                     if (x1 == (breakables[i].x1)) {
                         flag = 0x08;//top left corner
-                        killBreakable(&breakables[i], &player);
+                        killBreakable(&breakables[i], player);
                         return flag;
                     } else if (x1 == (breakables[i].x1 + breakables[i].sizeX)) {
                         flag = 0x02;//top right corner
-                        killBreakable(&breakables[i], &player);
+                        killBreakable(&breakables[i], player);
                         return flag;
                     } else {
                         flag = 0x01; // hit top
-                        killBreakable(&breakables[i], &player);
+                        killBreakable(&breakables[i], player);
                         return flag;
                     }
                 } else if (y1 == (breakables[i].y1 + breakables[i].sizeY)) {
                     if (x1 == (breakables[i].x1)) {
                         flag = 0x06;//bottom left corner
-                        killBreakable(&breakables[i], &player);
+                        killBreakable(&breakables[i], player);
                         return flag;
                     } else if (x1 == (breakables[i].x1 + breakables[i].sizeX)) {
                         flag = 0x04;//bottom right corner
-                        killBreakable(&breakables[i], &player);
+                        killBreakable(&breakables[i], player);
                         return flag;
                     } else {
                         flag = 0x05; // hit bottom
-                        killBreakable(&breakables[i], &player);
+                        killBreakable(&breakables[i], player);
                         return flag;
                     }
                 }
@@ -353,11 +353,11 @@ char collisionCheck(int x1, int y1, player_t* player, breakable_t* breakables) {
                 && (y1 < (breakables[i].y1 + breakables[i].sizeY))) {
                 if (x1 == (breakables[i].x1)) {
                     flag = 0x07; // hit left
-                    killBreakable(&breakables[i], &player);
+                    killBreakable(&breakables[i], player);
                     return flag;
                 } else if (x1 == (breakables[i].x1 + breakables[i].sizeX)) {
                     flag = 0x03; // hit right
-                    killBreakable(&breakables[i], &player);
+                    killBreakable(&breakables[i], player);
                     return flag;
                 }
             }
