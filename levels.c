@@ -4,26 +4,26 @@
 #include "ansi.h"
 
 void level1(breakable_t* breakable){
-	int i, j, n=0;
+	int i, j, n=0, flag = 2;
  	//Breakable setup
-    for (i = 1; i <= 50 ; i += 10) {
-        for (j = 4; j <= 8; j += 1) {
+    for (i = 2; i <= 118 ; i += 29) {
+        for (j = 8; j <= 16; j += 2) {
             breakable[n].whatIsThis = 0x03;
             breakable[n].changedSinceLast = 1;
             breakable[n].x1 = i;
             breakable[n].y1 = j;
-            breakable[n].sizeX = 0x0A;
+            breakable[n].sizeX = 0x1E;
             breakable[n].sizeY = 0x01;
-            breakable[n].lives = 0x03;
+			if(flag >= 2){
+            	breakable[n].lives = 0x03;
+				flag = 0;
+			} else{
+				breakable[n].lives = 0x02;
+			}
+			flag++;
             n++;
        }
     }
-    breakable[2].lives = 1;
-    breakable[4].lives = 1;
-    breakable[6].lives = 1;
-    breakable[10].lives = 2;
-    breakable[14].lives = 2;
-    breakable[12].lives = 4;
     breakable[n].whatIsThis = 0x00;
 }
 
