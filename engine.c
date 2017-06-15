@@ -374,9 +374,10 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
     char collision = 0x00;
 	int tempX;
 	int tempY;
+	int i;
 
     //Check all the balls
-    for (int i = 0; ball[i].whatIsThis != 0x00; i++) {
+    for (i = 0; ball[i].whatIsThis != 0x00; i++) {
         if (ball[i].whatIsThis == 0x02) {
 
             //Remove the old ball

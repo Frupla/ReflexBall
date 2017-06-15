@@ -139,7 +139,7 @@ int startGame(char lvl) {
         //Checks if any of them died
         if (whatDidTheyHit & 0xF0) {
             n -= 1;
-            for (int j = 0; ball[j].whatIsThis != 0x00; j++) {
+            for (j = 0; ball[j].whatIsThis != 0x00; j++) {
                 gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[j].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[j].y1));
                 printf(" ");
             }
