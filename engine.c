@@ -373,7 +373,11 @@ char collisionCheck(int x1, int y1, player_t* players, breakable_t* breakables) 
                 return flag; // right side of paddle
             }
         }
+<<<<<<< HEAD
     	i++;
+=======
+        i++;
+>>>>>>> 53c5c99d1abd421839313c7eabcb2f500031a8e6
     }
     while (breakables[i].whatIsThis != 0x00){
         if(breakables[i].whatIsThis == 0x03) {    //checks & breaks breakables
