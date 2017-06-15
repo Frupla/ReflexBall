@@ -147,7 +147,7 @@ int startGame(char lvl) {
 
         //Reenter above loop
         // 15 can be changed to a variable, to increase difficulty
-        time2 = timer1() + 15;
+        time2 = timer1() + 10;
 
     } while (n);
     return score;

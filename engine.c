@@ -265,7 +265,7 @@ char collisionCheck(int x1, int y1, player_t* players, breakable_t* breakables) 
 		return flag;
 	}
 	if(y1 <= 1){ // returns true if ceiling
-		flag = 0x30;// wall is hit
+		flag = 0x30;// ceiling is hit
         return flag;
 	}
     if (y1 >= MAPSIZE) { // returns true if ball falls through floor
