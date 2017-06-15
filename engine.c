@@ -401,10 +401,10 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                     flag += 0x01; //Ball hit breakable
                     break;
                 case 0x02: //Top right corner
-                    if (ball[0].direction.x > 0) {
-                        ball[0].direction.y = -ball[0].direction.y;
+                    if (ball[i].direction.y > 0) {
+                        ball[i].direction.y = -ball[i].direction.y;
                     } else {
-                        ball[0].direction.x = -ball[0].direction.x;
+                        ball[i].direction.x = -ball[i].direction.x;
                     }
                     flag += 0x01; //Ball hit breakable
                     break;
@@ -413,8 +413,8 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                     flag += 0x01; //Ball hit breakable
                     break;
                 case 0x04: //Bottom right corner
-                    if (ball[0].direction.y > 0) {
-                        ball[0].direction.x = -ball[0].direction.x;
+                    if (ball[i].direction.y > 0) {
+                        ball[i].direction.x = -ball[i].direction.x;
                     } else {
                         ball[i].direction.y = -ball[i].direction.y;
                     }
@@ -425,8 +425,8 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                     flag += 0x01; //Ball hit breakable
                     break;
                 case 0x06: // Bottom left cornor
-                    if (ball[0].direction.y > 0) {
-                        ball[0].direction.x = -ball[0].direction.x;
+                    if (ball[i].direction.y > 0) {
+                        ball[i].direction.x = -ball[i].direction.x;
                     } else {
                         ball[i].direction.y = -ball[i].direction.y;
                     }
@@ -437,10 +437,10 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                     //flag = 0x01; //Ball hit wall
                     break;
                 case 0x08: //Top left corner
-                    if (ball[0].direction.x < 0) {
-                        ball[0].direction.y = -ball[0].direction.y;
+                    if (ball[i].direction.y > 0) {
+                        ball[i].direction.y = -ball[i].direction.y;
                     } else {
-                        ball[0].direction.x = -ball[0].direction.x;
+                        ball[i].direction.x = -ball[i].direction.x;
                     }
                     //flag = 0x01; //Ball hit wall - Don't overwrite
                     break;
