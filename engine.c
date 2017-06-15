@@ -44,8 +44,10 @@ typedef struct stuffTemp{
     //solid            - 0x04
     //broken breakable - 0x05
     //nothing          - 0x00
-    long x1; //1. coordinate, placement, 18.14
-    long y1; //2. coordiante, placement, 18.14
+    long x1; //1. coordinate, current point, 18.14
+    long y1; //2. coordiante, current point, 18.14
+	long xs; //1. coordinate, starting point, 18.14
+    long ys; //2. coordiante, starting point, 18.14
     Tvector direction; // Speed and direction (only relevant for the ball)
     char size; // represent the size factor, balls must be symmetric
     char color; // n.o. lives for breakables  (color breakables after this). Is set to 3 in drawBreakables
@@ -114,7 +116,7 @@ void drawPlayer(player_t * object){
 
 void drawBall(ball_t* object){
 	int i, j;
-	gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1),EIGHTEEN_FOURTEEN_TO_INT(object->y1));
+	gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->xs),EIGHTEEN_FOURTEEN_TO_INT(object->ys));
     fgcolor(object[0].color);
 	printf("%c", BALLTEXTURE);
 	object->changedSinceLast = 0;
