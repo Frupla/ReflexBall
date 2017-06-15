@@ -9,6 +9,9 @@
 #define PLAYERTEXTURE 223
 #define BALLTEXTURE 184
 #define BREAKABLETEXTURE 219
+#define MORELIFETEXTURE 176
+#define MOREBALLSTEXTURE 177
+#define WIDERPADDLETEXTURE 178
 #define BACKGROUNDTEXTURE 32
 #define STDTEXTCOLOR 15
 
@@ -83,8 +86,9 @@ typedef struct{
     // 0x00 - dead, no lives
     char powerUp;
     //0x00 0 no powerUp
-    //0x01 1 more life <- attempted implementation
+    //0x01 1 more life <- implementated
     //0x02 1 more ball
+    //0x03 wider paddle
 } breakable_t;
 
 //Just access PowerUp on
@@ -131,12 +135,48 @@ void drawBreakable(breakable_t* object){
 	int i, j;
     //object->lives = 3; //change if you want to change n.o. lives
     fgcolor(7 - object->lives);
-	for(i = 0; i <= (object->sizeX); i++){
-		for(j = 0; j <= (object->sizeY); j++){
-			gotoxy(object->x1 + i,object->y1 + j);
-			printf("%c", BREAKABLETEXTURE);
-		}
-	}
+    switch (object->powerUp){
+        case 0x00:
+            for(i = 0; i <= (object->sizeX); i++){
+                for(j = 0; j <= (object->sizeY); j++){
+                    gotoxy(object->x1 + i,object->y1 + j);
+                    printf("%c", BREAKABLETEXTURE);
+                }
+            }
+            break;
+        case 0x01: //more life
+            for(i = 0; i <= (object->sizeX); i++){
+                for(j = 0; j <= (object->sizeY); j++){
+                    gotoxy(object->x1 + i,object->y1 + j);
+                    printf("%c", MORELIFETEXTURE);
+                }
+            }
+            break;
+        case 0x02: //more balls
+            for(i = 0; i <= (object->sizeX); i++){
+                for(j = 0; j <= (object->sizeY); j++){
+                    gotoxy(object->x1 + i,object->y1 + j);
+                    printf("%c", MOREBALLSTEXTURE);
+                }
+            }
+            break;
+        case 0x03: //wider paddle
+            for(i = 0; i <= (object->sizeX); i++){
+                for(j = 0; j <= (object->sizeY); j++){
+                    gotoxy(object->x1 + i,object->y1 + j);
+                    printf("%c", WIDERPADDLETEXTURE);
+                }
+            }
+            break;
+        default:
+            for(i = 0; i <= (object->sizeX); i++){
+                for(j = 0; j <= (object->sizeY); j++){
+                    gotoxy(object->x1 + i,object->y1 + j);
+                    printf("%c", BREAKABLETEXTURE);
+                }
+            }
+            break;
+    }
     fgcolor(STDTEXTCOLOR);
 	object->changedSinceLast = 0;
 }

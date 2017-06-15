@@ -122,6 +122,7 @@ int startGame(char lvl) {
                 if(score >= max_score){
                     player.lives = 0;
                 }
+                LEDSetString(string); //Burde gøre at LED opdaterer når du ændre liv, men er måske lidt overkill
                 break;
             case 0x02: //Ball dead
                 player.lives--;
