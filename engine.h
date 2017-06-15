@@ -40,6 +40,8 @@ typedef struct stufftemp{
     //nothing          - 0x00
     long x1; //1. coordinate, placement, 18.14
     long y1; //2. coordiante, placement, 18.14
+    long xs; //1. coordinate, starting point, 18.14
+    long ys; //2. coordiante, starting point, 18.14
     Tvector direction; // Speed and direction (only relevant for the ball)
     char size; // represent the size factor, balls must be symmetric
     char color; // n.o. lives for breakables  (color breakables after this). Is set to 3 in drawBreakables

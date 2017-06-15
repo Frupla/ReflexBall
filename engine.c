@@ -47,8 +47,10 @@ typedef struct stuffTemp{
     //solid            - 0x04
     //broken breakable - 0x05
     //nothing          - 0x00
-    long x1; //1. coordinate, placement, 18.14
-    long y1; //2. coordiante, placement, 18.14
+    long x1; //1. coordinate, current point, 18.14
+    long y1; //2. coordiante, current point, 18.14
+	long xs; //1. coordinate, starting point, 18.14
+    long ys; //2. coordiante, starting point, 18.14
     Tvector direction; // Speed and direction (only relevant for the ball)
     char size; // represent the size factor, balls must be symmetric
     char color; // n.o. lives for breakables  (color breakables after this). Is set to 3 in drawBreakables
@@ -124,7 +126,7 @@ void drawPlayer(player_t * object){
 
 void drawBall(ball_t* object){
 	int i, j;
-	gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1),EIGHTEEN_FOURTEEN_TO_INT(object->y1));
+	gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->xs),EIGHTEEN_FOURTEEN_TO_INT(object->ys));
     fgcolor(object[0].color);
 	printf("%c", BALLTEXTURE);
 	object->changedSinceLast = 0;
@@ -192,7 +194,7 @@ void killBreakable(breakable_t* object, player_t* player){
     	case 0x02: texture = MOREBALLSTEXTURE;
     	break;
     	case 0x03: texture = WIDERPADDLETEXTURE;
-    	default: 
+    	default:
     	texture = BREAKABLETEXTURE;
     	break;
     }
@@ -284,40 +286,43 @@ void drawMap(player_t* players, ball_t* balls, breakable_t* breakables) {
 }
 
 void playerMovement(char buttonPress, player_t* object){
-	int i;
-	switch(buttonPress) {
-		case 0x01: //PF7
-			if ((object->x1 + 1 + ((object->sizeX)*5)) < 4 * MAPSIZE){
-                gotoxy(object->x1, object->y1);
-                printf("%c", 0x20);
-				object->x1++;
-			}
-			gotoxy(object->x1 + ((object->sizeX)*5),object->y1);
-            fgcolor(object[0].color);
-            printf("%c", PLAYERTEXTURE);
-            fgcolor(15);
-			gotoxy(1,1);
-            break;
-		case 0x02: //PF6
-			break;
-		case 0x04: //PD3
-			if((object->x1 - 1) > 1){
-                gotoxy(object->x1 + ((object->sizeX) * 5), object->y1);
-                printf("%c", 0x20);
-				object->x1--;
-			}
-			gotoxy(object->x1,object->y1);
-            fgcolor(object[0].color);
-            printf("%c", PLAYERTEXTURE);
-            fgcolor(15);
-			gotoxy(1,1);
-			break;
-		case 0x05:
-			// when PD3 and PF7 is pressed at the same time, nothing happens
-			break;
-		default:
-			break;
-		}
+    int i;
+    for (i = 0; object[i].whatIsThis != 0x00; i++) {
+
+        switch (buttonPress) {
+            case 0x01: //PF7
+                if ((object[i].x1 + 1 + ((object[i].sizeX) * 5)) < 4 * MAPSIZE) {
+                    gotoxy(object[i].x1, object[i].y1);
+                    printf("%c", 0x20);
+                    object[i].x1++;
+                }
+                gotoxy(object[i].x1 + ((object[i].sizeX) * 5), object[i].y1);
+                fgcolor(object[i].color);
+                printf("%c", PLAYERTEXTURE);
+                fgcolor(15);
+                gotoxy(1, 1);
+                break;
+            case 0x02: //PF6
+                break;
+            case 0x04: //PD3
+                if ((object[i].x1 - 1) > 1) {
+                    gotoxy(object[i].x1 + ((object[i].sizeX) * 5), object[i].y1);
+                    printf("%c", 0x20);
+                    object[i].x1--;
+                }
+                gotoxy(object[i].x1, object[i].y1);
+                fgcolor(object[i].color);
+                printf("%c", PLAYERTEXTURE);
+                fgcolor(15);
+                gotoxy(1, 1);
+                break;
+            case 0x05:
+                // when PD3 and PF7 is pressed at the same time, nothing happens
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 // pre: takes position that the ball would have (current position + direction), and checks it for overlap
@@ -436,140 +441,144 @@ char collisionCheck(int x1, int y1, player_t* player, breakable_t* breakables) {
 	 * 0x0E = object hit right
 	 */
 
-//Ball movement ver 2
-char ballMovement(ball_t *ball, player_t* player, breakable_t *breakables) { //1 ball, 1 player and list of breakables
-	char flag;
+//Ball movement ver 3
+char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //1 ball, all the players and breakables
+    //Variables
+    char flag = 0x00;
+    char collision = 0x00;
 	int tempX;
 	int tempY;
-	//Variables
+	int i;
 
-	//int where;
-    // --- Find the ball entity (uncomment if not at 1) ----
-	//for(where=1; map[where].whatIsThis != 0x02; where++){}
+    //Check all the balls
+    for (i = 0; ball[i].whatIsThis != 0x00; i++) {
+        if (ball[i].whatIsThis == 0x02) {
 
-	//Remove the old ball
-	gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball->x1), EIGHTEEN_FOURTEEN_TO_INT(ball->y1));
-	printf(" ");
+            //Remove the old ball
+            gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[i].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[i].y1));
+            printf(" ");
 
-    //Calculate the next position, and pass this to collisionCheck.
-    tempX = EIGHTEEN_FOURTEEN_TO_INT(ball->x1 + ball->direction.x);
-	tempY = EIGHTEEN_FOURTEEN_TO_INT(ball->y1 + ball->direction.y);
-    flag = collisionCheck(tempX, tempY, player, breakables);
-    switch(flag){
-    	case 0x00:
-            break;
-		case 0x01:
-            ball->direction.y = - ball->direction.y;
-            flag = 0x01; //Ball hit breakable
-            break;
-        case 0x02: //Top right corner
-            if (ball[0].direction.x > 0) {
-                ball[0].direction.y = -ball[0].direction.y;
-            } else {
-                ball[0].direction.x = -ball[0].direction.x;
+            //Calculate the next position, and pass this to collisionCheck.
+            tempX = EIGHTEEN_FOURTEEN_TO_INT(ball[i].x1 + ball[i].direction.x);
+            tempY = EIGHTEEN_FOURTEEN_TO_INT(ball[i].y1 + ball[i].direction.y);
+            collision = collisionCheck(tempX, tempY, players, breakables);
+            switch (collision) {
+                case 0x00:
+                    break;
+                case 0x01:
+                    ball[i].direction.y = -ball[i].direction.y;
+                    flag += 0x01; //Ball hit breakable
+                    break;
+                case 0x02: //Top right corner
+                    if (ball[i].direction.y > 0) {
+                        ball[i].direction.y = -ball[i].direction.y;
+                    } else {
+                        ball[i].direction.x = -ball[i].direction.x;
+                    }
+                    flag += 0x01; //Ball hit breakable
+                    break;
+                case 0x03:
+                    ball[i].direction.x = -ball[i].direction.x;
+                    flag += 0x01; //Ball hit breakable
+                    break;
+                case 0x04: //Bottom right corner
+                    if (ball[i].direction.y > 0) {
+                        ball[i].direction.x = -ball[i].direction.x;
+                    } else {
+                        ball[i].direction.y = -ball[i].direction.y;
+                    }
+                    flag += 0x01; //Ball hit breakable
+                    break;
+                case 0x05:
+                    ball[i].direction.y = -ball[i].direction.y;
+                    flag += 0x01; //Ball hit breakable
+                    break;
+                case 0x06: // Bottom left cornor
+                    if (ball[i].direction.y > 0) {
+                        ball[i].direction.x = -ball[i].direction.x;
+                    } else {
+                        ball[i].direction.y = -ball[i].direction.y;
+                    }
+                    flag += 0x01; //Ball hit breakable
+                    break;
+                case 0x07:
+                    ball[i].direction.x = -ball[i].direction.x;
+                    //flag = 0x01; //Ball hit wall
+                    break;
+                case 0x08: //Top left corner
+                    if (ball[i].direction.y > 0) {
+                        ball[i].direction.y = -ball[i].direction.y;
+                    } else {
+                        ball[i].direction.x = -ball[i].direction.x;
+                    }
+                    //flag = 0x01; //Ball hit wall - Don't overwrite
+                    break;
+                case 0x09 :
+                    flag |= (0x01) << (4 + i); // Ball out of bounds
+                    ball[i].direction.x = 0;
+                    ball[i].direction.y = 0;
+                    break;
+                case 0x0a :
+                    //TODO : Change it from a fixed reflect angle,
+                    // to something that varies with the incoming angle
+                    ball[i].direction.y = -ball[i].direction.y;
+                    rotate(&ball[i].direction, -48);
+                    if (ball[i].direction.y > -(0x1000)) {
+                        rotate(&ball[i].direction, 12);
+                    }
+                    //flag = 0x03; // Ball hit paddle
+                    break;
+                case 0x0b :
+                    ball[i].direction.y = -ball[i].direction.y;
+                    rotate(&ball[i].direction, -24);
+                    if (ball[i].direction.y > -(0x1000)) {
+                        rotate(&ball[i].direction, 12);
+                    }
+                    //flag = 0x03; // Ball hit paddle
+                    break;
+                case 0x0c :
+                    ball[i].direction.y = -ball[i].direction.y;
+                    //flag = 0x03; // Ball hit paddle
+                    break;
+                case 0x0d :
+                    ball[i].direction.y = -ball[i].direction.y;
+                    rotate(&ball[i].direction, 24);
+                    if (ball[i].direction.y > -(0x1000)) {
+                        rotate(&ball[i].direction, -12);
+                    }
+                    //flag = 0x03; // Ball hit paddle
+                    break;
+                case 0x0e :
+                    ball[i].direction.y = -ball[i].direction.y;
+                    rotate(&ball[i].direction, 48);
+                    if (ball[i].direction.y > -(0x1000)) {
+                        rotate(&ball[i].direction, -12);
+                    }
+                    //flag = 0x03; // Ball hit paddle
+                    break;
+                case 0x10: //Right wall
+                    ball[i].direction.x = -ball[i].direction.x;
+                    //flag = 0x04; //Ball hit wall
+                    break;
+                case 0x20: //Left wall
+                    ball[i].direction.x = -ball[i].direction.x;
+                    break;
+                case 0x30: //Ceiling
+                    ball[i].direction.y = -ball[i].direction.y;
+                    break;
+                default:
+                    //flag = 0x00; //eh
+                    break;
             }
-            flag = 0x01; //Ball hit breakable
-            break;
-		case 0x03:
-            ball->direction.x = - ball->direction.x;
-            flag = 0x01; //Ball hit breakable
-            break;
-        case 0x04: //Bottom right corner
-            if (ball[0].direction.y > 0) {
-                ball[0].direction.x = -ball[0].direction.x;
-            } else {
-                ball->direction.y = -ball->direction.y;
-            }
-            flag = 0x01; //Ball hit breakable
-            break;
-		case 0x05:
-            ball->direction.y = - ball->direction.y;
-            flag = 0x01; //Ball hit breakable
-            break;
-        case 0x06: // Bottom left cornor
-            if (ball[0].direction.y > 0) {
-                ball[0].direction.x = -ball[0].direction.x;
-            } else {
-                ball->direction.y = -ball->direction.y;
-            }
-            flag = 0x01; //Ball hit breakable
-            break;
-        case 0x07:
-            ball->direction.x = - ball->direction.x;
-            flag = 0x01; //Ball hit wall
-            break;
-        case 0x08: //Top left corner
-            if (ball[0].direction.x < 0) {
-                ball[0].direction.y = -ball[0].direction.y;
-            } else {
-                ball[0].direction.x = -ball[0].direction.x;
-            }
-            flag = 0x01; //Ball hit wall
-            break;
-        case 0x09 :
-            flag = 0x02; // Ball out of bounds
-            ball->direction.x = 0;
-            ball->direction.y = 0;
-            break;
-        case 0x0a :
-            //TODO : Change it from a fixed reflect angle,
-            // to something that varies with the incoming angle
-            ball->direction.y = -ball->direction.y;
-            rotate(&ball->direction, -48);
-            if (ball->direction.y > -(0x1000)) {
-                rotate(&ball->direction, 12);
-            }
-            flag = 0x03; // Ball hit paddle
-            break;
-        case 0x0b :
-            ball->direction.y = -ball->direction.y;
-            rotate(&ball->direction, -24);
-            if (ball->direction.y > -(0x1000)) {
-                rotate(&ball->direction, 12);
-            }
-            flag = 0x03; // Ball hit paddle
-            break;
-        case 0x0c :
-            ball->direction.y = -ball->direction.y;
-            flag = 0x03; // Ball hit paddle
-            break;
-        case 0x0d :
-            ball->direction.y = -ball->direction.y;
-            rotate(&ball->direction, 24);
-            if (ball->direction.y > -(0x1000)) {
-                rotate(&ball->direction, -12);
-            }
-            flag = 0x03; // Ball hit paddle
-            break;
-        case 0x0e :
-            ball->direction.y = -ball->direction.y;
-            rotate(&ball->direction, 48);
-            if (ball->direction.y > -(0x1000)) {
-                rotate(&ball->direction, -12);
-            }
-            flag = 0x03; // Ball hit paddle
-            break;
-        case 0x10: //Right wall
-            ball->direction.x = -ball->direction.x;
-            flag = 0x04; //Ball hit wall
-            break;
-        case 0x20: //Left wall
-            ball->direction.x = -ball->direction.x;
-            break;
-        case 0x30: //Ceiling
-            ball->direction.y = -ball->direction.y;
-            break;
-        default:
-            flag = 0x00; //eh
-        	break;
+            //Change position and print the new
+            ball[i].x1 += ball[i].direction.x;
+            ball[i].y1 += ball[i].direction.y;
+            fgcolor(ball[i].color);
+            gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[i].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[i].y1));
+            printf("%c", BALLTEXTURE);
+            fgcolor(15);
+        }
     }
-    //Change position and print the new
-    ball->x1 += ball->direction.x;
-    ball->y1 += ball->direction.y;
-    fgcolor(ball[0].color);
-	gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball->x1), EIGHTEEN_FOURTEEN_TO_INT(ball->y1));
-	printf("%c", BALLTEXTURE);
-    fgcolor(15);
 
     return flag; // Give away information!
 }

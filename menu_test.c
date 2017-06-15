@@ -25,40 +25,17 @@ int findMaxScore(breakable_t* breakables){
 }
 
 int startGame(char lvl) {
-    player_t player[2];
-    ball_t ball[2];
+    player_t player[3];
+    ball_t ball[5];
     int i, j, n = 0;
     breakable_t breakable[LVLSIZE];
-    Tvector tempVec;
-    char button;
+    Tvector tempVec[4];
+    char button, whatDidTheyHit;
     int score = 0;
     int max_score = 0;
     char string[LED_MAX_STR_LEN] = " 5/5";
     int time1 = 1, time2 = 15;
 	string[0] = 0x7F;
-
-    // player setup
-    player[0].whatIsThis = 0x01;
-    player[0].changedSinceLast = 1;
-    player[0].x1 = 50;
-    player[0].y1 = 57;
-    //map[n].direction = {0, 0};
-    player[0].sizeX = 0x04;
-    player[0].color = 0x0f;
-    player[1].whatIsThis = 0x00;
-
-    // Ball setup
-    tempVec.x = convert(-1);
-    tempVec.y = convert(0);
-    rotate(&tempVec, -47);
-    ball[0].whatIsThis = 0x02;
-    ball[0].changedSinceLast = 1;
-    ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
-    ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(25);
-    ball[0].direction = tempVec;
-    ball[0].size = 0x00;
-    ball[0].color = 0x0A;
-    ball[1].whatIsThis = 0x00;
 
     //n counts the health
     n = 4;
@@ -68,13 +45,25 @@ int startGame(char lvl) {
     //Choose level
     switch (lvl) {
         case 0x01:
-            level1(breakable);
+            level1(breakable, ball, player);
+            //Update with number of Tempvecs!!!
+            for (i = 0; i < 4; i++) {
+                tempVec[i] = ball[i].direction;
+            }
             break;
         case 0x02:
-            level2(breakable);
+            level2(breakable, ball, player);
+            //Update with number of Tempvecs!!!
+            for (i = 0; i < 4; i++) {
+                tempVec[i] = ball[i].direction;
+            }
             break;
         case 0x03:
-            level3(breakable);
+            level3(breakable, ball, player);
+            //Update with number of Tempvecs!!!
+            for (i = 0; i < 4; i++) {
+                tempVec[i] = ball[i].direction;
+            }
             break;
         default:
             n = 0;
@@ -106,38 +95,52 @@ int startGame(char lvl) {
             } while (timer1() < time1);
             //Then move the player
             playerMovement(button, player);
-
             LEDUpdate();
             //Reenter the above while - loop
             time1=timer1();
             //Do this for 0.5 s
         } while (timer1() < time2);
         //Then move the ball
-        switch (ballMovement(ball, player, breakable)) {
-            case 0x00: //Nothing
-                break;
-            case 0x01: //Hit breakable
-                score++;
-                gotoxy(15,62);
+
+        whatDidTheyHit = ballMovement(ball, player, breakable);
+        //Checks if it hit anything, and if so, how much
+        if (whatDidTheyHit & 0x0F) {
+            score += (whatDidTheyHit & 0x0F);
+            gotoxy(15, 62);
                 printf("%d", score);
-                if(score >= max_score){
+            if (score >= max_score) {
                     n = 0;
                 }
-                break;
-            case 0x02: //Ball dead
-                n--;
-                gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[0].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[0].y1));
+        }
+        //Checks if any of them died
+        if (whatDidTheyHit & 0xF0) {
+            n -= 1;
+            for (j = 0; ball[j].whatIsThis != 0x00; j++) {
+                gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[j].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[j].y1));
                 printf(" ");
-                ball[0].direction = tempVec;
-                ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
-                ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(25);
+            }
                 string[3] = n + 48;
-                LEDSetString(string);
-                break;
-            case 0x03: //Hit paddle
-                break;
-            default:
-                break;
+            if (whatDidTheyHit & 0x10) {
+                ball[0].direction = tempVec[0];
+                ball[0].x1 = ball[0].xs;
+                ball[0].y1 = ball[0].ys;
+            }
+            if (whatDidTheyHit & 0x20) {
+                ball[1].direction = tempVec[0];
+                ball[1].x1 = ball[1].xs;
+                ball[1].y1 = ball[1].ys;
+            }
+            if (whatDidTheyHit & 0x40) {
+                ball[2].direction = tempVec[0];
+                ball[2].x1 = ball[2].xs;
+                ball[2].y1 = ball[2].ys;
+            }
+            if (whatDidTheyHit & 0x80) {
+                ball[3].direction = tempVec[0];
+                ball[3].x1 = ball[3].xs;
+                ball[3].y1 = ball[3].ys;
+            }
+            LEDSetString(string);
         }
 
         LEDUpdate();

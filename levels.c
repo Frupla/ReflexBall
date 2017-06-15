@@ -3,8 +3,58 @@
 #include "engine.h"
 #include "ansi.h"
 
-void level1(breakable_t* breakable){
+void level1(breakable_t *breakable, ball_t *ball, player_t *player) {
 	int i, j, n=0, flag = 2;
+	Tvector tempVec;
+
+    // player setup
+    player[0].whatIsThis = 0x01;
+    player[0].changedSinceLast = 1;
+    player[0].x1 = 50;
+    player[0].y1 = 57;
+    player[0].sizeX = 0x04;
+    player[0].color = 0x0f;
+    // Terminate array
+    player[1].whatIsThis = 0x00;
+
+    // Ball setup
+    tempVec.x = convert(-1);
+    tempVec.y = convert(0);
+    rotate(&tempVec, -47);
+    //Ball 1
+    ball[0].whatIsThis = 0x02;
+    ball[0].changedSinceLast = 1;
+    ball[0].xs = LONG_TO_EIGHTEEN_FOURTEEN(50);
+    ball[0].ys = LONG_TO_EIGHTEEN_FOURTEEN(25);
+    ball[0].x1 = ball[0].xs;
+    ball[0].y1 = ball[0].ys;
+    ball[0].direction = tempVec;
+    ball[0].size = 0x00;
+    ball[0].color = 0x0A;
+    //Ball 2
+    rotate(&tempVec, -120);
+    ball[1].whatIsThis = 0x02;
+    ball[1].changedSinceLast = 1;
+    ball[1].xs = LONG_TO_EIGHTEEN_FOURTEEN(50);
+    ball[1].ys = LONG_TO_EIGHTEEN_FOURTEEN(25);
+    ball[1].x1 = ball[0].xs;
+    ball[1].y1 = ball[0].ys;
+    ball[1].direction = tempVec;
+    ball[1].size = 0x00;
+    ball[1].color = 0xB;
+    //Ball 3
+    rotate(&tempVec, -93);
+    ball[1].whatIsThis = 0x02;
+    ball[1].changedSinceLast = 1;
+    ball[1].xs = LONG_TO_EIGHTEEN_FOURTEEN(50);
+    ball[1].ys = LONG_TO_EIGHTEEN_FOURTEEN(25);
+    ball[1].x1 = ball[0].xs;
+    ball[1].y1 = ball[0].ys;
+    ball[1].direction = tempVec;
+    ball[1].size = 0x00;
+    ball[1].color = 0xD;
+    ball[2].whatIsThis = 0x00;
+
  	//Breakable setup
     for (i = 2; i <= 119 ; i += 13) {
         for (j = 8; j <= 16; j += 2) {
@@ -47,8 +97,40 @@ void level1(breakable_t* breakable){
     breakable[n].whatIsThis = 0x00;
 }
 
-void level2(breakable_t * breakable){
+void level2(breakable_t * breakable, ball_t * ball, player_t * player){
     int i, j, n=0;
+	Tvector tempVec;
+    // player setup
+    player[0].whatIsThis = 0x01;
+    player[0].changedSinceLast = 1;
+    player[0].x1 = 50;
+    player[0].y1 = 57;
+    player[0].sizeX = 0x04;
+    player[0].color = 0x0f;
+    // Paddle 2
+    player[1].whatIsThis = 0x01;
+    player[1].changedSinceLast = 1;
+    player[1].x1 = 50;
+    player[1].y1 = 3;
+    player[1].sizeX = 0x04;
+    player[1].color = 0x0c;
+    //Terminate array
+    player[2].whatIsThis = 0x00;
+
+    // Ball setup
+    tempVec.x = convert(-1);
+    tempVec.y = convert(0);
+    rotate(&tempVec, 64);
+    ball[0].whatIsThis = 0x02;
+    ball[0].changedSinceLast = 1;
+    ball[0].xs = LONG_TO_EIGHTEEN_FOURTEEN(182);
+    ball[0].ys = LONG_TO_EIGHTEEN_FOURTEEN(5);
+    ball[0].x1 = ball[0].xs;
+    ball[0].y1 = ball[0].ys;
+    ball[0].direction = tempVec;
+    ball[0].size = 0x00;
+    ball[0].color = 0x0A;
+    ball[1].whatIsThis = 0x00;
     //Breakable setup
     for (i = 1; i <= 9 ; i++) {
         for (j = 1; j <= 9-i; j++) {
@@ -77,8 +159,33 @@ void level2(breakable_t * breakable){
     breakable[n].whatIsThis = 0x00;
 }
 
-void level3(breakable_t * breakable){
+void level3(breakable_t * breakable, ball_t * ball, player_t * player){
     int i, j, n=0;
+	Tvector tempVec;
+    // player setup
+    player[0].whatIsThis = 0x01;
+    player[0].changedSinceLast = 1;
+    player[0].x1 = 50;
+    player[0].y1 = 57;
+    player[0].sizeX = 0x04;
+    player[0].color = 0x0f;
+    // Terminate array
+    player[1].whatIsThis = 0x00;
+
+    // Ball setup
+    tempVec.x = convert(-1);
+    tempVec.y = convert(0);
+    rotate(&tempVec, -47);
+    ball[0].whatIsThis = 0x02;
+    ball[0].changedSinceLast = 1;
+    ball[0].xs = LONG_TO_EIGHTEEN_FOURTEEN(50);
+    ball[0].ys = LONG_TO_EIGHTEEN_FOURTEEN(25);
+    ball[0].x1 = ball[0].xs;
+    ball[0].y1 = ball[0].ys;
+    ball[0].direction = tempVec;
+    ball[0].size = 0x00;
+    ball[0].color = 0x0A;
+    ball[1].whatIsThis = 0x00;
     //Breakable setup
     for (i = 15; i <= 105 ; i += 15) {
         for (j = 4; j <= 20; j += 4) {
