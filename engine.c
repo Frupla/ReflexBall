@@ -213,40 +213,43 @@ void drawMap(player_t* players, ball_t* balls, breakable_t* breakables) {
 }
 
 void playerMovement(char buttonPress, player_t* object){
-	int i;
-	switch(buttonPress) {
-		case 0x01: //PF7
-			if ((object->x1 + 1 + ((object->sizeX)*5)) < 4 * MAPSIZE){
-                gotoxy(object->x1, object->y1);
-                printf("%c", 0x20);
-				object->x1++;
-			}
-			gotoxy(object->x1 + ((object->sizeX)*5),object->y1);
-            fgcolor(object[0].color);
-            printf("%c", PLAYERTEXTURE);
-            fgcolor(15);
-			gotoxy(1,1);
-            break;
-		case 0x02: //PF6
-			break;
-		case 0x04: //PD3
-			if((object->x1 - 1) > 1){
-                gotoxy(object->x1 + ((object->sizeX) * 5), object->y1);
-                printf("%c", 0x20);
-				object->x1--;
-			}
-			gotoxy(object->x1,object->y1);
-            fgcolor(object[0].color);
-            printf("%c", PLAYERTEXTURE);
-            fgcolor(15);
-			gotoxy(1,1);
-			break;
-		case 0x05:
-			// when PD3 and PF7 is pressed at the same time, nothing happens
-			break;
-		default:
-			break;
-		}
+    int j, i;
+    for (j = 0; object[j].whatIsThis != 0x00; j++) {
+
+        switch (buttonPress) {
+            case 0x01: //PF7
+                if ((object[i].x1 + 1 + ((object[i].sizeX) * 5)) < 4 * MAPSIZE) {
+                    gotoxy(object[i].x1, object[i].y1);
+                    printf("%c", 0x20);
+                    object[i].x1++;
+                }
+                gotoxy(object[i].x1 + ((object[i].sizeX) * 5), object[i].y1);
+                fgcolor(object[i].color);
+                printf("%c", PLAYERTEXTURE);
+                fgcolor(15);
+                gotoxy(1, 1);
+                break;
+            case 0x02: //PF6
+                break;
+            case 0x04: //PD3
+                if ((object[i].x1 - 1) > 1) {
+                    gotoxy(object[i].x1 + ((object[i].sizeX) * 5), object[i].y1);
+                    printf("%c", 0x20);
+                    object[i].x1--;
+                }
+                gotoxy(object[i].x1, object[i].y1);
+                fgcolor(object[i].color);
+                printf("%c", PLAYERTEXTURE);
+                fgcolor(15);
+                gotoxy(1, 1);
+                break;
+            case 0x05:
+                // when PD3 and PF7 is pressed at the same time, nothing happens
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 // pre: takes position that the ball would have (current position + direction), and checks it for overlap

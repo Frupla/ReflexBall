@@ -94,9 +94,7 @@ int startGame(char lvl) {
                 //Do this for 0.1 s
             } while (timer1() < time1);
             //Then move the player
-            for (i = 0; player[i].whatIsThis != 0x00; i++) {
-                playerMovement(button, &player[i]);
-            }
+            playerMovement(button, &player[i]);
             LEDUpdate();
             //Reenter the above while - loop
             time1=timer1();
