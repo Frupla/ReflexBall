@@ -213,8 +213,8 @@ void drawMap(player_t* players, ball_t* balls, breakable_t* breakables) {
 }
 
 void playerMovement(char buttonPress, player_t* object){
-    int j, i;
-    for (j = 0; object[j].whatIsThis != 0x00; j++) {
+    int i;
+    for (i = 0; object[i].whatIsThis != 0x00; i++) {
 
         switch (buttonPress) {
             case 0x01: //PF7
