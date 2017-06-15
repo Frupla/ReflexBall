@@ -3,8 +3,22 @@
 #include "engine.h"
 #include "ansi.h"
 
-void level1(breakable_t* breakable){
+void level1(breakable_t* breakable, ball_t * ball){
 	int i, j, n=0, flag = 2;
+	Tvector tempVec;
+    // Ball setup
+    tempVec.x = convert(-1);
+    tempVec.y = convert(0);
+    rotate(&tempVec, -47);
+    ball[0].whatIsThis = 0x02;
+    ball[0].changedSinceLast = 1;
+    ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
+    ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(25);
+    ball[0].direction = tempVec;
+    ball[0].size = 0x00;
+    ball[0].color = 0x0A;
+    ball[1].whatIsThis = 0x00;
+
  	//Breakable setup
     for (i = 2; i <= 119 ; i += 13) {
         for (j = 8; j <= 16; j += 2) {
@@ -45,8 +59,21 @@ void level1(breakable_t* breakable){
     breakable[n].whatIsThis = 0x00;
 }
 
-void level2(breakable_t * breakable){
+void level2(breakable_t * breakable, ball_t * ball){
     int i, j, n=0;
+	Tvector tempVec;
+    // Ball setup
+    tempVec.x = convert(-1);
+    tempVec.y = convert(0);
+    rotate(&tempVec, -47);
+    ball[0].whatIsThis = 0x02;
+    ball[0].changedSinceLast = 1;
+    ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(182);
+    ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(5);
+    ball[0].direction = tempVec;
+    ball[0].size = 0x00;
+    ball[0].color = 0x0A;
+    ball[1].whatIsThis = 0x00;
     //Breakable setup
     for (i = 1; i <= 9 ; i++) {
         for (j = 1; j <= 9-i; j++) {
@@ -75,8 +102,21 @@ void level2(breakable_t * breakable){
     breakable[n].whatIsThis = 0x00;
 }
 
-void level3(breakable_t * breakable){
+void level3(breakable_t * breakable, ball_t * ball){
     int i, j, n=0;
+	Tvector tempVec;
+    // Ball setup
+    tempVec.x = convert(-1);
+    tempVec.y = convert(0);
+    rotate(&tempVec, -47);
+    ball[0].whatIsThis = 0x02;
+    ball[0].changedSinceLast = 1;
+    ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
+    ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(25);
+    ball[0].direction = tempVec;
+    ball[0].size = 0x00;
+    ball[0].color = 0x0A;
+    ball[1].whatIsThis = 0x00;
     //Breakable setup
     for (i = 15; i <= 105 ; i += 15) {
         for (j = 4; j <= 20; j += 4) {
