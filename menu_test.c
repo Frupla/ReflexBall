@@ -49,11 +49,11 @@ int startGame() {
     // Ball setup
     tempVec.x = convert(-1);
     tempVec.y = convert(0);
-    rotate(&tempVec, 47);
+    rotate(&tempVec, -47);
     ball[0].whatIsThis = 0x02;
     ball[0].changedSinceLast = 1;
     ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
-    ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
+    ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(25);
     ball[0].direction = tempVec;
     ball[0].size = 0x00;
     ball[0].color = 0x0A;
@@ -112,7 +112,7 @@ int startGame() {
                 printf(" ");
                 ball[0].direction = tempVec;
                 ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
-                ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
+                ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(25);
                 string[3] = n + 48;
                 LEDSetString(string);
                 break;
