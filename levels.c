@@ -26,7 +26,6 @@ void level1(breakable_t* breakable){
     breakable[14].lives = 2;
     breakable[12].lives = 4;
     breakable[n].whatIsThis = 0x00;
-
     return breakable;
 }
 
