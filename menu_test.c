@@ -26,7 +26,7 @@ int findMaxScore(breakable_t* breakables){
 
 int startGame(char lvl) {
     player_t player[2];
-    ball_t ball[3];
+    ball_t ball[5];
     int i, j, n = 0;
     breakable_t breakable[LVLSIZE];
     Tvector tempVec;
@@ -64,7 +64,7 @@ int startGame(char lvl) {
     rotate(&tempVec, 47);
     ball[1].whatIsThis = 0x02;
     ball[1].changedSinceLast = 1;
-    ball[1].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
+    ball[1].x1 = LONG_TO_EIGHTEEN_FOURTEEN(55);
     ball[1].y1 = LONG_TO_EIGHTEEN_FOURTEEN(25);
     ball[1].direction = tempVec;
     ball[1].size = 0x00;
@@ -144,30 +144,27 @@ int startGame(char lvl) {
                 printf(" ");
             }
                 string[3] = n + 48;
-            switch (whatDidTheyHit & 0xF0) {
-                case 0x10:
-                    ball[0].direction = tempVec;
-                    ball[0].x1 = 50;
-                    ball[0].y1 = 56;
-                    break;
-                case 0x20:
-                    ball[0].direction = tempVec;
-                    ball[0].x1 = 50;
-                    ball[0].y1 = 56;
-                    break;
-                case 0x40:
-                    ball[0].direction = tempVec;
-                    ball[0].x1 = 50;
-                    ball[0].y1 = 56;
-                    break;
-                case 0x80:
-                    ball[0].direction = tempVec;
-                    ball[0].x1 = 50;
-                    ball[0].y1 = 56;
-                    break;
+            if (whatDidTheyHit & 0x10) {
+                ball[0].direction = tempVec;
+                ball[0].x1 = 50;
+                ball[0].y1 = 56;
             }
-
-                LEDSetString(string);
+            if (whatDidTheyHit & 0x20) {
+                ball[1].direction = tempVec;
+                ball[1].x1 = 50;
+                ball[1].y1 = 56;
+            }
+            if (whatDidTheyHit & 0x40) {
+                ball[2].direction = tempVec;
+                ball[2].x1 = 50;
+                ball[2].y1 = 56;
+            }
+            if (whatDidTheyHit & 0x80) {
+                ball[3].direction = tempVec;
+                ball[3].x1 = 50;
+                ball[3].y1 = 56;
+            }
+            LEDSetString(string);
         }
 
         LEDUpdate();
