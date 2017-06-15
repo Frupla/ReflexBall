@@ -1,10 +1,11 @@
- #include <eZ8.h>  						  // special encore constants, macros and flash functions
+#include <eZ8.h>  						  // special encore constants, macros and flash functions
 #include <sio.h>	                      // special encore serial i/o functions
 #include "engine.h"
-
+#include "ansi.h"
 
 void level1(breakable_t* breakable){
 	int i, j, n=0;
+	breakable_t breakable[41];
     //Breakable setup
     for (i = 15; i <= 105 ; i += 15) {
         for (j = 4; j <= 20; j += 4) {
@@ -25,6 +26,7 @@ void level1(breakable_t* breakable){
     breakable[14].lives = 2;
     breakable[12].lives = 4;
     breakable[n].whatIsThis = 0x00;
+
     return breakable;
 }
 
