@@ -124,9 +124,9 @@ void drawBall(ball_t* object){
 void drawBreakable(breakable_t* object){
 	int i, j;
     //object->lives = 3; //change if you want to change n.o. lives
+    fgcolor(7 - object->lives);
 	for(i = 0; i <= (object->sizeX); i++){
 		for(j = 0; j <= (object->sizeY); j++){
-            fgcolor(7 - object->lives);
 			gotoxy(object->x1 + i,object->y1 + j);
 			printf("%c", BREAKABLETEXTURE);
 		}
