@@ -110,7 +110,7 @@ void initiate(){
 }
 
 int findMaxScore(breakable_t* breakables){
-    int max_score = 0, i;
+    int max_score = 0, i=0;
     while(breakables[i].whatIsThis){
         max_score += breakables[i].lives;
         i++;
