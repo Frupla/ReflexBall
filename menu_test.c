@@ -15,14 +15,6 @@
 #define STDWINDOWX 10
 #define STDWINDOWY 10
 
-int findMaxScore(breakable_t* breakables){
-    int max_score = 0;
-    while(breakables->whatIsThis){
-        max_score += breakables->lives;
-        breakables++;
-    }
-    return max_score;
-}
 
 int startGame(char lvl) {
     player_t player[3];
