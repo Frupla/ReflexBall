@@ -116,8 +116,8 @@ int startGame(char lvl) {
                 gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[0].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[0].y1));
                 printf(" ");
                 ball[0].direction = tempVec;
-                ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
-                ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(25);
+                ball[0].x1 = ball[0].xs;
+                ball[0].y1 = ball[0].ys;
                 string[3] = n + 48;
                 LEDSetString(string);
                 break;
