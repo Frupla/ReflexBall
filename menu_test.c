@@ -146,23 +146,23 @@ int startGame(char lvl) {
                 string[3] = n + 48;
             if (whatDidTheyHit & 0x10) {
                 ball[0].direction = tempVec;
-                ball[0].x1 = 50;
-                ball[0].y1 = 56;
+                ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
+                ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
             }
             if (whatDidTheyHit & 0x20) {
                 ball[1].direction = tempVec;
-                ball[1].x1 = 50;
-                ball[1].y1 = 56;
+                ball[1].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
+                ball[1].y1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
             }
             if (whatDidTheyHit & 0x40) {
                 ball[2].direction = tempVec;
-                ball[2].x1 = 50;
-                ball[2].y1 = 56;
+                ball[2].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
+                ball[2].y1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
             }
             if (whatDidTheyHit & 0x80) {
                 ball[3].direction = tempVec;
-                ball[3].x1 = 50;
-                ball[3].y1 = 56;
+                ball[3].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
+                ball[3].y1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
             }
             LEDSetString(string);
         }
