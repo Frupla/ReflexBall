@@ -122,11 +122,11 @@ void level2(breakable_t * breakable, ball_t * ball, player_t * player){
     // Ball setup
     tempVec.x = convert(-1);
     tempVec.y = convert(0);
-    rotate(&tempVec, 64);
+    rotate(&tempVec, -20);
     ball[0].whatIsThis = 0x02;
     ball[0].changedSinceLast = 1;
-    ball[0].xs = LONG_TO_EIGHTEEN_FOURTEEN(182);
-    ball[0].ys = LONG_TO_EIGHTEEN_FOURTEEN(5);
+    ball[0].xs = LONG_TO_EIGHTEEN_FOURTEEN(192);
+    ball[0].ys = LONG_TO_EIGHTEEN_FOURTEEN(7);
     ball[0].x1 = ball[0].xs;
     ball[0].y1 = ball[0].ys;
     ball[0].direction = tempVec;
