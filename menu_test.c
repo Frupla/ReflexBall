@@ -41,7 +41,7 @@ int startGame(char lvl) {
     player[0].whatIsThis = 0x01;
     player[0].changedSinceLast = 1;
     player[0].x1 = 50;
-    player[0].y1 = 58;
+    player[0].y1 = 57;
     //map[n].direction = {0, 0};
     player[0].sizeX = 0x04;
     player[0].color = 0x0f;

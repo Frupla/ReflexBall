@@ -4,7 +4,7 @@
 #include "math.h"
 #include "Z8encore.h"
 
-#define MAPSIZE 60
+#define MAPSIZE 59
 #define SOLIDTEXTURE 219
 #define PLAYERTEXTURE 223
 #define BALLTEXTURE 184
@@ -88,10 +88,10 @@ void initiate(){
 	for(i = 1; i <= MAPSIZE; i++){
 		gotoxy(1, i);
 		printf("%c", SOLIDTEXTURE);
-		gotoxy((2 * MAPSIZE), i);
+		gotoxy((4 * MAPSIZE), i);
 		printf("%c", SOLIDTEXTURE);
 	}
-	for(i = 1; i <= (2 * MAPSIZE); i++){
+	for(i = 1; i <= (4 * MAPSIZE); i++){
 		gotoxy(i, 1);
 		printf("%c", 220);
 	}
@@ -214,7 +214,7 @@ void playerMovement(char buttonPress, player_t* object){
 	int i;
 	switch(buttonPress) {
 		case 0x01: //PF7
-			if ((object->x1 + 1 + ((object->sizeX)*5)) < 2 * MAPSIZE){
+			if ((object->x1 + 1 + ((object->sizeX)*5)) < 4 * MAPSIZE){
                 gotoxy(object->x1, object->y1);
                 printf("%c", 0x20);
 				object->x1++;
@@ -251,7 +251,7 @@ void playerMovement(char buttonPress, player_t* object){
 char collisionCheck(int x1, int y1, player_t* players, breakable_t* breakables) { // an array of breakables, an array of players
 	char flag = 0;
 	int i = 0;
-	if(x1 >= MAPSIZE * 2){ // returns true if hit wall
+	if(x1 >= MAPSIZE * 4){ // returns true if hit wall
 		flag = 0x10;// hit right wall
         return flag;
 	}
