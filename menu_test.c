@@ -11,6 +11,7 @@
 #include "standalone_timer.h"
 #include "levels.h"
 
+#define LVLSIZE 100
 #define STDWINDOWX 10
 #define STDWINDOWY 10
 
@@ -27,7 +28,7 @@ int startGame() {
     player_t player[2];
     ball_t ball[2];
     int i, j, n = 0;
-    breakable_t * breakable;
+    breakable_t breakable[LVLSIZE];
     Tvector tempVec;
     char button;
     int score = 0;
@@ -58,8 +59,8 @@ int startGame() {
     ball[0].size = 0x00;
     ball[0].color = 0x0A;
     ball[1].whatIsThis = 0x00;
-    
-    breakable = level1();
+
+    level1(breakable);
 
     max_score = findMaxScore(breakable);
 
