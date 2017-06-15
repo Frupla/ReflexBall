@@ -25,9 +25,9 @@ int findMaxScore(breakable_t* breakables){
 }
 
 int startGame(char lvl) {
-    player_t player[2];
+    player_t player;
     ball_t ball[2];
-    int i, j, n = 0;
+    int i, j;
     breakable_t breakable[LVLSIZE];
     Tvector tempVec;
     char button;
@@ -35,42 +35,48 @@ int startGame(char lvl) {
     int max_score = 0;
     char string[LED_MAX_STR_LEN] = " 5/5";
     int time1 = 1, time2 = 15;
-	string[0] = 0x7F;
+    string[0] = 0x7F;
 
     // player setup
-    player[0].whatIsThis = 0x01;
-    player[0].changedSinceLast = 1;
-    player[0].x1 = 50;
-    player[0].y1 = 57;
+    player.whatIsThis = 0x01;
+    player.changedSinceLast = 1;
+    player.x1 = 50;
+    player.y1 = 57;
     //map[n].direction = {0, 0};
-    player[0].sizeX = 0x04;
-    player[0].color = 0x0f;
-    player[1].whatIsThis = 0x00;
+    player.sizeX = 0x04;
+    player.color = 0x0f;
+    player.lives = 4;
+
+    // Ball setup
+    tempVec.x = convert(-1);
+    tempVec.y = convert(0);
+    rotate(&tempVec, -47);
+    ball[0].whatIsThis = 0x02;
+    ball[0].changedSinceLast = 1;
+    ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
+    ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(25);
+    ball[0].direction = tempVec;
+    ball[0].size = 0x00;
+    ball[0].color = 0x0A;
+    ball[1].whatIsThis = 0x00;
 
     //n counts the health
-    n = 4;
-    string[1] = n + 0x30;
-    string[3] = n + 0x30;
+    string[1] = player.lives + 0x30;
+    string[3] = player.lives + 0x30;
 
     //Choose level
     switch (lvl) {
         case 0x01:
-            level1(breakable, ball);
-            tempVec.x = ball[0].direction.x;
-            tempVec.y = ball[0].direction.y;
+            level1(breakable);
             break;
         case 0x02:
-            level2(breakable, ball);
-            tempVec.x = ball[0].direction.x;
-            tempVec.y = ball[0].direction.y;
+            level2(breakable);
             break;
         case 0x03:
-            level3(breakable, ball);
-            tempVec.x = ball[0].direction.x;
-            tempVec.y = ball[0].direction.y;
+            level3(breakable);
             break;
         default:
-            n = 0;
+            player.lives = 0;
     }
 
 
@@ -79,7 +85,7 @@ int startGame(char lvl) {
     initiate();
     timer1Setup();
     LEDSetString(string);
-    drawMap(player, ball, breakable);
+    drawMap(&player, ball, breakable);
     gotoxy(5,62);
     printf("score:");
     gotoxy(5,63);
@@ -88,17 +94,17 @@ int startGame(char lvl) {
     do {
         do {
             do {
-				//reset timer
-				if (timer1() < 50) {
-            		time1 = 1;
-            		time2 = 15;
-        		}
+                //reset timer
+                if (timer1() < 50) {
+                    time1 = 1;
+                    time2 = 15;
+                }
                 button = readKey();
                 LEDUpdate();
                 //Do this for 0.1 s
             } while (timer1() < time1);
             //Then move the player
-            playerMovement(button, player);
+            playerMovement(button, &player);
 
             LEDUpdate();
             //Reenter the above while - loop
@@ -106,7 +112,7 @@ int startGame(char lvl) {
             //Do this for 0.5 s
         } while (timer1() < time2);
         //Then move the ball
-        switch (ballMovement(ball, player, breakable)) {
+        switch (ballMovement(ball, &player, breakable)) {
             case 0x00: //Nothing
                 break;
             case 0x01: //Hit breakable
@@ -114,17 +120,17 @@ int startGame(char lvl) {
                 gotoxy(15,62);
                 printf("%d", score);
                 if(score >= max_score){
-                    n = 0;
+                    player.lives = 0;
                 }
                 break;
             case 0x02: //Ball dead
-                n--;
+                player.lives--;
                 gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[0].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[0].y1));
                 printf(" ");
                 ball[0].direction = tempVec;
-                ball[0].x1 = ball[0].xs;
-                ball[0].y1 = ball[0].ys;
-                string[3] = n + 48;
+                ball[0].x1 = LONG_TO_EIGHTEEN_FOURTEEN(50);
+                ball[0].y1 = LONG_TO_EIGHTEEN_FOURTEEN(25);
+                string[3] = player.lives + 48;
                 LEDSetString(string);
                 break;
             case 0x03: //Hit paddle
@@ -139,7 +145,7 @@ int startGame(char lvl) {
         // 15 can be changed to a variable, to increase difficulty
         time2 = timer1() + 15;
 
-    } while (n);
+    } while (player.lives);
     return score;
 }
 
@@ -148,7 +154,7 @@ void addHighscore(int * score, int * highscore){
     int positionoflowest = 0;
     for(i = 1; i <= 5; i++){
         if(highscore[positionoflowest] > highscore[i]){
-            positionoflowest = i;  
+            positionoflowest = i;
         }
     }
     if (*score > highscore[positionoflowest]){
@@ -166,9 +172,9 @@ void printHighscore(int * highscore){
             if(highscore[j] < highscore[j+1]){
                 temp = highscore[j+1];
                 highscore[j+1] = highscore[j];
-                highscore[j] = temp; 
+                highscore[j] = temp;
             }
-        }     
+        }
     }
     window(STDWINDOWX, STDWINDOWY, 50, 21, "Highscore", 1);
     for (i = 0; i < 5; i++){
@@ -182,8 +188,8 @@ void printHighscore(int * highscore){
         }
     }while(!readKey() || (flag));
     for (i = 0; i >=23; i++){
-         gotoxy(20+i,62);
-         printf(" ");
+        gotoxy(20+i,62);
+        printf(" ");
     }
 }
 
@@ -324,54 +330,54 @@ void main() {
         window(STDWINDOWX, STDWINDOWY, 50, 21, "Main menu", 1);
         gotoxy(12, 12);
         printf(" > Start game");
-		gotoxy(13,13);
-		printf("  Show controls");
-		gotoxy(13,14);
-		printf("  Show high scores");
-		gotoxy(13,15);
-		printf("  Exit game");
+        gotoxy(13,13);
+        printf("  Show controls");
+        gotoxy(13,14);
+        printf("  Show high scores");
+        gotoxy(13,15);
+        printf("  Exit game");
         do {
             LEDUpdate();
             button = readKey();
             if ((button != 0x00) && (!flag2)) {
                 switch (button) {
                     case 0x01 :
-						output += 1;
-						if(output <= 3 && output >= 0){
-                        	gotoxy(13, 12 + output - 1);
-                        	printf(" ");
-                        	gotoxy(13, 12 + output);
-                        	printf(">");
-							gotoxy(13,12);
-					   	} else{
-							output -= 1;
-							gotoxy(13, 12 + output - 1);
-                        	printf(" ");
-                        	gotoxy(13, 12 + output);
-                        	printf(">");
-							gotoxy(13,12);
-						}
-						break;
+                        output += 1;
+                        if(output <= 3 && output >= 0){
+                            gotoxy(13, 12 + output - 1);
+                            printf(" ");
+                            gotoxy(13, 12 + output);
+                            printf(">");
+                            gotoxy(13,12);
+                        } else{
+                            output -= 1;
+                            gotoxy(13, 12 + output - 1);
+                            printf(" ");
+                            gotoxy(13, 12 + output);
+                            printf(">");
+                            gotoxy(13,12);
+                        }
+                        break;
                     case 0x04 :
-						output -= 1;
-						if(output <= 3 && output >= 0){
-							gotoxy(13, 12 + output + 1);
-                        	printf(" ");
-                        	gotoxy(13, 12 + output);
-                        	printf(">");
-							gotoxy(13,12);
-						} else{
-							output += 1;
-							gotoxy(13, 12 + output - 1);
-                        	printf(" ");
-                        	gotoxy(13, 12 + output);
-                        	printf(">");
-							gotoxy(13,12);
-						}
+                        output -= 1;
+                        if(output <= 3 && output >= 0){
+                            gotoxy(13, 12 + output + 1);
+                            printf(" ");
+                            gotoxy(13, 12 + output);
+                            printf(">");
+                            gotoxy(13,12);
+                        } else{
+                            output += 1;
+                            gotoxy(13, 12 + output - 1);
+                            printf(" ");
+                            gotoxy(13, 12 + output);
+                            printf(">");
+                            gotoxy(13,12);
+                        }
                         break;
                     case 0x02 :
                         flag1 = 0;
-						gotoxy(13,12);
+                        gotoxy(13,12);
                         break;
                 }
                 flag2 = 1;
@@ -392,7 +398,7 @@ void main() {
                 string[1] = 'o';
                 string[2] = 'p';
                 string[3] = 'e';
-				printf("case 1");
+                printf("case 1");
                 LEDSetString(string);
                 showControls();
                 break;
@@ -402,7 +408,7 @@ void main() {
                 string[2] = 'p';
                 string[3] = 'e';
                 printf("case 2");
-				LEDSetString(string);
+                LEDSetString(string);
                 printHighscore(highscore);
                 break;
             case 3:
@@ -411,13 +417,15 @@ void main() {
                 string[2] = 'p';
                 string[3] = 'e';
                 printf("case 3");
-				LEDSetString(string);
+                LEDSetString(string);
                 break;
         }
-		output = 0;
+        output = 0;
         flag1 = 1;
     } while (1);
 
 
 }
+
+
 
