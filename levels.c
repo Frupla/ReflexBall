@@ -95,7 +95,7 @@ void level1(breakable_t *breakable, ball_t *ball, player_t *player) {
     breakable[n].whatIsThis = 0x00;
 }
 
-void level2(breakable_t * breakable, ball_t * ball){
+void level2(breakable_t * breakable, ball_t * ball, player_t * player){
     int i, j, n=0;
 	Tvector tempVec;
     // player setup
@@ -157,7 +157,7 @@ void level2(breakable_t * breakable, ball_t * ball){
     breakable[n].whatIsThis = 0x00;
 }
 
-void level3(breakable_t * breakable, ball_t * ball){
+void level3(breakable_t * breakable, ball_t * ball, player_t * player){
     int i, j, n=0;
 	Tvector tempVec;
     // player setup
