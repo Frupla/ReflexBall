@@ -71,6 +71,7 @@ typedef struct{
     char sizeY;	// represent the vertical size factor
     char lives; // n.o. lives for breakables  (color breakables after this). Is set to 3 in drawBreakables
     // 0x00 - dead, no lives
+    char powerUp;
 } breakable_t;
 
 void initiate();

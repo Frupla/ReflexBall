@@ -65,6 +65,7 @@ typedef struct{
     //zones? - so far no zones
     char sizeX; // represent the horizontal size factor
     char color; // n.o. lives for breakables  (color breakables after this). Is set to 3 in drawBreakables
+    char lives; //n.o. lives of a player
     // 0x00 - dead, no lives
 } player_t;
 
@@ -80,8 +81,12 @@ typedef struct{
     char lives; // n.o. lives for breakables  (color breakables after this).
     // DO NOT FIVE IT MORE THAN 7 HEALTH.
     // 0x00 - dead, no lives
+    char powerUp;
+    //0x01 1 more life
+    //0x02 1 more ball
 } breakable_t;
 
+//Just access PowerUp on
 
 void initiate(){
 	int i;
@@ -135,7 +140,7 @@ void drawBreakable(breakable_t* object){
 	object->changedSinceLast = 0;
 }
 
-void killBreakable(breakable_t* object){
+void killBreakable(breakable_t* object, player_t* player){
 	int i, j;
     object->lives--;
     if (!object->lives) {
@@ -147,6 +152,12 @@ void killBreakable(breakable_t* object){
         }
         object->changedSinceLast = 0;
         object->whatIsThis = 0x05;
+        if (object->powerUp){
+            if (object->powerUp == 0x01){
+                player->lives++;
+            }
+        }
+    //it's dead
     } else {
         fgcolor(7 - object->lives);
         for (i = 0; i <= (object->sizeX); i++) {
@@ -155,8 +166,9 @@ void killBreakable(breakable_t* object){
                 printf("%c", BREAKABLETEXTURE);
             }
         }
-        fgcolor(STDTEXTCOLOR);
+        fgcolor(STDTEXTCOLOR)
         object->changedSinceLast = 0;
+     //it isn't dead
     }
 }
 
@@ -248,7 +260,7 @@ void playerMovement(char buttonPress, player_t* object){
 }
 
 // pre: takes position that the ball would have (current position + direction), and checks it for overlap
-char collisionCheck(int x1, int y1, player_t* players, breakable_t* breakables) { // an array of breakables, an array of players
+char collisionCheck(int x1, int y1, char whichPlayer, player_t* player, breakable_t* breakables) { // an array of breakables, an array of players
 	char flag = 0;
 	int i = 0;
 	if(x1 >= MAPSIZE * 4){ // returns true if hit wall
@@ -267,37 +279,33 @@ char collisionCheck(int x1, int y1, player_t* players, breakable_t* breakables) 
 		flag = 0x09;// dead ball
         return flag;
 	}
-    while (players[i].whatIsThis != 0x00){
-        if (y1 == players[i].y1) {
-            if ((x1 >= players[i].x1) &&
-                (x1 < (players[i].x1 + players[i].sizeX))) {
+    if (y1 == player->y1) {
+        if ((x1 >= player->x1) &&
+            (x1 < (player->x1 + player->sizeX))) {
                 flag = 0x0A;
                 return flag; // left side of paddle
             }
-            if ((x1 >= players[i].x1 + (players[i].sizeX)) &&
-                (x1 < (players[i].x1 + (2 * players[i].sizeX)))) {
+            if ((x1 >= player->x1 + (player->sizeX)) &&
+                (x1 < (player->x1 + (2 * player->sizeX)))) {
                 flag = 0x0B;
                 return flag; // middle left side of paddle
             }
-            if ((x1 >= (players[i].x1 + (players[i].sizeX) * 2)) &&
-                (x1 < (players[i].x1) + (3 * (players[i].sizeX)))) {
+            if ((x1 >= (player->x1 + (player->sizeX) * 2)) &&
+                (x1 < (player->x1) + (3 * (player->sizeX)))) {
                 flag = 0x0C;
                 return flag; // middle of paddle
             }
-            if ((x1 >= (players[i].x1 + (players[i].sizeX * 3))) &&
-                (x1 < (players[i].x1 + (4 * players[i].sizeX)))) {
+            if ((x1 >= (player->x1 + (player->sizeX * 3))) &&
+                (x1 < (player->x1 + (4 * player->sizeX)))) {
                 flag = 0x0D;
                 return flag; // right middle side of paddle
             }
-            if ((x1 >= (players[i].x1 + (players[i].sizeX) * 4)) &&
-                (x1 <= (players[i].x1 + (5 * (players[i].sizeX))))) {
+            if ((x1 >= (player->x1 + (player->sizeX) * 4)) &&
+                (x1 <= (player->x1 + (5 * (player->sizeX))))) {
                 flag = 0x0E;
                 return flag; // right side of paddle
             }
-        }
-        i++;
-    }
-    i = 0;
+     }
     while (breakables[i].whatIsThis != 0x00){
         if(breakables[i].whatIsThis == 0x03) {    //checks & breaks breakables
             if ((x1 >= (breakables[i].x1)) &&
@@ -305,29 +313,29 @@ char collisionCheck(int x1, int y1, player_t* players, breakable_t* breakables) 
                 if (y1 == (breakables[i].y1)) {
                     if (x1 == (breakables[i].x1)) {
                         flag = 0x08;//top left corner
-                        killBreakable(&breakables[i]);
+                        killBreakable(&breakables[i], &player);
                         return flag;
                     } else if (x1 == (breakables[i].x1 + breakables[i].sizeX)) {
                         flag = 0x02;//top right corner
-                        killBreakable(&breakables[i]);
+                        killBreakable(&breakables[i], &player);
                         return flag;
                     } else {
                         flag = 0x01; // hit top
-                        killBreakable(&breakables[i]);
+                        killBreakable(&breakables[i], &player);
                         return flag;
                     }
                 } else if (y1 == (breakables[i].y1 + breakables[i].sizeY)) {
                     if (x1 == (breakables[i].x1)) {
                         flag = 0x06;//bottom left corner
-                        killBreakable(&breakables[i]);
+                        killBreakable(&breakables[i], &player);
                         return flag;
                     } else if (x1 == (breakables[i].x1 + breakables[i].sizeX)) {
                         flag = 0x04;//bottom right corner
-                        killBreakable(&breakables[i]);
+                        killBreakable(&breakables[i], &player);
                         return flag;
                     } else {
                         flag = 0x05; // hit bottom
-                        killBreakable(&breakables[i]);
+                        killBreakable(&breakables[i], &player);
                         return flag;
                     }
                 }
@@ -336,11 +344,11 @@ char collisionCheck(int x1, int y1, player_t* players, breakable_t* breakables) 
                 && (y1 < (breakables[i].y1 + breakables[i].sizeY))) {
                 if (x1 == (breakables[i].x1)) {
                     flag = 0x07; // hit left
-                    killBreakable(&breakables[i]);
+                    killBreakable(&breakables[i], &player);
                     return flag;
                 } else if (x1 == (breakables[i].x1 + breakables[i].sizeX)) {
                     flag = 0x03; // hit right
-                    killBreakable(&breakables[i]);
+                    killBreakable(&breakables[i], &player);
                     return flag;
                 }
             }
@@ -372,6 +380,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
 	char flag;
 	int tempX;
 	int tempY;
+    //TODO  merge with Asger for multiplayer, create whichPlayer, write appropriate testcode (modified copy of menu_test)
 	//Variables
 
 	//int where;
@@ -385,7 +394,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
     //Calculate the next position, and pass this to collisionCheck.
     tempX = EIGHTEEN_FOURTEEN_TO_INT(ball->x1 + ball->direction.x);
 	tempY = EIGHTEEN_FOURTEEN_TO_INT(ball->y1 + ball->direction.y);
-    flag = collisionCheck(tempX, tempY, players, breakables);
+    flag = collisionCheck(tempX, tempY, whichPlayer, players, breakables);
     switch(flag){
     	case 0x00:
             break;
