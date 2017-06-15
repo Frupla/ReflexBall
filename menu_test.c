@@ -123,7 +123,6 @@ int startGame(char lvl) {
                 gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[j].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[j].y1));
                 printf(" ");
             }
-                string[3] = player[0].lives + 48;
             if (whatDidTheyHit & 0x10) {
                 ball[0].direction = tempVec[0];
                 ball[0].x1 = ball[0].xs;
