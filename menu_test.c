@@ -294,14 +294,20 @@ int lvlMenu() {
             case 0:
                 clrscr();
                 score = startGame(0x01);
+                exit_flag = 0;
                 break;
             case 1:
+                clrscr();
                 score = startGame(0x02);
+                exit_flag = 0;
                 break;
             case 2:
+                clrscr();
                 score = startGame(0x03);
+                exit_flag = 0;
                 break;
             case 3:
+                clrscr();
                 exit_flag = 0;
                 break;
         }
