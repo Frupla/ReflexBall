@@ -496,17 +496,16 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
     char howManyTimes = 3;
     char tooManyTimes = 12;
 
-    //Remove the old ball
-    gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[i].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[i].y1));
-    printf(" ");
+
 
     //Check all the balls
     for (i = 0; ball[i].whatIsThis != 0x00; i++) {
         if (ball[i].whatIsThis == 0x02) {
 
 
-            collision = collisionCheck(&ball[i], players, breakables);
+            collision = 1;
             while(collision) {
+            collision = collisionCheck(&ball[i], players, breakables);
                 switch (collision) {
                     case 0x00:
                         break;
@@ -601,12 +600,10 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                     default:
                         //flag = 0x00; //eh
                         break;
-                }
-                ball[i].x1 += ball[i].direction.x;
-                ball[i].y1 += ball[i].direction.y;
+                }    			
                 howManyTimes--;
                 if(!howManyTimes){
-                    rotate(ball[i].direction, 47);
+                    rotate(&ball[i].direction, 47);
                     howManyTimes = 3;
                     tooManyTimes--;
                 }
@@ -618,8 +615,9 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                 }
 
             }
-
-            //Change position and print the new
+            //Remove the old ball
+            gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[i].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[i].y1));
+    		printf(" ");
             ball[i].x1 += ball[i].direction.x;
             ball[i].y1 += ball[i].direction.y;
             fgcolor(ball[i].color);
