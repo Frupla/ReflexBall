@@ -237,20 +237,22 @@ void killBreakable(breakable_t* object, player_t* player, ball_t* ball){
                     if (player->lives < 9){
                         player->lives++;
                     }
+                    break;
                 case 0x02:
                     for (k = 0; k < 4; k++){ //ball arrays must always have length 5
                         if (ball[k].whatIsThis == 0x00){
                             ball[k].whatIsThis = 0x02;
                             ball[k].changedSinceLast = 1;
-                            ball[k].x1 = player->x1 + (player->sizeX <<1) ;
-                            ball[k].y1 = player->y1 - 2;
+                            ball[k].xs = LONG_TO_EIGHTEEN_FOURTEEN(player->x1 + (player->sizeX <<1)) ;
+                            ball[k].ys = LONG_TO_EIGHTEEN_FOURTEEN(player->y1 - 2);
                             ball[k].size = 0x00;
-                            ball[k].xs = ball[k].x1;
-                            ball[k].ys = ball[k].y1;
+                            ball[k].x1 = ball[k].xs;
+                            ball[k].y1 = ball[k].ys;
                             ball[k].direction.x = 0;
                             ball[k].direction.y = 1;
                             ball[k].color = (char)(9 + k);
                             ball[k+1].whatIsThis = 0x0;
+                            drawBall(&ball[k]);
                             k = 4;
                         }
                     }
@@ -265,6 +267,7 @@ void killBreakable(breakable_t* object, player_t* player, ball_t* ball){
                     player->sizeX++;
                     player->changedSinceLast = 1;
                     drawPlayer(player);
+                    break;
                 default:
                     break;
             }
@@ -658,8 +661,8 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables, char
                 if (!tooManyTimes){
                     ball[i].x1 = ball[i].xs;
                     ball[i].y1 = ball[i].ys;
-                    gotoxy(250,20);
-                    printf("ball stuck, respawning");
+                    gotoxy(245,20);
+                    printf("ball %d stuck, respawning", i);
                 }
                 collision = collisionCheck(i, ball, players, breakables, level);
             } while (collision);
