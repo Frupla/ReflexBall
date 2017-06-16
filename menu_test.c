@@ -78,10 +78,10 @@ int startGame(char lvl) {
             		time1 = 1;
             		time2 = 15;
         		}
-                button = readKey();
                 LEDUpdate();
                 //Do this for 0.1 s
             } while (timer1() < time1);
+            button = readKey();
             //Then move the player
             playerMovement(button, player);
             LEDUpdate();
