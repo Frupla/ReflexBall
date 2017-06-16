@@ -195,16 +195,20 @@ void killBreakable(breakable_t* object, player_t* player){
 	int i, j, texture;
     object->lives--;
     switch(object->powerUp){
-    	case 0x00: texture = BREAKABLETEXTURE;
-    	break;
-    	case 0x01: texture = MORELIFETEXTURE;
-    	break;
-    	case 0x02: texture = MOREBALLSTEXTURE;
-    	break;
+    	case 0x00:
+            texture = BREAKABLETEXTURE;
+    	    break;
+    	case 0x01:
+            texture = MORELIFETEXTURE;
+    	    break;
+    	case 0x02:
+            texture = MOREBALLSTEXTURE;
+    	    break;
     	case 0x03: texture = WIDERPADDLETEXTURE;
+            break;
     	default:
-    	texture = BREAKABLETEXTURE;
-    	break;
+    	    texture = BREAKABLETEXTURE;
+    	    break;
     }
     if (!object->lives) {
         for (i = 0; i <= (object->sizeX); i++) {
@@ -223,6 +227,16 @@ void killBreakable(breakable_t* object, player_t* player){
                     if (player->lives < 9){
                         player->lives++;
                     }
+                case 0x03:
+                    //MAPSIZE x4  = length of course
+                    if (player->x1+(player->sizeX*5 + 5) >= (MAPSIZE << 2)){
+                        player->x1 -=  5;
+                    } else if (player->x1 - 3 > 1){
+                        player->x1 -= 3;
+                    }
+                    player->sizeX++;
+                    player->changedSinceLast = 1;
+                    drawPlayer(player);
                 default:
                     break;
             }
@@ -301,7 +315,7 @@ void playerMovement(char buttonPress, player_t* object){
             case 0x01: //PF7
                 if ((object[i].x1 + 1 + ((object[i].sizeX) * 5)) < 4 * MAPSIZE) {
                     gotoxy(object[i].x1, object[i].y1);
-                    printf("%c", 0x20);
+                    printf("%c", BACKGROUNDTEXTURE);
                     object[i].x1++;
                 }
                 gotoxy(object[i].x1 + ((object[i].sizeX) * 5), object[i].y1);
@@ -315,7 +329,7 @@ void playerMovement(char buttonPress, player_t* object){
             case 0x04: //PD3
                 if ((object[i].x1 - 1) > 1) {
                     gotoxy(object[i].x1 + ((object[i].sizeX) * 5), object[i].y1);
-                    printf("%c", 0x20);
+                    printf("%c", BACKGROUNDTEXTURE);
                     object[i].x1--;
                 }
                 gotoxy(object[i].x1, object[i].y1);
