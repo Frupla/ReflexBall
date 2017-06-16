@@ -12,7 +12,7 @@
 #include "levels.h"
 
 #define LVLSIZE 100
-#define STDWINDOWX 128
+#define STDWINDOWX 230
 #define STDWINDOWY 50   
 
 
