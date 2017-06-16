@@ -227,7 +227,7 @@ void killBreakable(breakable_t* object, player_t* player){
                     //MAPSIZE x4  = length of course
                     if (player->x1+(player->sizeX*5 + 5) >= (MAPSIZE << 2)){
                         player->x1 -=  5;
-                    } else{
+                    } else if (player->x1 - 3 > 1){
                         player->x1 -= 3;
                     }
                     player->sizeX++;
