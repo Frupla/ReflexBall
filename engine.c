@@ -334,9 +334,15 @@ void playerMovement(char buttonPress, player_t* object){
 }
 
 // pre: takes position that the ball would have (current position + direction), and checks it for overlap
-char collisionCheck(int x1, int y1, player_t* players, breakable_t* breakables) { // an array of breakables, an array of players
+char collisionCheck(ball_t *ball, player_t *players,
+                    breakable_t *breakables) { // an array of breakables, an array of players
 	char flag = 0;
 	int i = 0;
+    int x1, y1;
+
+    x1 = EIGHTEEN_FOURTEEN_TO_INT(ball->direction.x + ball->x1);
+    y1 = EIGHTEEN_FOURTEEN_TO_INT(ball->direction.y + ball->y1);
+
 	if(x1 >= MAPSIZE * 4){ // returns true if hit wall
 		flag = 0x10;// hit right wall
         return flag;
@@ -345,15 +351,15 @@ char collisionCheck(int x1, int y1, player_t* players, breakable_t* breakables) 
 		flag = 0x20; // hit left wall
 		return flag;
 	}
-	if(y1 <= 1){ // returns true if ceiling
-		flag = 0x30;// wall is hit
+    if (y1 <= 1) { // returns if ceiling
+        flag = 0x30;
         return flag;
 	}
     if (y1 >= MAPSIZE) { // returns true if ball falls through floor
 		flag = 0x09;// dead ball
         return flag;
 	}
-    while(players[i].whatIsThis != 0x00) {
+    for (i = 0; players[i].whatIsThis != 0x00; i++) {
         if (y1 == players[i].y1) {
             if ((x1 >= players[i].x1) &&
                 (x1 < (players[i].x1 + players[i].sizeX))) {
@@ -381,19 +387,19 @@ char collisionCheck(int x1, int y1, player_t* players, breakable_t* breakables) 
                 return flag; // right side of paddle
             }
         }
-        i++;
     }
-    i = 0;
-    while (breakables[i].whatIsThis != 0x00){
+
+    for (i = 0; breakables[i].whatIsThis != 0x00; i++) {
         if(breakables[i].whatIsThis == 0x03) {    //checks & breaks breakables
             if ((x1 >= (breakables[i].x1)) &&
                 (x1 <= (breakables[i].x1 + breakables[i].sizeX))) {
                 if (y1 == (breakables[i].y1)) {
-                    if (x1 == (breakables[i].x1)) {
+                    if ((x1 == breakables[i].x1) && (ball->x1 < breakables[i].x1) && (ball->y1 < breakables[i].y1)) {
                         flag = 0x08;//top left corner
                         killBreakable(&breakables[i], &players[0]);
                         return flag;
-                    } else if (x1 == (breakables[i].x1 + breakables[i].sizeX)) {
+                    } else if ((x1 == breakables[i].x1 + breakables[i].sizeX) &&
+                               (ball->x1 > (breakables[i].x1 + breakables[i].sizeX)) && (ball->y1 < breakables[i].y1)) {
                         flag = 0x02;//top right corner
                         killBreakable(&breakables[i], &players[0]);
                         return flag;
@@ -402,12 +408,15 @@ char collisionCheck(int x1, int y1, player_t* players, breakable_t* breakables) 
                         killBreakable(&breakables[i], &players[0]);
                         return flag;
                     }
-                } else if (y1 == (breakables[i].y1 + breakables[i].sizeY)) {
-                    if (x1 == (breakables[i].x1)) {
+                } else if ((y1 == breakables[i].y1 + breakables[i].sizeY)) {
+                    if ((x1 == breakables[i].x1) && (ball->y1 > (breakables[i].y1 + breakables[i].sizeY)) &&
+                        (ball->x1 < breakables[i].x1)) {
                         flag = 0x06;//bottom left corner
                         killBreakable(&breakables[i], &players[0]);
                         return flag;
-                    } else if (x1 == (breakables[i].x1 + breakables[i].sizeX)) {
+                    } else if ((x1 == breakables[i].x1 + breakables[i].sizeX) &&
+                               (ball->y1 > (breakables[i].y1 + breakables[i].sizeY)) &&
+                               (ball->x1 > breakables[i].sizeX + breakables[i].x1)) {
                         flag = 0x04;//bottom right corner
                         killBreakable(&breakables[i], &players[0]);
                         return flag;
@@ -417,8 +426,8 @@ char collisionCheck(int x1, int y1, player_t* players, breakable_t* breakables) 
                         return flag;
                     }
                 }
-            }else if ((y1 > (breakables[i].y1))
-                && (y1 < (breakables[i].y1 + breakables[i].sizeY))) {
+            } else if ((y1 > (breakables[i].y1))
+                       && (y1 < (breakables[i].y1 + breakables[i].sizeY))) {
                 if (x1 == (breakables[i].x1)) {
                     flag = 0x07; // hit left
                     killBreakable(&breakables[i], &players[0]);
@@ -430,35 +439,35 @@ char collisionCheck(int x1, int y1, player_t* players, breakable_t* breakables) 
                 }
             }
         }
-        i++;
     }
 	return flag;
 }
-	/* flag encoding
-	 * 0x00 = no collision
-	 * 0x01 = object hit top side
-	 * 0x02 = object hit top right  corner
-	 * 0x03 = object hit right side or left wall
-	 * 0x04 = object hit bottom right corner
-	 * 0x05 = object hit bottom side or ceiling
-	 * 0x06 = object hit bottom left corner
-	 * 0x07 = object hit left side or right wall
-	 * 0x08 = object hit top left corner
-	 * 0x09 = object passed through floor??? - maybe do this in out of bounds check???
-	 * 0x0A = object hit left
-	 * 0x0B = object hit left middle
-	 * 0x0C	= object hit middle
-	 * 0x0D	= object hit right middle
-	 * 0x0E = object hit right
-	 */
+/* flag encoding
+ * 0x00 = no collision
+ * 0x01 = object hit top side
+ * 0x02 = object hit top right  corner
+ * 0x03 = object hit right side or left wall
+ * 0x04 = object hit bottom right corner
+ * 0x05 = object hit bottom side or ceiling
+ * 0x06 = object hit bottom left corner
+ * 0x07 = object hit left side or right wall
+ * 0x08 = object hit top left corner
+ * 0x09 = object passed through floor??? - maybe do this in out of bounds check???
+ * 0x0A = object hit left
+ * 0x0B = object hit left middle
+ * 0x0C	= object hit middle
+ * 0x0D	= object hit right middle
+ * 0x0E = object hit right
+ * 0x10 = Right wall
+ * 0x20 = Left wall
+ * 0x30 = Ceiling
+ */
 
 //Ball movement ver 3
 char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //1 ball, all the players and breakables
     //Variables
     char flag = 0x00;
     char collision = 0x00;
-	int tempX;
-	int tempY;
 	int i;
 
     //Check all the balls
@@ -469,10 +478,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
             gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[i].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[i].y1));
             printf(" ");
 
-            //Calculate the next position, and pass this to collisionCheck.
-            tempX = EIGHTEEN_FOURTEEN_TO_INT(ball[i].x1 + ball[i].direction.x);
-            tempY = EIGHTEEN_FOURTEEN_TO_INT(ball[i].y1 + ball[i].direction.y);
-            collision = collisionCheck(tempX, tempY, players, breakables);
+            collision = collisionCheck(&ball[i], players, breakables);
             switch (collision) {
                 case 0x00:
                     break;
@@ -481,11 +487,8 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                     flag += 0x01; //Ball hit breakable
                     break;
                 case 0x02: //Top right corner
-                    if (ball[i].direction.y & ((long)0x1)<<31) {
-                        ball[i].direction.x = -ball[i].direction.x;
-                    } else {
-                        ball[i].direction.y = -ball[i].direction.y;
-                    }
+                    ball[i].direction.x = -ball[i].direction.x;
+                    ball[i].direction.y = -ball[i].direction.y;
                     flag += 0x01; //Ball hit breakable
                     break;
                 case 0x03:
@@ -493,11 +496,8 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                     flag += 0x01; //Ball hit breakable
                     break;
                 case 0x04: //Bottom right corner
-                    if (!(ball[i].direction.y  & ((long)0x1)<<31)) {
-                        ball[i].direction.x = -ball[i].direction.x;
-                    } else {
-                        ball[i].direction.y = -ball[i].direction.y;
-                    }
+                    ball[i].direction.x = -ball[i].direction.x;
+                    ball[i].direction.y = -ball[i].direction.y;
                     flag += 0x01; //Ball hit breakable
                     break;
                 case 0x05:
@@ -505,24 +505,18 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                     flag += 0x01; //Ball hit breakable
                     break;
                 case 0x06: // Bottom left cornor
-                    if (ball[i].direction.y & ((long)0x1)<<31) {
-                        ball[i].direction.x = -ball[i].direction.x;
-                    } else {
-                        ball[i].direction.y = -ball[i].direction.y;
-                    }
+                    ball[i].direction.x = -ball[i].direction.x;
+                    ball[i].direction.y = -ball[i].direction.y;
                     flag += 0x01; //Ball hit breakable
                     break;
-                case 0x07:
+                case 0x07: //Ball hit wall
                     ball[i].direction.x = -ball[i].direction.x;
-                    //flag = 0x01; //Ball hit wall
+                    flag += 0x01;
                     break;
                 case 0x08: //Top left corner
-                    if (!(ball[i].direction.y & ((long)0x1)<<31)){
-                        ball[i].direction.x = -ball[i].direction.x;
-                    } else {
-                        ball[i].direction.y = -ball[i].direction.y;
-                    }
-                    //flag = 0x01; //Ball hit wall - Don't overwrite
+                    ball[i].direction.x = -ball[i].direction.x;
+                    ball[i].direction.y = -ball[i].direction.y;
+                    flag += 0x01;
                     break;
                 case 0x09 :
                     flag |= (0x01) << (4 + i); // Ball out of bounds
@@ -537,7 +531,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                     if (ball[i].direction.y > -(0x1000)) {
                         rotate(&ball[i].direction, 12);
                     }
-                    //flag = 0x03; // Ball hit paddle
+                    // Ball hit paddle
                     break;
                 case 0x0b :
                     ball[i].direction.y = -ball[i].direction.y;
@@ -545,11 +539,11 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                     if (ball[i].direction.y > -(0x1000)) {
                         rotate(&ball[i].direction, 12);
                     }
-                    //flag = 0x03; // Ball hit paddle
+                    // Ball hit paddle
                     break;
                 case 0x0c :
                     ball[i].direction.y = -ball[i].direction.y;
-                    //flag = 0x03; // Ball hit paddle
+                    // Ball hit paddle
                     break;
                 case 0x0d :
                     ball[i].direction.y = -ball[i].direction.y;
@@ -557,7 +551,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                     if (ball[i].direction.y > -(0x1000)) {
                         rotate(&ball[i].direction, -12);
                     }
-                    //flag = 0x03; // Ball hit paddle
+                    // Ball hit paddle
                     break;
                 case 0x0e :
                     ball[i].direction.y = -ball[i].direction.y;
@@ -569,7 +563,6 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                     break;
                 case 0x10: //Right wall
                     ball[i].direction.x = -ball[i].direction.x;
-                    //flag = 0x04; //Ball hit wall
                     break;
                 case 0x20: //Left wall
                     ball[i].direction.x = -ball[i].direction.x;
