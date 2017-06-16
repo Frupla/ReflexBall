@@ -379,9 +379,8 @@ void playerMovement(char buttonPress, player_t* object){
 char collisionCheck(int whichBall, ball_t *ball, player_t *players,
                     breakable_t *breakables, char level) { // an array of breakables, an array of players
 	char flag = 0;
-	int i = 0;
     int x1, y1;
-
+	int i;
     x1 = EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].direction.x + ball[whichBall].x1);
     y1 = EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].direction.y + ball[whichBall].y1);
 

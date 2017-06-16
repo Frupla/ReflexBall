@@ -160,7 +160,7 @@ void level2(breakable_t * breakable, ball_t * ball, player_t * player){
             breakable[n].sizeX = 0x0A;
             breakable[n].sizeY = 0x01;
             breakable[n].lives = 5 - j / 2;
-            breakable[n].powerUp = 0x00;
+            breakable[n].powerUp = 0x02;
             n++;
         }
     }
@@ -173,7 +173,7 @@ void level2(breakable_t * breakable, ball_t * ball, player_t * player){
             breakable[n].sizeX = 0x0A;
             breakable[n].sizeY = 0x01;
             breakable[n].lives = 5 - j / 2;
-            breakable[n].powerUp = 0x00;
+            breakable[n].powerUp = 0x01;
             n++;
         }
     }
