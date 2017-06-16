@@ -494,13 +494,15 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
     char tempFlag;
     char collision = 0x00;
 	int i;
-    char howManyTimes = 3;
-    char tooManyTimes = 12;
+    char howManyTimes;
+    char tooManyTimes;
 
 
 
     //Check all the balls
     for (i = 0; ball[i].whatIsThis != 0x00; i++) {
+        howManyTimes = 3;
+        tooManyTimes = 12;
         if (ball[i].whatIsThis == 0x02) {
         	tempFlag = flag;
             collision = collisionCheck(&ball[i], players, breakables);
@@ -603,7 +605,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                 }    			
                 howManyTimes--;
                 if(!howManyTimes){
-                    rotate(&ball[i].direction, 47);
+                    rotate(&ball[i].direction, 43);
                     howManyTimes = 3;
                     tooManyTimes--;
                 }
