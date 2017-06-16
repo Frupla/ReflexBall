@@ -493,112 +493,131 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
     char flag = 0x00;
     char collision = 0x00;
 	int i;
+    char howManyTimes = 3;
+    char tooManyTimes = 12;
+
+
 
     //Check all the balls
     for (i = 0; ball[i].whatIsThis != 0x00; i++) {
         if (ball[i].whatIsThis == 0x02) {
 
 
+            collision = 1;
+            while(collision) {
             collision = collisionCheck(&ball[i], players, breakables);
-            switch (collision) {
-                case 0x00:
-                    break;
-                case 0x01: //Top
-                    ball[i].direction.y = -ball[i].direction.y;
-                    flag += 0x01; //Ball hit breakable
-                    break;
-                case 0x02: //Top right corner
-                    ball[i].direction.x = -ball[i].direction.x;
-                    ball[i].direction.y = -ball[i].direction.y;
-                    flag += 0x01; //Ball hit breakable
-                    break;
-                case 0x03: //Right side
-                    ball[i].direction.x = -ball[i].direction.x;
-                    flag += 0x01; //Ball hit breakable
-                    break;
-                case 0x04: //Bottom right corner
-                    ball[i].direction.x = -ball[i].direction.x;
-                    ball[i].direction.y = -ball[i].direction.y;
-                    flag += 0x01; //Ball hit breakable
-                    break;
-                case 0x05:
-                    ball[i].direction.y = -ball[i].direction.y;
-                    flag += 0x01; //Ball hit breakable
-                    break;
-                case 0x06: // Bottom left cornor
-                    ball[i].direction.x = -ball[i].direction.x;
-                    ball[i].direction.y = -ball[i].direction.y;
-                    flag += 0x01; //Ball hit breakable
-                    break;
-                case 0x07: //Ball hit wall
-                    ball[i].direction.x = -ball[i].direction.x;
-                    flag += 0x01;
-                    break;
-                case 0x08: //Top left corner
-                    ball[i].direction.x = -ball[i].direction.x;
-                    ball[i].direction.y = -ball[i].direction.y;
-                    flag += 0x01;
-                    break;
-                case 0x09 :
-                    flag |= (0x01) << (4 + i); // Ball out of bounds
-                    ball[i].direction.x = 0;
-                    ball[i].direction.y = 0;
-                    break;
-                case 0x0a :
-                    //TODO : Change it from a fixed reflect angle,
-                    // to something that varies with the incoming angle
-                    ball[i].direction.y = -ball[i].direction.y;
-                    rotate(&ball[i].direction, -48);
-                    if (ball[i].direction.y > -(0x1000)) {
-                        rotate(&ball[i].direction, 12);
-                    }
-                    // Ball hit paddle
-                    break;
-                case 0x0b :
-                    ball[i].direction.y = -ball[i].direction.y;
-                    rotate(&ball[i].direction, -24);
-                    if (ball[i].direction.y > -(0x1000)) {
-                        rotate(&ball[i].direction, 12);
-                    }
-                    // Ball hit paddle
-                    break;
-                case 0x0c :
-                    ball[i].direction.y = -ball[i].direction.y;
-                    // Ball hit paddle
-                    break;
-                case 0x0d :
-                    ball[i].direction.y = -ball[i].direction.y;
-                    rotate(&ball[i].direction, 24);
-                    if (ball[i].direction.y > -(0x1000)) {
-                        rotate(&ball[i].direction, -12);
-                    }
-                    // Ball hit paddle
-                    break;
-                case 0x0e :
-                    ball[i].direction.y = -ball[i].direction.y;
-                    rotate(&ball[i].direction, 48);
-                    if (ball[i].direction.y > -(0x1000)) {
-                        rotate(&ball[i].direction, -12);
-                    }
-                    //flag = 0x03; // Ball hit paddle
-                    break;
-                case 0x10: //Right wall
-                    ball[i].direction.x = -ball[i].direction.x;
-                    break;
-                case 0x20: //Left wall
-                    ball[i].direction.x = -ball[i].direction.x;
-                    break;
-                case 0x30: //Ceiling
-                    ball[i].direction.y = -ball[i].direction.y;
-                    break;
-                default:
-                    //flag = 0x00; //eh
-                    break;
+                switch (collision) {
+                    case 0x00:
+                        break;
+                    case 0x01: //Top
+                        ball[i].direction.y = -ball[i].direction.y;
+                        flag += 0x01; //Ball hit breakable
+                        break;
+                    case 0x02: //Top right corner
+                        ball[i].direction.x = -ball[i].direction.x;
+                        ball[i].direction.y = -ball[i].direction.y;
+                        flag += 0x01; //Ball hit breakable
+                        break;
+                    case 0x03: //Right side
+                        ball[i].direction.x = -ball[i].direction.x;
+                        flag += 0x01; //Ball hit breakable
+                        break;
+                    case 0x04: //Bottom right corner
+                        ball[i].direction.x = -ball[i].direction.x;
+                        ball[i].direction.y = -ball[i].direction.y;
+                        flag += 0x01; //Ball hit breakable
+                        break;
+                    case 0x05:
+                        ball[i].direction.y = -ball[i].direction.y;
+                        flag += 0x01; //Ball hit breakable
+                        break;
+                    case 0x06: // Bottom left cornor
+                        ball[i].direction.x = -ball[i].direction.x;
+                        ball[i].direction.y = -ball[i].direction.y;
+                        flag += 0x01; //Ball hit breakable
+                        break;
+                    case 0x07: //Ball hit wall
+                        ball[i].direction.x = -ball[i].direction.x;
+                        flag += 0x01;
+                        break;
+                    case 0x08: //Top left corner
+                        ball[i].direction.x = -ball[i].direction.x;
+                        ball[i].direction.y = -ball[i].direction.y;
+                        flag += 0x01;
+                        break;
+                    case 0x09 :
+                        flag |= (0x01) << (4 + i); // Ball out of bounds
+                        ball[i].direction.x = 0;
+                        ball[i].direction.y = 0;
+                        break;
+                    case 0x0a :
+                        //TODO : Change it from a fixed reflect angle,
+                        // to something that varies with the incoming angle
+                        ball[i].direction.y = -ball[i].direction.y;
+                        rotate(&ball[i].direction, -48);
+                        if (ball[i].direction.y > -(0x1000)) {
+                            rotate(&ball[i].direction, 12);
+                        }
+                        // Ball hit paddle
+                        break;
+                    case 0x0b :
+                        ball[i].direction.y = -ball[i].direction.y;
+                        rotate(&ball[i].direction, -24);
+                        if (ball[i].direction.y > -(0x1000)) {
+                            rotate(&ball[i].direction, 12);
+                        }
+                        // Ball hit paddle
+                        break;
+                    case 0x0c :
+                        ball[i].direction.y = -ball[i].direction.y;
+                        // Ball hit paddle
+                        break;
+                    case 0x0d :
+                        ball[i].direction.y = -ball[i].direction.y;
+                        rotate(&ball[i].direction, 24);
+                        if (ball[i].direction.y > -(0x1000)) {
+                            rotate(&ball[i].direction, -12);
+                        }
+                        // Ball hit paddle
+                        break;
+                    case 0x0e :
+                        ball[i].direction.y = -ball[i].direction.y;
+                        rotate(&ball[i].direction, 48);
+                        if (ball[i].direction.y > -(0x1000)) {
+                            rotate(&ball[i].direction, -12);
+                        }
+                        //flag = 0x03; // Ball hit paddle
+                        break;
+                    case 0x10: //Right wall
+                        ball[i].direction.x = -ball[i].direction.x;
+                        break;
+                    case 0x20: //Left wall
+                        ball[i].direction.x = -ball[i].direction.x;
+                        break;
+                    case 0x30: //Ceiling
+                        ball[i].direction.y = -ball[i].direction.y;
+                        break;
+                    default:
+                        //flag = 0x00; //eh
+                        break;
+                }    			
+                howManyTimes--;
+                if(!howManyTimes){
+                    rotate(&ball[i].direction, 47);
+                    howManyTimes = 3;
+                    tooManyTimes--;
+                }
+                if (!tooManyTimes){
+                    ball[i].x1 = ball[i].xs;
+                    ball[i].y1 = ball[i].ys;
+                    gotoxy(250,20);
+                    printf("ball stuck, respawning");
+                }
+
             }
             //Remove the old ball
             gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[i].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[i].y1));
-            printf(" ");
-            //Change position and print the new
+    		printf(" ");
             ball[i].x1 += ball[i].direction.x;
             ball[i].y1 += ball[i].direction.y;
             fgcolor(ball[i].color);
