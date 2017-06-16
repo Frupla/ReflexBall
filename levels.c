@@ -90,7 +90,7 @@ void level1(breakable_t *breakable, ball_t *ball, player_t *player) {
 			} else{
 				breakable[n].lives = 0x02;
 			}
-            breakable[n].powerUp = 0x00;
+            breakable[n].powerUp = 0x03;
 			flag++;
             n++;
        }
