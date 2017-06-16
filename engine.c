@@ -504,8 +504,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
         if (ball[i].whatIsThis == 0x02) {
         	tempFlag = flag;
             collision = collisionCheck(&ball[i], players, breakables);
-            while(collision) {
-            collision = collisionCheck(&ball[i], players, breakables);
+            do {
             flag = tempFlag;
                 switch (collision) {
                     case 0x00:
@@ -614,8 +613,8 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                     gotoxy(250,20);
                     printf("ball stuck, respawning");
                 }
-
-            }
+                collision = collisionCheck(&ball[i], players, breakables);
+            } while (collision);
             //Remove the old ball
             gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[i].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[i].y1));
     		printf(" ");
