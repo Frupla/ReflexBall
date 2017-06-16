@@ -491,6 +491,7 @@ char collisionCheck(ball_t *ball, player_t *players,
 char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //1 ball, all the players and breakables
     //Variables
     char flag = 0x00;
+    char tempFlag;
     char collision = 0x00;
 	int i;
     char howManyTimes = 3;
@@ -501,11 +502,11 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
     //Check all the balls
     for (i = 0; ball[i].whatIsThis != 0x00; i++) {
         if (ball[i].whatIsThis == 0x02) {
-
-
-            collision = 1;
+        	tempFlag = flag;
+            collision = collisionCheck(&ball[i], players, breakables);
             while(collision) {
             collision = collisionCheck(&ball[i], players, breakables);
+            flag = tempFlag;
                 switch (collision) {
                     case 0x00:
                         break;
