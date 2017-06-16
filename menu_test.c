@@ -226,7 +226,7 @@ void showControls() {
 
 int lvlMenu() {
     char exit_flag = 1, flag1 = 1, flag2 = 0, output = 0, button = 0x00;
-    int score;
+    int score = 0;
 
     do {
         window(STDWINDOWX, STDWINDOWY, 50, 21, " Choose level ", 1);
