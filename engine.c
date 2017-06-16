@@ -607,6 +607,5 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
             fgcolor(15);
         }
     }
-
     return flag; // Give away information!
 }
