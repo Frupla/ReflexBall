@@ -394,7 +394,8 @@ char collisionCheck(ball_t *ball, player_t *players,
             if ((x1 >= (breakables[i].x1)) &&
                 (x1 <= (breakables[i].x1 + breakables[i].sizeX))) {
                 if (y1 == (breakables[i].y1)) {
-                    if ((x1 == breakables[i].x1) && (EIGHTEEN_FOURTEEN_TO_INT(ball->x1) < breakables[i].x1) &&
+                    if ((x1 == breakables[i].x1) &&
+                        (EIGHTEEN_FOURTEEN_TO_INT(ball->x1) < breakables[i].x1) &&
                         (EIGHTEEN_FOURTEEN_TO_INT(ball->y1) < breakables[i].y1)) {
                         flag = 0x08;//top left corner
                         killBreakable(&breakables[i], &players[0]);
@@ -405,11 +406,13 @@ char collisionCheck(ball_t *ball, player_t *players,
                         flag = 0x02;//top right corner
                         killBreakable(&breakables[i], &players[0]);
                         return flag;
-                    } else if (x1 == breakables[i].x1) {
+                    } else if (x1 == breakables[i].x1 &&
+                               (EIGHTEEN_FOURTEEN_TO_INT(ball->y1) > breakables[i].y1)) {
                         flag = 0x07; //Left side
                         killBreakable(&breakables[i], &players[0]);
                         return flag;
-                    } else if (x1 == (breakables[i].x1 + breakables[i].sizeX)) {
+                    } else if (x1 == (breakables[i].x1 + breakables[i].sizeX) &&
+                               (EIGHTEEN_FOURTEEN_TO_INT(ball->y1) > breakables[i].y1)) {
                         flag = 0x03; //Right side
                         killBreakable(&breakables[i], &players[0]);
                         return flag;
@@ -431,11 +434,13 @@ char collisionCheck(ball_t *ball, player_t *players,
                         flag = 0x04;//bottom right corner
                         killBreakable(&breakables[i], &players[0]);
                         return flag;
-                    } else if (x1 == breakables[i].x1) {
+                    } else if (x1 == breakables[i].x1 &&
+                               (EIGHTEEN_FOURTEEN_TO_INT(ball->y1) < breakables[i].y1)) {
                         flag = 0x07; //Left side
                         killBreakable(&breakables[i], &players[0]);
                         return flag;
-                    } else if (x1 == (breakables[i].x1 + breakables[i].sizeX)) {
+                    } else if (x1 == (breakables[i].x1 + breakables[i].sizeX) &&
+                               (EIGHTEEN_FOURTEEN_TO_INT(ball->y1) < breakables[i].y1)) {
                         flag = 0x03; //Right side
                         killBreakable(&breakables[i], &players[0]);
                         return flag;
