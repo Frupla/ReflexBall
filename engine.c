@@ -242,13 +242,13 @@ void killBreakable(breakable_t* object, player_t* player, ball_t* ball){
                         if (ball[k].whatIsThis == 0x00){
                             ball[k].whatIsThis = 0x02;
                             ball[k].changedSinceLast = 1;
-                            ball[k].x1 = object->x1 + (object->sizeX 1);
-                            ball[k].y1 = object->y1 + (object->sizeY 1);
+                            ball[k].x1 = player->x1 + (player->sizeX <<1) ;
+                            ball[k].y1 = player->y1 - 2;
                             ball[k].size = 0x00;
                             ball[k].xs = ball[k].x1;
                             ball[k].ys = ball[k].y1;
-                            ball[k].direction.x = 1;
-                            ball[k].direction.y = 0;
+                            ball[k].direction.x = 0;
+                            ball[k].direction.y = 1;
                             ball[k].color = (char)(9 + k);
                             ball[k+1].whatIsThis = 0x0;
                             k = 4;
