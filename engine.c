@@ -383,6 +383,7 @@ char collisionCheck(int x1, int y1, player_t* players, breakable_t* breakables) 
         }
         i++;
     }
+    i = 0;
     while (breakables[i].whatIsThis != 0x00){
         if(breakables[i].whatIsThis == 0x03) {    //checks & breaks breakables
             if ((x1 >= (breakables[i].x1)) &&
@@ -416,8 +417,7 @@ char collisionCheck(int x1, int y1, player_t* players, breakable_t* breakables) 
                         return flag;
                     }
                 }
-            }
-            if ((y1 > (breakables[i].y1))
+            }else if ((y1 > (breakables[i].y1))
                 && (y1 < (breakables[i].y1 + breakables[i].sizeY))) {
                 if (x1 == (breakables[i].x1)) {
                     flag = 0x07; // hit left
@@ -481,10 +481,10 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                     flag += 0x01; //Ball hit breakable
                     break;
                 case 0x02: //Top right corner
-                    if (ball[i].direction.y > 0) {
-                        ball[i].direction.y = -ball[i].direction.y;
-                    } else {
+                    if (ball[i].direction.y & ((long)0x1)<<31) {
                         ball[i].direction.x = -ball[i].direction.x;
+                    } else {
+                        ball[i].direction.y = -ball[i].direction.y;
                     }
                     flag += 0x01; //Ball hit breakable
                     break;
@@ -493,7 +493,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                     flag += 0x01; //Ball hit breakable
                     break;
                 case 0x04: //Bottom right corner
-                    if (ball[i].direction.y > 0) {
+                    if (!(ball[i].direction.y  & ((long)0x1)<<31)) {
                         ball[i].direction.x = -ball[i].direction.x;
                     } else {
                         ball[i].direction.y = -ball[i].direction.y;
@@ -505,7 +505,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                     flag += 0x01; //Ball hit breakable
                     break;
                 case 0x06: // Bottom left cornor
-                    if (ball[i].direction.y > 0) {
+                    if (ball[i].direction.y & ((long)0x1)<<31) {
                         ball[i].direction.x = -ball[i].direction.x;
                     } else {
                         ball[i].direction.y = -ball[i].direction.y;
@@ -517,10 +517,10 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                     //flag = 0x01; //Ball hit wall
                     break;
                 case 0x08: //Top left corner
-                    if (ball[i].direction.y > 0) {
-                        ball[i].direction.y = -ball[i].direction.y;
-                    } else {
+                    if (!(ball[i].direction.y & ((long)0x1)<<31)){
                         ball[i].direction.x = -ball[i].direction.x;
+                    } else {
+                        ball[i].direction.y = -ball[i].direction.y;
                     }
                     //flag = 0x01; //Ball hit wall - Don't overwrite
                     break;

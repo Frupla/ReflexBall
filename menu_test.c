@@ -19,7 +19,7 @@
 int startGame(char lvl) {
     player_t player[3];
     ball_t ball[5];
-    int i, j;
+    int i, j,n;
     breakable_t breakable[LVLSIZE];
     Tvector tempVec[4];
     char button, whatDidTheyHit;
@@ -175,7 +175,7 @@ void printHighscore(int * highscore){
             }
         }     
     }
-    window(STDWINDOWX, STDWINDOWY, 50, 21, "Highscore", 1);
+    window(STDWINDOWX, STDWINDOWY, 50, 21, " Highscore ", 1);
     for (i = 0; i < 5; i++){
         gotoxy(12,12 +i);
         printf("%d.  %d", i+1, highscore[i]);
@@ -194,7 +194,7 @@ void printHighscore(int * highscore){
 
 void showControls() {
     int i, flag = 1;
-    window(STDWINDOWX, STDWINDOWY, 50, 21, "Help!", 1);
+    window(STDWINDOWX, STDWINDOWY, 50, 21, " Help! ", 1);
     gotoxy(STDWINDOWX + 2, STDWINDOWY + 2);
     printf("You have three buttons:");
     gotoxy(STDWINDOWX + 2, STDWINDOWY + 3);
@@ -229,7 +229,7 @@ int lvlMenu() {
     int score;
 
     do {
-        window(STDWINDOWX, STDWINDOWY, 50, 21, "Choose level", 1);
+        window(STDWINDOWX, STDWINDOWY, 50, 21, " Choose level ", 1);
         gotoxy(12, 12);
         printf(" > Level 1");
         gotoxy(13, 13);
@@ -326,7 +326,9 @@ void main() {
     LEDSetString(string);
 
     do {
-        window(STDWINDOWX, STDWINDOWY, 50, 21, "Main menu", 1);
+        fgcolor(STDTEXTCOLOR);
+        clrscr();
+        window(STDWINDOWX, STDWINDOWY, 50, 21, " Main menu ", 1);
         gotoxy(12, 12);
         printf(" > Start game");
 		gotoxy(13,13);

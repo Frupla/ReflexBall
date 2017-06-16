@@ -182,39 +182,45 @@ void level3(breakable_t * breakable, ball_t * ball, player_t * player){
     // Ball setup
     tempVec.x = convert(-1);
     tempVec.y = convert(0);
-    rotate(&tempVec, -47);
+    rotate(&tempVec, 1);
     ball[0].whatIsThis = 0x02;
     ball[0].changedSinceLast = 1;
-    ball[0].xs = LONG_TO_EIGHTEEN_FOURTEEN(50);
-    ball[0].ys = LONG_TO_EIGHTEEN_FOURTEEN(25);
+    ball[0].xs = LONG_TO_EIGHTEEN_FOURTEEN(55);
+    ball[0].ys = LONG_TO_EIGHTEEN_FOURTEEN(31);
     ball[0].x1 = ball[0].xs;
     ball[0].y1 = ball[0].ys;
     ball[0].direction = tempVec;
     ball[0].size = 0x00;
     ball[0].color = 0x0A;
     ball[1].whatIsThis = 0x00;
-    //Breakable setup
-    for (i = 15; i <= 105 ; i += 15) {
-        for (j = 4; j <= 20; j += 4) {
-            breakable[n].whatIsThis = 0x03;
-            breakable[n].changedSinceLast = 1;
-            breakable[n].x1 = i;
-            breakable[n].y1 = j;
-            breakable[n].sizeX = 0x0A;
-            breakable[n].sizeY = 0x01;
-            breakable[n].lives = 0x03;
-            breakable[n].powerUp = 0x00;
-            n++;
-       }
-    }
-    breakable[2].lives = 1;
-    breakable[3].powerUp = 0x01;
-    breakable[4].lives = 1;
-    breakable[5].powerUp = 0x01;
-    breakable[6].lives = 1;
-    breakable[8].powerUp = 0x01;
-    breakable[10].lives = 2;
-    breakable[14].lives = 2;
-    breakable[12].lives = 4;
+    
+
+    breakable[n].whatIsThis = 0x03;
+    breakable[n].changedSinceLast = 1;
+    breakable[n].x1 = 20;
+    breakable[n].y1 = 10;
+    breakable[n].sizeX = 0x0A;
+    breakable[n].sizeY = 0x01;
+    breakable[n].lives = 0x03;
+    breakable[n].powerUp = 0x00;
+    n++;
+    breakable[n].whatIsThis = 0x03;
+    breakable[n].changedSinceLast = 1;
+    breakable[n].x1 = 20;
+    breakable[n].y1 = 30;
+    breakable[n].sizeX = 0x0A;
+    breakable[n].sizeY = 0x01;
+    breakable[n].lives = 0x03;
+    breakable[n].powerUp = 0x00;
+    n++;
+    breakable[n].whatIsThis = 0x03;
+    breakable[n].changedSinceLast = 1;
+    breakable[n].x1 = 20;
+    breakable[n].y1 = 20;
+    breakable[n].sizeX = 0x0A;
+    breakable[n].sizeY = 0x01;
+    breakable[n].lives = 0x03;
+    breakable[n].powerUp = 0x00;
+    n++;
     breakable[n].whatIsThis = 0x00;
 }
