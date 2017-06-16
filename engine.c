@@ -474,9 +474,6 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
     for (i = 0; ball[i].whatIsThis != 0x00; i++) {
         if (ball[i].whatIsThis == 0x02) {
 
-            //Remove the old ball
-            gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[i].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[i].y1));
-            printf(" ");
 
             collision = collisionCheck(&ball[i], players, breakables);
             switch (collision) {
@@ -574,6 +571,9 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                     //flag = 0x00; //eh
                     break;
             }
+            //Remove the old ball
+            gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[i].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[i].y1));
+            printf(" ");
             //Change position and print the new
             ball[i].x1 += ball[i].direction.x;
             ball[i].y1 += ball[i].direction.y;
