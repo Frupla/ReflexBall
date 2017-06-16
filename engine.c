@@ -95,7 +95,7 @@ typedef struct{
 
 //Just access PowerUp on
 
-void initiate(){
+void initiateWithCeiling(){
 	int i;
 	for(i = 1; i <= MAPSIZE; i++){
 		gotoxy(1, i);
@@ -106,6 +106,16 @@ void initiate(){
 	for(i = 1; i <= (4 * MAPSIZE); i++){
 		gotoxy(i, 1);
 		printf("%c", 220);
+	}
+}
+
+void initiateWithoutCeiling(){
+	int i;
+	for(i = 1; i <= MAPSIZE; i++){
+		gotoxy(1, i);
+		printf("%c", SOLIDTEXTURE);
+		gotoxy((4 * MAPSIZE), i);
+		printf("%c", SOLIDTEXTURE);
 	}
 }
 
@@ -348,8 +358,7 @@ void playerMovement(char buttonPress, player_t* object){
 }
 
 // pre: takes position that the ball would have (current position + direction), and checks it for overlap
-char collisionCheck(ball_t *ball, player_t *players,
-                    breakable_t *breakables) { // an array of breakables, an array of players
+char collisionCheck(ball_t *ball, player_t *players, breakable_t *breakables, char level) { // an array of breakables, an array of players
 	char flag = 0;
 	int i = 0;
     int x1, y1;
@@ -366,7 +375,11 @@ char collisionCheck(ball_t *ball, player_t *players,
 		return flag;
 	}
     if (y1 <= 1) { // returns if ceiling
-        flag = 0x30;
+    	if (level == 2){
+    		flag = 0x09;
+    	} else{
+        	flag = 0x30;    		
+    	}
         return flag;
 	}
     if (y1 >= MAPSIZE) { // returns true if ball falls through floor
@@ -452,6 +465,7 @@ char collisionCheck(ball_t *ball, player_t *players,
                                (EIGHTEEN_FOURTEEN_TO_INT(ball->y1) <= (breakables[i].y1 + breakables[i].sizeY))) {
                         flag = 0x07; //Left side
                         killBreakable(&breakables[i], &players[0]);
+                        gotoxy(245,10);
                         return flag;
                     } else if (x1 == (breakables[i].x1 + breakables[i].sizeX) &&
                                (EIGHTEEN_FOURTEEN_TO_INT(ball->y1) <= (breakables[i].y1 + breakables[i].sizeY))) {
@@ -464,11 +478,13 @@ char collisionCheck(ball_t *ball, player_t *players,
                         return flag;
                     }
                 }
-            } else if ((y1 > (breakables[i].y1))
+            } 
+            if ((y1 > (breakables[i].y1))
                        && (y1 < (breakables[i].y1 + breakables[i].sizeY))) {
                 if (x1 == (breakables[i].x1)) {
                     flag = 0x07; // hit left
                     killBreakable(&breakables[i], &players[0]);
+                    gotoxy(245,10);
                     return flag;
                 } else if (x1 == (breakables[i].x1 + breakables[i].sizeX)) {
                     flag = 0x03; // hit right
@@ -502,7 +518,7 @@ char collisionCheck(ball_t *ball, player_t *players,
  */
 
 //Ball movement ver 3
-char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //1 ball, all the players and breakables
+char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables, char level) { //1 ball, all the players and breakables
     //Variables
     char flag = 0x00;
     char tempFlag;
@@ -519,7 +535,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
         tooManyTimes = 12;
         if (ball[i].whatIsThis == 0x02) {
         	tempFlag = flag;
-            collision = collisionCheck(&ball[i], players, breakables);
+            collision = collisionCheck(&ball[i], players, breakables, level);
             do {
             flag = tempFlag;
                 switch (collision) {
@@ -629,7 +645,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                     gotoxy(250,20);
                     printf("ball stuck, respawning");
                 }
-                collision = collisionCheck(&ball[i], players, breakables);
+                collision = collisionCheck(&ball[i], players, breakables, level);
             } while (collision);
             //Remove the old ball
             gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[i].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[i].y1));
