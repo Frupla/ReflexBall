@@ -195,16 +195,20 @@ void killBreakable(breakable_t* object, player_t* player){
 	int i, j, texture;
     object->lives--;
     switch(object->powerUp){
-    	case 0x00: texture = BREAKABLETEXTURE;
-    	break;
-    	case 0x01: texture = MORELIFETEXTURE;
-    	break;
-    	case 0x02: texture = MOREBALLSTEXTURE;
-    	break;
+    	case 0x00:
+            texture = BREAKABLETEXTURE;
+    	    break;
+    	case 0x01:
+            texture = MORELIFETEXTURE;
+    	    break;
+    	case 0x02:
+            texture = MOREBALLSTEXTURE;
+    	    break;
     	case 0x03: texture = WIDERPADDLETEXTURE;
+            break;
     	default:
-    	texture = BREAKABLETEXTURE;
-    	break;
+    	    texture = BREAKABLETEXTURE;
+    	    break;
     }
     if (!object->lives) {
         for (i = 0; i <= (object->sizeX); i++) {
