@@ -19,7 +19,7 @@
 //Structures:
 
 typedef struct{
-    char changedSinceLast;
+    char changedSinceLast; // Determines if it should be redrawn when drawMap is called.
     char whatIsThis;    //player           - 0x01
     //ball             - 0x02
     //breakable        - 0x03
@@ -35,7 +35,7 @@ typedef struct{
 } ball_t;
 
 typedef struct{
-    char changedSinceLast;
+    char changedSinceLast; // Determines if it should be redrawn when drawMap is called.
     char whatIsThis;//player           - 0x01
     //ball             - 0x02
     //breakable        - 0x03
@@ -50,8 +50,13 @@ typedef struct{
 } player_t;
 
 typedef struct{
-    char changedSinceLast;
-    char whatIsThis;
+    char changedSinceLast; // Determines if it should be redrawn when drawMap is called.
+    char whatIsThis;//player           - 0x01
+    //ball             - 0x02
+    //breakable        - 0x03
+    //solid            - 0x04
+    //broken breakable - 0x05
+    //nothing          - 0x00
     int x1; //1. coordinate, placement. Format: 18.14
     int y1; //2. coordiante, placement. Format: 18.14
     char sizeX; // represent the horizontal size factor
