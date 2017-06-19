@@ -11,9 +11,9 @@
 #include "standalone_timer.h"
 #include "levels.h"
 
-#define LVLSIZE 100
-#define STDWINDOWX 10
-#define STDWINDOWY 10
+#define LVLSIZE 100     // The size of the levels. Should probably be in engine.h
+#define STDWINDOWX 10   // The standard placement for the upper left corner for the windows.
+#define STDWINDOWY 10   // The standard placement for the upper left corner for the windows.
 
 
 int startGame(char lvl) {

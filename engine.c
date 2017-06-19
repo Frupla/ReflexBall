@@ -18,42 +18,22 @@
 #define EIGHTEEN_FOURTEEN_TO_INT(a) ((int)((a + 0x2000) >> 14))  //this is kinda shitty, cuts 2 MSB when recast as int, and it will be
 #define LONG_TO_EIGHTEEN_FOURTEEN(a) (a << 14)
 
-/*
-typedef struct{
-	char changedSinceLast;
-	char whatIsThis;//player           - 0x01
-					//ball             - 0x02
-					//breakable        - 0x03
-					//solid            - 0x04
-                    //broken breakable - 0x05
-					//nothing          - 0x00
-	long x1; //1. coordinate, placement, 18.14
-	long y1; //2. coordiante, placement, 18.14
-	Tvector direction; // Speed and direction (only relevant for the ball)
-	//zones? - so far no zones
-	char sizeX; // represent the horizontal size factor
-    char sizeY;	// represent the vertical size factor
-	char color; // n.o. lives for breakables  (color breakables after this). Is set to 3 in drawBreakables
-                // 0x00 - dead, no lives
-} entity;
-*/
+//Structures:
 
-typedef struct stuffTemp{
+typedef struct{
     char changedSinceLast;
-    //not sure if I need this
-    char whatIsThis;//player           - 0x01
+    char whatIsThis;    //player           - 0x01
     //ball             - 0x02
     //breakable        - 0x03
     //solid            - 0x04
     //broken breakable - 0x05
     //nothing          - 0x00
-    long x1; //1. coordinate, current point, 18.14
-    long y1; //2. coordiante, current point, 18.14
-	long xs; //1. coordinate, starting point, 18.14
-    long ys; //2. coordiante, starting point, 18.14
-    Tvector direction; // Speed and direction (only relevant for the ball)
-    char size; // represent the size factor, balls must be symmetric
-    char color; // n.o. lives for breakables  (color breakables after this). Is set to 3 in drawBreakables
+    long x1; //1. coordinate, placement. Format: 18.14
+    long y1; //2. coordiante, placement. Format: 18.14
+    long xs; //1. coordinate, starting point. Format: 18.14
+    long ys; //2. coordiante, starting point. Format: 18.14
+    Tvector direction; // Speed and direction
+    char color; // Color of the ball
 } ball_t;
 
 typedef struct{
@@ -64,36 +44,29 @@ typedef struct{
     //solid            - 0x04
     //broken breakable - 0x05
     //nothing          - 0x00
-    int x1; //1. coordinate, placement, 18.14
-    int y1; //2. coordiante, placement, 18.14
-    //Tvector direction; // Speed and direction (only relevant for the ball)
-    //zones? - so far no zones
+    int x1; //1. coordinate, placement. Format: 18.14
+    int y1; //2. coordiante, placement. Format: 18.14
     char sizeX; // represent the horizontal size factor
-    char color; // n.o. lives for breakables  (color breakables after this). Is set to 3 in drawBreakables
-    char lives; //n.o. lives of a player
-    // 0x00 - dead, no lives
+    char color; // Color of striker
+    char lives; // Saves
 } player_t;
 
 typedef struct{
     char changedSinceLast;
     char whatIsThis;
-    int x1; //1. coordinate, placement, 18.14
-    int y1; //2. coordiante, placement, 18.14
-    //Tvector direction; // Speed and direction (only relevant for the ball)
-    //zones? - so far no zones
+    int x1; //1. coordinate, placement. Format: 18.14
+    int y1; //2. coordiante, placement. Format: 18.14
     char sizeX; // represent the horizontal size factor
     char sizeY;	// represent the vertical size factor
     char lives; // n.o. lives for breakables  (color breakables after this).
-    // DO NOT FIVE IT MORE THAN 7 HEALTH.
     // 0x00 - dead, no lives
-    char powerUp;
-    //0x00 0 no powerUp
-    //0x01 1 more life <- implementated
-    //0x02 1 more ball
-    //0x03 wider paddle
+    char powerUp;   //Does this breakable have powerup?
+    // 0x00 - None
+    // 0x01 - Extra health
+    // 0x02 - Larger striker
+    // 0x03 - TBD
 } breakable_t;
 
-//Just access PowerUp on
 
 void initiate(){
 	int i;

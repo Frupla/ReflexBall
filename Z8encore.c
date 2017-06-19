@@ -6,18 +6,19 @@
 #define LED_MAX_STR_LEN 100
 
 int Msec = 0; 			// counts the time in 0.1ms, resets at 1000
-int Timer = 0;			// ensures that the LEDupdate() functions only works once every 0.1ms
-char LED_Collumn = 0; 	// choses the collumn being loaded into a display
-char LED_Display = 0;	// choses the display
-char Displacement = 0;  // increments when Msec is reset, 
-char Scrollon = 0; 
-char Letter = 0;
-char Buffer[5][6] = 	{{' ',' ',' ',' ',' ',' '},
+int Timer = 0;            // Ensures that the LEDupdate() functions only works once every 0.1ms
+char LED_Collumn = 0;    // Chooses the column being loaded into a display
+char LED_Display = 0;    // Chooses the display to update next
+char Displacement = 0;  // Keeps track of how many columns the LED's are offset. Increments when Msec is reset.
+char Scrollon = 0;      // Indicates whether the text scroll is enabled or not.
+char Letter = 0;        // Keeps track of how many letters the LED's are offset.
+char Buffer[5][6] = {{    ' ', ' ', ' ', ' ', ' ', ' '}, //The buffer is used to store part of the string being read.
 						 {' ',' ',' ',' ',' ',' '},
 						 {' ',' ',' ',' ',' ',' '},
 						 {' ',' ',' ',' ',' ',' '},
 						 {' ',' ',' ',' ',' ',' '}};
-char *LEDtext_p;
+
+char *LEDtext_p;        // Keeps track of the pointer pointing to the string being displayed.
 
 char readKey(){
 	char a,b,b1,b2,c=0x00;
@@ -43,12 +44,13 @@ void timer0int(){
 	Msec += 1;				 
 }
 
-int romstrLength(rom char* s){
+/*int romstrLength(rom char* s){
 	int i=0;
-	while(s[i]!='\0'){
- 	i++;}
+	while (s[i] != '\0' ){
+ 	    i++;
+    }
 	return i;
-}
+}*/
 
 int strLength(char *s) {
 	int i = 0;
@@ -80,8 +82,8 @@ void LEDInit(){
 }
 
 void updateBuffer(){
-	int i, j, romln = strLength(LEDtext_p);
-	for(i = Letter; (i < romln) && (i < 5 + Letter); i++){
+    int i, j, len = strLength(LEDtext_p);
+    for (i = Letter; (i < len) && (i < 5 + Letter); i++) {
 		for(j = 0; j < 5; j++){
 			Buffer[i - Letter][j] = character_data[LEDtext_p[i] - 0x20][j];
 		}

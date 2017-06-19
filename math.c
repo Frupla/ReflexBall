@@ -2,8 +2,8 @@
 #define GRANDE 0x01ff
 
 typedef struct what{
-	long x;
-	long y;
+	long x; // Usually in 18.14 encoding
+	long y; // Usually in 18.14 encoding
 }Tvector;
 
 long sin(int x){

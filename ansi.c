@@ -159,6 +159,7 @@ void moveCursor(int x, int y){
 	}
 }
 
+// Doesn't hide the cursor:
 void hideCursor(){
-	printf("%c[25l", 27);
+    printf("%c[25l", 27);
 }
