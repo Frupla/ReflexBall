@@ -18,60 +18,82 @@
 #define EIGHTEEN_FOURTEEN_TO_INT(a) ((int)((a + 0x2000) >> 14))  //this is kinda shitty, cuts 2 MSB when recast as int, and it will be
 #define LONG_TO_EIGHTEEN_FOURTEEN(a) (a << 14)
 
-//Structures:
-
+/*
 typedef struct{
-    char changedSinceLast; // Determines if it should be redrawn when drawMap is called.
-    char whatIsThis;    //player           - 0x01
+	char changedSinceLast;
+	char whatIsThis;//player           - 0x01
+					//ball             - 0x02
+					//breakable        - 0x03
+					//solid            - 0x04
+                    //broken breakable - 0x05
+					//nothing          - 0x00
+	long x1; //1. coordinate, placement, 18.14
+	long y1; //2. coordiante, placement, 18.14
+	Tvector direction; // Speed and direction (only relevant for the ball)
+	//zones? - so far no zones
+	char sizeX; // represent the horizontal size factor
+    char sizeY;	// represent the vertical size factor
+	char color; // n.o. lives for breakables  (color breakables after this). Is set to 3 in drawBreakables
+                // 0x00 - dead, no lives
+} entity;
+*/
+
+typedef struct stuffTemp{
+    char changedSinceLast;
+    //not sure if I need this
+    char whatIsThis;//player           - 0x01
     //ball             - 0x02
     //breakable        - 0x03
     //solid            - 0x04
     //broken breakable - 0x05
     //nothing          - 0x00
-    long x1; //1. coordinate, placement. Format: 18.14
-    long y1; //2. coordiante, placement. Format: 18.14
-    long xs; //1. coordinate, starting point. Format: 18.14
-    long ys; //2. coordiante, starting point. Format: 18.14
-    Tvector direction; // Speed and direction
-    char color; // Color of the ball
+    long x1; //1. coordinate, current point, 18.14
+    long y1; //2. coordiante, current point, 18.14
+	long xs; //1. coordinate, starting point, 18.14
+    long ys; //2. coordiante, starting point, 18.14
+    Tvector direction; // Speed and direction (only relevant for the ball)
+    char size; // represent the size factor, balls must be symmetric
+    char color; // n.o. lives for breakables  (color breakables after this). Is set to 3 in drawBreakables
 } ball_t;
 
 typedef struct{
-    char changedSinceLast; // Determines if it should be redrawn when drawMap is called.
-    char whatIsThis;    //player           - 0x01
+    char changedSinceLast;
+    char whatIsThis;//player           - 0x01
     //ball             - 0x02
     //breakable        - 0x03
     //solid            - 0x04
     //broken breakable - 0x05
     //nothing          - 0x00
-    int x1; //1. coordinate, placement. Format: 18.14
-    int y1; //2. coordiante, placement. Format: 18.14
+    int x1; //1. coordinate, placement, 18.14
+    int y1; //2. coordiante, placement, 18.14
+    //Tvector direction; // Speed and direction (only relevant for the ball)
+    //zones? - so far no zones
     char sizeX; // represent the horizontal size factor
-    char color; // Color of striker
-    char lives; // Saves
+    char color; // n.o. lives for breakables  (color breakables after this). Is set to 3 in drawBreakables
+    char lives; //n.o. lives of a player
+    // 0x00 - dead, no lives
 } player_t;
 
 typedef struct{
-    char changedSinceLast; // Determines if it should be redrawn when drawMap is called.
-    char whatIsThis;    //player           - 0x01
-    //ball             - 0x02
-    //breakable        - 0x03
-    //solid            - 0x04
-    //broken breakable - 0x05
-    //nothing          - 0x00
-    int x1; //1. coordinate, placement. Format: 18.14
-    int y1; //2. coordiante, placement. Format: 18.14
+    char changedSinceLast;
+    char whatIsThis;
+    int x1; //1. coordinate, placement, 18.14
+    int y1; //2. coordiante, placement, 18.14
+    //Tvector direction; // Speed and direction (only relevant for the ball)
+    //zones? - so far no zones
     char sizeX; // represent the horizontal size factor
     char sizeY;	// represent the vertical size factor
     char lives; // n.o. lives for breakables  (color breakables after this).
+    // DO NOT FIVE IT MORE THAN 7 HEALTH.
     // 0x00 - dead, no lives
-    char powerUp;   //Does this breakable have powerup?
-    // 0x00 - None
-    // 0x01 - Extra health
-    // 0x02 - Larger striker
-    // 0x03 - TBD
+    char powerUp;
+    //0x00 0 no powerUp
+    //0x01 1 more life <- implementated
+    //0x02 1 more ball
+    //0x03 wider paddle
 } breakable_t;
 
+//Just access PowerUp on
 
 void initiateWithCeiling(){
 	int i;
@@ -221,15 +243,15 @@ void killBreakable(breakable_t* object, player_t* player, ball_t* ball){
                         if (ball[k].whatIsThis == 0x00){
                             ball[k].whatIsThis = 0x02;
                             ball[k].changedSinceLast = 1;
-                            ball[k].xs = LONG_TO_EIGHTEEN_FOURTEEN(player->x1 + (player->sizeX <<1)) ;
-                            ball[k].ys = LONG_TO_EIGHTEEN_FOURTEEN(player->y1 - 2);
-                            ball[k].x1 = ball[k].xs;
-                            ball[k].y1 = ball[k].ys;
+                            ball[k].x1 = player->x1 + (player->sizeX <<1) ;
+                            ball[k].y1 = player->y1 - 2; //spawns in the completely wrong place. COMPLETELY!!!
+                            ball[k].size = 0x00;
+                            ball[k].xs = ball[k].x1;
+                            ball[k].ys = ball[k].y1;
                             ball[k].direction.x = 0;
-                            ball[k].direction.y = 1;
+                            ball[k].direction.y = 1 ;
                             ball[k].color = (char)(9 + k);
                             ball[k+1].whatIsThis = 0x0;
-                            drawBall(&ball[k]);
                             k = 4;
                         }
                     }
@@ -638,8 +660,8 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables, char
                 if (!tooManyTimes){
                     ball[i].x1 = ball[i].xs;
                     ball[i].y1 = ball[i].ys;
-                    gotoxy(245,20);
-                    printf("ball %d stuck, respawning", i);
+                    gotoxy(250,20);
+                    printf("ball stuck, respawning");
                 }
                 collision = collisionCheck(i, ball, players, breakables, level);
             } while (collision);
