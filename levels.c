@@ -30,7 +30,6 @@ void level1(breakable_t *breakable, ball_t *ball, player_t *player) {
     ball[0].x1 = ball[0].xs;
     ball[0].y1 = ball[0].ys;
     ball[0].direction = tempVec;
-    ball[0].size = 0x00;
     ball[0].color = 0x0A;
     //Ball 2
     ball[1].whatIsThis = 0x02;
@@ -40,7 +39,6 @@ void level1(breakable_t *breakable, ball_t *ball, player_t *player) {
     ball[1].x1 = ball[1].xs;
     ball[1].y1 = ball[1].ys;
     ball[1].direction = tempVec;
-    ball[1].size = 0x00;
     ball[1].color = 0xB;
     //Ball 3
     ball[2].whatIsThis = 0x02;
@@ -50,7 +48,6 @@ void level1(breakable_t *breakable, ball_t *ball, player_t *player) {
     ball[2].x1 = ball[2].xs;
     ball[2].y1 = ball[2].ys;
     ball[2].direction = tempVec;
-    ball[2].size = 0x00;
     ball[2].color = 0xC;
     //Ball 4
     ball[3].whatIsThis = 0x02;
@@ -60,7 +57,6 @@ void level1(breakable_t *breakable, ball_t *ball, player_t *player) {
     ball[3].x1 = ball[3].xs;
     ball[3].y1 = ball[3].ys;
     ball[3].direction = tempVec;
-    ball[3].size = 0x00;
     ball[3].color = 0xD;
     
     ball[4].whatIsThis = 0x00;
@@ -147,7 +143,7 @@ void level2(breakable_t * breakable, ball_t * ball, player_t * player){
     ball[0].x1 = ball[0].xs;
     ball[0].y1 = ball[0].ys;
     ball[0].direction = tempVec;
-    ball[0].size = 0x00;
+
     ball[0].color = 0x0A;
     ball[1].whatIsThis = 0x00;
     //Breakable setup
@@ -207,7 +203,6 @@ void level3(breakable_t * breakable, ball_t * ball, player_t * player){
     ball[0].x1 = ball[0].xs;
     ball[0].y1 = ball[0].ys;
     ball[0].direction = tempVec;
-    ball[0].size = 0x00;
     ball[0].color = 0x0A;
     ball[1].whatIsThis = 0x00;
 
