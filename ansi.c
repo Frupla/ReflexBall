@@ -104,7 +104,7 @@ int strlength(char* s){
 }
 
 //pre: x1 < x2, y1<y2, text < x2-4
-void window(char x1, char y1, char x2, char y2, char* text, int style){
+void window(int x1, int y1, int x2, int y2, char* text, int style){
 	int i;
 	int j;
 	int n;

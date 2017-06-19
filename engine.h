@@ -65,7 +65,9 @@ typedef struct{
     // 0x03 - TBD
 } breakable_t;
 
-void initiate();
+void initiateWithCeiling();
+
+void initiateWithoutCeiling();
 
 int findMaxScore(breakable_t*);
 
@@ -81,9 +83,9 @@ void drawMap(player_t *, ball_t *, breakable_t *);
 
 void playerMovement(char, player_t *);
 
-char ballMovement(ball_t *, player_t *, breakable_t *);
+char ballMovement(ball_t *, player_t *, breakable_t *, char);
 
-void collisionCheck(player_t *, breakable_t *);
+//void collisionCheck(ball_t *, player_t *, breakable_t *, char);
 
 
 

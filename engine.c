@@ -68,7 +68,7 @@ typedef struct{
 } breakable_t;
 
 
-void initiate(){
+void initiateWithCeiling(){
 	int i;
 	for(i = 1; i <= MAPSIZE; i++){
 		gotoxy(1, i);
@@ -79,6 +79,16 @@ void initiate(){
 	for(i = 1; i <= (4 * MAPSIZE); i++){
 		gotoxy(i, 1);
 		printf("%c", 220);
+	}
+}
+
+void initiateWithoutCeiling(){
+	int i;
+	for(i = 1; i <= MAPSIZE; i++){
+		gotoxy(1, i);
+		printf("%c", SOLIDTEXTURE);
+		gotoxy((4 * MAPSIZE), i);
+		printf("%c", SOLIDTEXTURE);
 	}
 }
 
@@ -164,20 +174,24 @@ void drawBreakable(breakable_t* object){
 	object->changedSinceLast = 0;
 }
 
-void killBreakable(breakable_t* object, player_t* player){
-	int i, j, texture;
+void killBreakable(breakable_t* object, player_t* player, ball_t* ball){
+	int i, j, k, texture;
     object->lives--;
     switch(object->powerUp){
-    	case 0x00: texture = BREAKABLETEXTURE;
-    	break;
-    	case 0x01: texture = MORELIFETEXTURE;
-    	break;
-    	case 0x02: texture = MOREBALLSTEXTURE;
-    	break;
+    	case 0x00:
+            texture = BREAKABLETEXTURE;
+    	    break;
+    	case 0x01:
+            texture = MORELIFETEXTURE;
+    	    break;
+    	case 0x02:
+            texture = MOREBALLSTEXTURE;
+    	    break;
     	case 0x03: texture = WIDERPADDLETEXTURE;
+            break;
     	default:
-    	texture = BREAKABLETEXTURE;
-    	break;
+    	    texture = BREAKABLETEXTURE;
+    	    break;
     }
     if (!object->lives) {
         for (i = 0; i <= (object->sizeX); i++) {
@@ -196,6 +210,37 @@ void killBreakable(breakable_t* object, player_t* player){
                     if (player->lives < 9){
                         player->lives++;
                     }
+                    break;
+                case 0x02:
+                    for (k = 0; k < 4; k++){ //ball arrays must always have length 5
+                        if (ball[k].whatIsThis == 0x00){
+                            ball[k].whatIsThis = 0x02;
+                            ball[k].changedSinceLast = 1;
+                            ball[k].xs = LONG_TO_EIGHTEEN_FOURTEEN(player->x1 + (player->sizeX <<1)) ;
+                            ball[k].ys = LONG_TO_EIGHTEEN_FOURTEEN(player->y1 - 2);
+                            ball[k].size = 0x00;
+                            ball[k].x1 = ball[k].xs;
+                            ball[k].y1 = ball[k].ys;
+                            ball[k].direction.x = 0;
+                            ball[k].direction.y = 1;
+                            ball[k].color = (char)(9 + k);
+                            ball[k+1].whatIsThis = 0x0;
+                            drawBall(&ball[k]);
+                            k = 4;
+                        }
+                    }
+                    break;
+                case 0x03:
+                    //MAPSIZE x4  = length of course
+                    if (player->x1+(player->sizeX*5 + 5) >= (MAPSIZE << 2)){
+                        player->x1 -=  5;
+                    } else if (player->x1 - 3 > 1){
+                        player->x1 -= 3;
+                    }
+                    player->sizeX++;
+                    player->changedSinceLast = 1;
+                    drawPlayer(player);
+                    break;
                 default:
                     break;
             }
@@ -274,7 +319,7 @@ void playerMovement(char buttonPress, player_t* object){
             case 0x01: //PF7
                 if ((object[i].x1 + 1 + ((object[i].sizeX) * 5)) < 4 * MAPSIZE) {
                     gotoxy(object[i].x1, object[i].y1);
-                    printf("%c", 0x20);
+                    printf("%c", BACKGROUNDTEXTURE);
                     object[i].x1++;
                 }
                 gotoxy(object[i].x1 + ((object[i].sizeX) * 5), object[i].y1);
@@ -288,7 +333,7 @@ void playerMovement(char buttonPress, player_t* object){
             case 0x04: //PD3
                 if ((object[i].x1 - 1) > 1) {
                     gotoxy(object[i].x1 + ((object[i].sizeX) * 5), object[i].y1);
-                    printf("%c", 0x20);
+                    printf("%c", BACKGROUNDTEXTURE);
                     object[i].x1--;
                 }
                 gotoxy(object[i].x1, object[i].y1);
@@ -307,14 +352,13 @@ void playerMovement(char buttonPress, player_t* object){
 }
 
 // pre: takes position that the ball would have (current position + direction), and checks it for overlap
-char collisionCheck(ball_t *ball, player_t *players,
-                    breakable_t *breakables) { // an array of breakables, an array of players
+char collisionCheck(int whichBall, ball_t *ball, player_t *players,
+                    breakable_t *breakables, char level) { // an array of breakables, an array of players
 	char flag = 0;
-	int i = 0;
     int x1, y1;
-
-    x1 = EIGHTEEN_FOURTEEN_TO_INT(ball->direction.x + ball->x1);
-    y1 = EIGHTEEN_FOURTEEN_TO_INT(ball->direction.y + ball->y1);
+	int i;
+    x1 = EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].direction.x + ball[whichBall].x1);
+    y1 = EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].direction.y + ball[whichBall].y1);
 
 	if(x1 >= MAPSIZE * 4){ // returns true if hit wall
 		flag = 0x10;// hit right wall
@@ -325,7 +369,11 @@ char collisionCheck(ball_t *ball, player_t *players,
 		return flag;
 	}
     if (y1 <= 1) { // returns if ceiling
-        flag = 0x30;
+    	if (level == 2){
+    		flag = 0x09;
+    	} else{
+        	flag = 0x30;
+    	}
         return flag;
 	}
     if (y1 >= MAPSIZE) { // returns true if ball falls through floor
@@ -368,70 +416,71 @@ char collisionCheck(ball_t *ball, player_t *players,
                 (x1 <= (breakables[i].x1 + breakables[i].sizeX))) {
                 if (y1 == (breakables[i].y1)) {
                     if ((x1 == breakables[i].x1) &&
-                        (EIGHTEEN_FOURTEEN_TO_INT(ball->x1) <= breakables[i].x1) &&
-                        (EIGHTEEN_FOURTEEN_TO_INT(ball->y1) <= breakables[i].y1)) {
+                        (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].x1) <= breakables[i].x1) &&
+                        (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].y1) <= breakables[i].y1)) {
                         flag = 0x08;//top left corner
-                        killBreakable(&breakables[i], &players[0]);
+                        killBreakable(&breakables[i], &players[0], ball);
                         return flag;
                     } else if ((x1 == breakables[i].x1 + breakables[i].sizeX) &&
-                               (EIGHTEEN_FOURTEEN_TO_INT(ball->x1) >= (breakables[i].x1 + breakables[i].sizeX)) &&
-                               (EIGHTEEN_FOURTEEN_TO_INT(ball->y1) <= breakables[i].y1)) {
+                               (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].x1) >= (breakables[i].x1 + breakables[i].sizeX)) &&
+                               (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].y1) <= breakables[i].y1)) {
                         flag = 0x02;//top right corner
-                        killBreakable(&breakables[i], &players[0]);
+                        killBreakable(&breakables[i], &players[0], ball);
                         return flag;
                     } else if (x1 == breakables[i].x1 &&
-                               (EIGHTEEN_FOURTEEN_TO_INT(ball->y1) >= breakables[i].y1)) {
+                               (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].y1) >= breakables[i].y1)) {
                         flag = 0x07; //Left side
-                        killBreakable(&breakables[i], &players[0]);
+                        killBreakable(&breakables[i], &players[0], ball);
                         return flag;
                     } else if (x1 == (breakables[i].x1 + breakables[i].sizeX) &&
-                               (EIGHTEEN_FOURTEEN_TO_INT(ball->y1) >= breakables[i].y1)) {
+                               (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].y1) >= breakables[i].y1)) {
                         flag = 0x03; //Right side
-                        killBreakable(&breakables[i], &players[0]);
+                        killBreakable(&breakables[i], &players[0], ball);
                         return flag;
                     } else {
                         flag = 0x01; // hit top
-                        killBreakable(&breakables[i], &players[0]);
+                        killBreakable(&breakables[i], &players[0], ball);
                         return flag;
                     }
                 } else if ((y1 == breakables[i].y1 + breakables[i].sizeY)) {
                     if ((x1 == breakables[i].x1) &&
-                        (EIGHTEEN_FOURTEEN_TO_INT(ball->y1) >= (breakables[i].y1 + breakables[i].sizeY)) &&
-                        (EIGHTEEN_FOURTEEN_TO_INT(ball->x1) <= breakables[i].x1)) {
+                        (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].y1) >= (breakables[i].y1 + breakables[i].sizeY)) &&
+                        (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].x1) <= breakables[i].x1)) {
                         flag = 0x06;//bottom left corner
-                        killBreakable(&breakables[i], &players[0]);
+                        killBreakable(&breakables[i], &players[0], ball);
                         return flag;
                     } else if ((x1 == breakables[i].x1 + breakables[i].sizeX) &&
-                               (EIGHTEEN_FOURTEEN_TO_INT(ball->y1) >= (breakables[i].y1 + breakables[i].sizeY)) &&
-                               (EIGHTEEN_FOURTEEN_TO_INT(ball->x1) >= breakables[i].sizeX + breakables[i].x1)) {
+                               (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].y1) >= (breakables[i].y1 + breakables[i].sizeY)) &&
+                               (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].x1) >= breakables[i].sizeX + breakables[i].x1)) {
                         flag = 0x04;//bottom right corner
-                        killBreakable(&breakables[i], &players[0]);
+                        killBreakable(&breakables[i], &players[0], ball);
                         return flag;
                     } else if (x1 == breakables[i].x1 &&
-                               (EIGHTEEN_FOURTEEN_TO_INT(ball->y1) <= (breakables[i].y1 + breakables[i].sizeY))) {
+                               (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].y1) <= (breakables[i].y1 + breakables[i].sizeY))) {
                         flag = 0x07; //Left side
-                        killBreakable(&breakables[i], &players[0]);
+                        killBreakable(&breakables[i], &players[0], ball);
                         return flag;
                     } else if (x1 == (breakables[i].x1 + breakables[i].sizeX) &&
-                               (EIGHTEEN_FOURTEEN_TO_INT(ball->y1) <= (breakables[i].y1 + breakables[i].sizeY))) {
+                               (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].y1) <= (breakables[i].y1 + breakables[i].sizeY))) {
                         flag = 0x03; //Right side
-                        killBreakable(&breakables[i], &players[0]);
+                        killBreakable(&breakables[i], &players[0], ball);
                         return flag;
                     } else {
                         flag = 0x05; // hit bottom
-                        killBreakable(&breakables[i], &players[0]);
+                        killBreakable(&breakables[i], &players[0], ball);
                         return flag;
                     }
                 }
-            } else if ((y1 > (breakables[i].y1))
+            }
+            if ((y1 > (breakables[i].y1))
                        && (y1 < (breakables[i].y1 + breakables[i].sizeY))) {
                 if (x1 == (breakables[i].x1)) {
                     flag = 0x07; // hit left
-                    killBreakable(&breakables[i], &players[0]);
+                    killBreakable(&breakables[i], &players[0], ball);
                     return flag;
                 } else if (x1 == (breakables[i].x1 + breakables[i].sizeX)) {
                     flag = 0x03; // hit right
-                    killBreakable(&breakables[i], &players[0]);
+                    killBreakable(&breakables[i], &players[0], ball);
                     return flag;
                 }
             }
@@ -461,7 +510,7 @@ char collisionCheck(ball_t *ball, player_t *players,
  */
 
 //Ball movement ver 3
-char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //1 ball, all the players and breakables
+char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables, char level) { //1 ball, all the players and breakables
     //Variables
     char flag = 0x00;
     char tempFlag;
@@ -478,7 +527,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
         tooManyTimes = 12;
         if (ball[i].whatIsThis == 0x02) {
         	tempFlag = flag;
-            collision = collisionCheck(&ball[i], players, breakables);
+            collision = collisionCheck(i, ball, players, breakables, level);
             do {
             flag = tempFlag;
                 switch (collision) {
@@ -585,10 +634,10 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables) { //
                 if (!tooManyTimes){
                     ball[i].x1 = ball[i].xs;
                     ball[i].y1 = ball[i].ys;
-                    gotoxy(250,20);
-                    printf("ball stuck, respawning");
+                    gotoxy(245,20);
+                    printf("ball %d stuck, respawning", i);
                 }
-                collision = collisionCheck(&ball[i], players, breakables);
+                collision = collisionCheck(i, ball, players, breakables, level);
             } while (collision);
             //Remove the old ball
             gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[i].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[i].y1));

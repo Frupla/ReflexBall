@@ -12,8 +12,8 @@
 #include "levels.h"
 
 #define LVLSIZE 100     // The size of the levels. Should probably be in engine.h
-#define STDWINDOWX 10   // The standard placement for the upper left corner for the windows.
-#define STDWINDOWY 10   // The standard placement for the upper left corner for the windows.
+#define STDWINDOWX 230   // The standard placement for the upper left corner for the windows.
+#define STDWINDOWY 50   // The standard placement for the upper left corner for the windows.
 
 
 int startGame(char lvl) {
@@ -34,12 +34,14 @@ int startGame(char lvl) {
         case 0x01:
             level1(breakable, ball, player);
             //Update with number of Tempvecs!!!
+            initiateWithCeiling();
             for (i = 0; i < 4; i++) {
                 tempVec[i] = ball[i].direction;
             }
             break;
         case 0x02:
             level2(breakable, ball, player);
+            initiateWithoutCeiling();
             //Update with number of Tempvecs!!!
             for (i = 0; i < 4; i++) {
                 tempVec[i] = ball[i].direction;
@@ -47,6 +49,7 @@ int startGame(char lvl) {
             break;
         case 0x03:
             level3(breakable, ball, player);
+            initiateWithCeiling();
             //Update with number of Tempvecs!!!
             for (i = 0; i < 4; i++) {
                 tempVec[i] = ball[i].direction;
@@ -61,7 +64,7 @@ int startGame(char lvl) {
 
     max_score = findMaxScore(breakable);
 
-    initiate();
+
     timer1Setup();
     LEDSetString(string);
     drawMap(player, ball, breakable);
@@ -78,10 +81,10 @@ int startGame(char lvl) {
             		time1 = 1;
             		time2 = 15;
         		}
-                button = readKey();
                 LEDUpdate();
                 //Do this for 0.1 s
             } while (timer1() < time1);
+            button = readKey();
             //Then move the player
             playerMovement(button, player);
             LEDUpdate();
@@ -91,7 +94,7 @@ int startGame(char lvl) {
         } while (timer1() < time2);
         //Then move the ball
 
-        whatDidTheyHit = ballMovement(ball, player, breakable);
+        whatDidTheyHit = ballMovement(ball, player, breakable, lvl);
         if (string[1]-0x30 != player[0].lives) {
             string[1] = player[0].lives+0x30;
             LEDSetString(string);
@@ -175,7 +178,7 @@ void printHighscore(int * highscore){
             }
         }     
     }
-    window(STDWINDOWX, STDWINDOWY, 50, 21, " Highscore ", 1);
+    window(10, 10,STDWINDOWX, STDWINDOWY, " Highscore ", 1);
     for (i = 0; i < 5; i++){
         gotoxy(12,12 +i);
         printf("%d.  %d", i+1, highscore[i]);
@@ -194,27 +197,27 @@ void printHighscore(int * highscore){
 
 void showControls() {
     int i, flag = 1;
-    window(STDWINDOWX, STDWINDOWY, 50, 21, " Help! ", 1);
-    gotoxy(STDWINDOWX + 2, STDWINDOWY + 2);
+    window(10, 10,STDWINDOWX, STDWINDOWY, " Help! ", 1);
+    gotoxy(12, 12);
     printf("You have three buttons:");
-    gotoxy(STDWINDOWX + 2, STDWINDOWY + 3);
+    gotoxy(12, 13);
     printf(" < - Left   ^ - Action  > - Right\r\n");
-    gotoxy(STDWINDOWX + 2, STDWINDOWY + 5);
+    gotoxy(12, 15);
     printf("Hit these:   With this:");
-    gotoxy(STDWINDOWX + 2, STDWINDOWY + 7);
+    gotoxy(12, 17);
     fgcolor(5);
     for (i = 0; i < 8; i++) {
         printf("%c", BREAKABLETEXTURE);
     }
-    gotoxy(STDWINDOWX + 2, STDWINDOWY + 8);
+    gotoxy(12, 18);
     for (i = 0; i < 8; i++) {
         printf("%c", BREAKABLETEXTURE);
     }
-    gotoxy(STDWINDOWX + 20, STDWINDOWY + 7);
+    gotoxy(30, 17);
     fgcolor(0x0a);
     printf("%c", BALLTEXTURE);
     fgcolor(STDTEXTCOLOR);
-    gotoxy(STDWINDOWX + 2, STDWINDOWY + 10);
+    gotoxy(12, 20);
     printf("You have %d lives!", 5);
     do {
         LEDUpdate();
@@ -229,7 +232,7 @@ int lvlMenu() {
     int score = 0;
 
     do {
-        window(STDWINDOWX, STDWINDOWY, 50, 21, " Choose level ", 1);
+        window(10, 10,STDWINDOWX, STDWINDOWY, " Choose level ", 1);
         gotoxy(12, 12);
         printf(" > Level 1");
         gotoxy(13, 13);
@@ -328,7 +331,7 @@ void main() {
     do {
         fgcolor(STDTEXTCOLOR);
         clrscr();
-        window(STDWINDOWX, STDWINDOWY, 50, 21, " Main menu ", 1);
+        window(10, 10, STDWINDOWX, STDWINDOWY, " Main menu ", 1);
         gotoxy(12, 12);
         printf(" > Start game");
 		gotoxy(13,13);
