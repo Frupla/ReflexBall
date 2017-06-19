@@ -12,8 +12,8 @@
 #include "levels.h"
 
 #define LVLSIZE 100     // The size of the levels. Should probably be in engine.h
-#define STDWINDOWX 230   // The standard placement for the upper left corner for the windows.
-#define STDWINDOWY 50   // The standard placement for the upper left corner for the windows.
+#define STDWINDOWX 50   // The standard placement for the upper left corner for the windows.
+#define STDWINDOWY 21   // The standard placement for the upper left corner for the windows.
 
 
 int startGame(char lvl) {
