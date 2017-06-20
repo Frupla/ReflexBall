@@ -319,7 +319,9 @@ int lvlMenu() {
 }
 
 void main() {
-    int highscore[5] = {0,0,0,0,0};
+    int highscore1[5] = {0,0,0,0,0};
+    int highscore2[5] = {0,0,0,0,0};
+    int highscore3[5] = {0,0,0,0,0};
     int score;
     char button, flag1 = 1, flag2 = 0, output = 0;
     char string[LED_MAX_STR_LEN] = "Hello";
