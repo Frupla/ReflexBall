@@ -201,6 +201,8 @@ void drawBreakable(breakable_t* object){
 	object->changedSinceLast = 0;
 }
 
+
+//takes a pointer to one breakable, takes a pointer to one player and a
 void killBreakable(breakable_t* object, player_t* player, ball_t* ball){
 	int i, j, k, texture;
     object->lives--;
@@ -243,13 +245,12 @@ void killBreakable(breakable_t* object, player_t* player, ball_t* ball){
                         if (ball[k].whatIsThis == 0x00){
                             ball[k].whatIsThis = 0x02;
                             ball[k].changedSinceLast = 1;
-                            ball[k].x1 = player->x1 + (player->sizeX <<1) ;
-                            ball[k].y1 = player->y1 - 2; //spawns in the completely wrong place. COMPLETELY!!!
-                            ball[k].size = 0x00;
+                            ball[k].x1 = LONG_TO_EIGHTEEN_FOURTEEN((long) (player->x1 + (player->sizeX <<1))) ;
+                            ball[k].y1 = LONG_TO_EIGHTEEN_FOURTEEN((long)(player->y1 - 2); //spawns in the completely wrong place. COMPLETELY!!!
                             ball[k].xs = ball[k].x1;
                             ball[k].ys = ball[k].y1;
-                            ball[k].direction.x = 0;
-                            ball[k].direction.y = 1 ;
+                            ball[k].direction.x = LONG_TO_EIGHTEEN_FOURTEEN(0);
+                            ball[k].direction.y = LONG_TO_EIGHTEEN_FOURTEEN(1) ;
                             ball[k].color = (char)(9 + k);
                             ball[k+1].whatIsThis = 0x0;
                             k = 4;
@@ -287,6 +288,8 @@ void killBreakable(breakable_t* object, player_t* player, ball_t* ball){
     }
 }
 
+
+//takes a nothing-terminated array of all breakables on the map. Returns a char.
 char didYouWin(breakable_t* breakables) {
     int i = 0;
     while (breakables[i].whatIsThis){
