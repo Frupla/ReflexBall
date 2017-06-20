@@ -241,6 +241,7 @@ void killBreakable(breakable_t* object, player_t* player, ball_t* ball){
                     }
                     break;
                 case 0x02:
+                    /*
                     for (k = 0; k < 4; k++){ //ball arrays must always have length 5
                         if (ball[k].whatIsThis == 0x00){
                             ball[k].whatIsThis = 0x02;
@@ -257,6 +258,7 @@ void killBreakable(breakable_t* object, player_t* player, ball_t* ball){
                         }
                     }
                     break;
+                     */
                 case 0x03:
                     //MAPSIZE x4  = length of course
                     if (player->x1+(player->sizeX*5 + 5) >= (MAPSIZE << 2)){
@@ -382,7 +384,7 @@ void playerMovement(char buttonPress, player_t* object){
 
 // pre: takes position that the ball would have (current position + direction), and checks it for overlap
 char collisionCheck(int whichBall, ball_t *ball, player_t *players,
-                    breakable_t *breakables, char level) { // an array of breakables, an array of players
+                    breakable_t *breakables, char level) { // position of ball, array of balls, array of players, array of breakables & lvl
 	char flag = 0;
     int x1, y1;
 	int i;
