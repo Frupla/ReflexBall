@@ -236,14 +236,16 @@ void killBreakable(breakable_t* object, player_t* player, ball_t* ball){
                     break;
                 case 0x03:
                     //MAPSIZE x4  = length of course
-                    if (player->x1+(player->sizeX*5 + 5) >= (MAPSIZE << 2)){
-                        player->x1 -=  5;
-                    } else if (player->x1 - 3 > 1){
-                        player->x1 -= 3;
+                    for (i = 0; player[i].whatIsThis != 0x00; i++) {
+                        if (player[i].x1 + (player[i].sizeX * 5 + 5) >= (MAPSIZE << 2)) {
+                            player[i].x1 -= 5;
+                        } else if (player[i].x1 - 3 > 1) {
+                            player[i].x1 -= 3;
+                        }
+                        player[i].sizeX++;
+                        player[i].changedSinceLast = 1;
+                        drawPlayer(&player[i]);
                     }
-                    player->sizeX++;
-                    player->changedSinceLast = 1;
-                    drawPlayer(player);
                     break;
                 default:
                     break;
