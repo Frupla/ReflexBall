@@ -222,13 +222,13 @@ void killBreakable(breakable_t* object, player_t* player, ball_t* ball){
                             ball[k].whatIsThis = 0x02;
                             ball[k].changedSinceLast = 1;
                             ball[k].xs = LONG_TO_EIGHTEEN_FOURTEEN(player->x1 + (player->sizeX <<1)) ;
-                            ball[k].ys = LONG_TO_EIGHTEEN_FOURTEEN(player->y1 - 2);
+                            ball[k].ys = LONG_TO_EIGHTEEN_FOURTEEN(player->y1 - 4);
                             ball[k].x1 = ball[k].xs;
                             ball[k].y1 = ball[k].ys;
-                            ball[k].direction.x = 0;
-                            ball[k].direction.y = 1;
+                            ball[k].direction.x = LONG_TO_EIGHTEEN_FOURTEEN(0);
+                            ball[k].direction.y = LONG_TO_EIGHTEEN_FOURTEEN(1);
                             ball[k].color = (char)(9 + k);
-                            ball[k+1].whatIsThis = 0x0;
+                            ball[k + 1].whatIsThis = 0x00;
                             drawBall(&ball[k]);
                             k = 4;
                         }
