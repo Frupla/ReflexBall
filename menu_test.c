@@ -368,7 +368,7 @@ void main() {
     int highscore1[5] = {0,0,0,0,0};
     int highscore2[5] = {0,0,0,0,0};
     int highscore3[5] = {0,0,0,0,0};
-    int score;
+    int score = 0;
     char button, flag1 = 1, flag2 = 0, output = 0;
     char string[LED_MAX_STR_LEN] = "    Main menu";
     init_uart(_UART0, _DEFFREQ, _DEFBAUD);  // set-up UART0 to 57600, 8n1
