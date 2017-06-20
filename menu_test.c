@@ -86,6 +86,7 @@ int startGame(char lvl) {
             } while (timer1() < time1);
             button = readKey();
             //Then move the player
+            LEDUpdate();
             playerMovement(button, player);
             LEDUpdate();
             //Reenter the above while - loop
@@ -95,6 +96,7 @@ int startGame(char lvl) {
         //Then move the ball
 
         whatDidTheyHit = ballMovement(ball, player, breakable, lvl);
+        LEDUpdate();
         if (string[1]-0x30 != player[0].lives) {
             string[1] = player[0].lives+0x30;
             LEDSetString(string);
