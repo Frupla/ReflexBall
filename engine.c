@@ -161,6 +161,7 @@ void drawBreakable(breakable_t* object){
                 for(j = 0; j <= (object->sizeY); j++){
                     gotoxy(object->x1 + i,object->y1 + j);
                     printf("%c", BREAKABLETEXTURE);
+                    LEDUpdate();
                 }
             }
             break;
@@ -169,6 +170,7 @@ void drawBreakable(breakable_t* object){
                 for(j = 0; j <= (object->sizeY); j++){
                     gotoxy(object->x1 + i,object->y1 + j);
                     printf("%c", MORELIFETEXTURE);
+                    LEDUpdate();
                 }
             }
             break;
@@ -177,6 +179,7 @@ void drawBreakable(breakable_t* object){
                 for(j = 0; j <= (object->sizeY); j++){
                     gotoxy(object->x1 + i,object->y1 + j);
                     printf("%c", MOREBALLSTEXTURE);
+                    LEDUpdate();
                 }
             }
             break;
@@ -185,6 +188,7 @@ void drawBreakable(breakable_t* object){
                 for(j = 0; j <= (object->sizeY); j++){
                     gotoxy(object->x1 + i,object->y1 + j);
                     printf("%c", WIDERPADDLETEXTURE);
+                    LEDUpdate();
                 }
             }
             break;
@@ -193,6 +197,7 @@ void drawBreakable(breakable_t* object){
                 for(j = 0; j <= (object->sizeY); j++){
                     gotoxy(object->x1 + i,object->y1 + j);
                     printf("%c", BREAKABLETEXTURE);
+                    LEDUpdate();
                 }
             }
             break;
@@ -321,7 +326,8 @@ void drawSolid(entity* object){
 //pre: all arrays must be nothing-terminated, ei have the last object have whatIsThis= 0x00
 //     arrays must contain all objects on map
 void drawMap(player_t* players, ball_t* balls, breakable_t* breakables) {
-	int n = 0;
+    int n = 0, LEDcontrol = 0;
+    char animation[5] = "    ";
     while (players->whatIsThis){
         if (players->whatIsThis == 0x01 && players->changedSinceLast){
             drawPlayer(players);
@@ -336,9 +342,27 @@ void drawMap(player_t* players, ball_t* balls, breakable_t* breakables) {
         balls++;
     }
     while (breakables[n].whatIsThis){
+        if (LEDcontrol < 5) {
+            animation[0] = 0x80;
+            animation[2] = 0x80;
+            LEDSetString(animation);
+        } else if (LEDcontrol < 10) {
+            animation[0] = 0x81;
+            animation[2] = 0x81;
+            LEDSetString(animation);
+        } else if (LEDcontrol < 15) {
+            animation[0] = 0x82;
+            animation[2] = 0x82;
+            LEDSetString(animation);
+        } else {
+            LEDcontrol = 0;
+        }
+
         if (breakables[n].whatIsThis == 0x03 && breakables[n].changedSinceLast){
             drawBreakable(&breakables[n]);
         }
+        LEDUpdate();
+        LEDcontrol++;
 		n++;
     }
     //Also add a whileloop here for solids if you want to implement them
