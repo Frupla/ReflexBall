@@ -659,6 +659,8 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables, char
                     rotate(&ball[i].direction, 43);
                     howManyTimes = 3;
                     tooManyTimes--;
+                    gotoxy(245,18);
+					printf("ball %d kinda stuck, rotating", i);
                 }
                 if (!tooManyTimes){
                     ball[i].x1 = ball[i].xs;
