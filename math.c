@@ -39,11 +39,3 @@ void rotate(Tvector *v, int a){
 	v->x = v->x >> 14;
 	v->y = v->y >> 14;
 }
-
-long convert(int number) {
-	if ((number & 0x8000) != 0) {
-		number = ~number + 1;
-		return ~(((long) number) << 14) + 1;
-	}
-	return ((long) number) << 14;
-}
