@@ -6,7 +6,7 @@
 
 #define MAPSIZE 59
 #define SOLIDTEXTURE 219
-#define PLAYERTEXTURE 223
+#define PLAYERTEXTURE 254
 #define BALLTEXTURE 184
 #define BREAKABLETEXTURE 219
 #define MORELIFETEXTURE 176
@@ -86,11 +86,11 @@ typedef struct{
     char lives; // n.o. lives for breakables  (color breakables after this).
     // DO NOT FIVE IT MORE THAN 7 HEALTH.
     // 0x00 - dead, no lives
-    char powerUp;
-    //0x00 0 no powerUp
-    //0x01 1 more life <- implementated
-    //0x02 1 more ball
-    //0x03 wider paddle
+    char powerUp;   //Does this breakable have powerup?
+    // 0x00 - None
+    // 0x01 - Extra health
+    // 0x02 - More balls (up to four)
+    // 0x03 - Larger Paddle
 } breakable_t;
 
 //Just access PowerUp on
@@ -245,28 +245,31 @@ void killBreakable(breakable_t* object, player_t* player, ball_t* ball){
                         if (ball[k].whatIsThis == 0x00){
                             ball[k].whatIsThis = 0x02;
                             ball[k].changedSinceLast = 1;
-                            ball[k].x1 = LONG_TO_EIGHTEEN_FOURTEEN((long) (player->x1 + (player->sizeX <<1))) ;
-                            ball[k].y1 = LONG_TO_EIGHTEEN_FOURTEEN((long)(player->y1 - 2)); //spawns in the completely wrong place. COMPLETELY!!!
-                            ball[k].xs = ball[k].x1;
-                            ball[k].ys = ball[k].y1;
+                            ball[k].xs = LONG_TO_EIGHTEEN_FOURTEEN((long)(object->x1)) ;
+                            ball[k].ys = LONG_TO_EIGHTEEN_FOURTEEN((long)(object->y1));
+                            ball[k].x1 = ball[k].xs;
+                            ball[k].y1 = ball[k].ys;
                             ball[k].direction.x = LONG_TO_EIGHTEEN_FOURTEEN(0);
-                            ball[k].direction.y = LONG_TO_EIGHTEEN_FOURTEEN(1) ;
-                            ball[k].color = (char)(9 + k);
-                            ball[k+1].whatIsThis = 0x0;
+                            ball[k].direction.y = LONG_TO_EIGHTEEN_FOURTEEN(1);
+                            ball[k].color = (char)(10 + k);
+                            ball[k + 1].whatIsThis = 0x00;
+                            drawBall(&ball[k]);
                             k = 4;
                         }
                     }
                     break;
                 case 0x03:
                     //MAPSIZE x4  = length of course
-                    if (player->x1+(player->sizeX*5 + 5) >= (MAPSIZE << 2)){
-                        player->x1 -=  5;
-                    } else if (player->x1 - 3 > 1){
-                        player->x1 -= 3;
+                    for (i = 0; player[i].whatIsThis != 0x00; i++) {
+                        if (player[i].x1 + (player[i].sizeX * 5 + 5) >= (MAPSIZE << 2)) {
+                            player[i].x1 -= 5;
+                        } else if (player[i].x1 - 3 > 1) {
+                            player[i].x1 -= 3;
+                        }
+                        player[i].sizeX++;
+                        player[i].changedSinceLast = 1;
+                        drawPlayer(&player[i]);
                     }
-                    player->sizeX++;
-                    player->changedSinceLast = 1;
-                    drawPlayer(player);
                     break;
                 default:
                     break;
@@ -318,7 +321,11 @@ void drawSolid(entity* object){
 //pre: all arrays must be nothing-terminated, ei have the last object have whatIsThis= 0x00
 //     arrays must contain all objects on map
 void drawMap(player_t* players, ball_t* balls, breakable_t* breakables) {
+<<<<<<< HEAD
 	int n = 0;
+=======
+    int n = 0;
+>>>>>>> BeforeIrenesmerge
     while (players->whatIsThis){
         if (players->whatIsThis == 0x01 && players->changedSinceLast){
             drawPlayer(players);
@@ -326,7 +333,11 @@ void drawMap(player_t* players, ball_t* balls, breakable_t* breakables) {
         players++;
     }
     while (balls->whatIsThis){
+<<<<<<< HEAD
         if (balls->whatIsThis == 0x02 && balls->changedSinceLast){
+=======
+        if (balls->whatIsThis == 0x02 && balls->changedSinceLast) {
+>>>>>>> BeforeIrenesmerge
             drawBall(balls);
         }
         balls++;
@@ -448,27 +459,27 @@ char collisionCheck(int whichBall, ball_t *ball, player_t *players,
                         (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].x1) <= breakables[i].x1) &&
                         (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].y1) <= breakables[i].y1)) {
                         flag = 0x08;//top left corner
-                        killBreakable(&breakables[i], &players[0], ball);
+                        killBreakable(&breakables[i], players, ball);
                         return flag;
                     } else if ((x1 == breakables[i].x1 + breakables[i].sizeX) &&
                                (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].x1) >= (breakables[i].x1 + breakables[i].sizeX)) &&
                                (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].y1) <= breakables[i].y1)) {
                         flag = 0x02;//top right corner
-                        killBreakable(&breakables[i], &players[0], ball);
+                        killBreakable(&breakables[i], players, ball);
                         return flag;
                     } else if (x1 == breakables[i].x1 &&
                                (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].y1) >= breakables[i].y1)) {
                         flag = 0x07; //Left side
-                        killBreakable(&breakables[i], &players[0], ball);
+                        killBreakable(&breakables[i], players, ball);
                         return flag;
                     } else if (x1 == (breakables[i].x1 + breakables[i].sizeX) &&
                                (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].y1) >= breakables[i].y1)) {
                         flag = 0x03; //Right side
-                        killBreakable(&breakables[i], &players[0], ball);
+                        killBreakable(&breakables[i], players, ball);
                         return flag;
                     } else {
                         flag = 0x01; // hit top
-                        killBreakable(&breakables[i], &players[0], ball);
+                        killBreakable(&breakables[i], players, ball);
                         return flag;
                     }
                 } else if ((y1 == breakables[i].y1 + breakables[i].sizeY)) {
@@ -476,27 +487,27 @@ char collisionCheck(int whichBall, ball_t *ball, player_t *players,
                         (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].y1) >= (breakables[i].y1 + breakables[i].sizeY)) &&
                         (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].x1) <= breakables[i].x1)) {
                         flag = 0x06;//bottom left corner
-                        killBreakable(&breakables[i], &players[0], ball);
+                        killBreakable(&breakables[i], players, ball);
                         return flag;
                     } else if ((x1 == breakables[i].x1 + breakables[i].sizeX) &&
                                (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].y1) >= (breakables[i].y1 + breakables[i].sizeY)) &&
                                (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].x1) >= breakables[i].sizeX + breakables[i].x1)) {
                         flag = 0x04;//bottom right corner
-                        killBreakable(&breakables[i], &players[0], ball);
+                        killBreakable(&breakables[i], players, ball);
                         return flag;
                     } else if (x1 == breakables[i].x1 &&
                                (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].y1) <= (breakables[i].y1 + breakables[i].sizeY))) {
                         flag = 0x07; //Left side
-                        killBreakable(&breakables[i], &players[0], ball);
+                        killBreakable(&breakables[i], players, ball);
                         return flag;
                     } else if (x1 == (breakables[i].x1 + breakables[i].sizeX) &&
                                (EIGHTEEN_FOURTEEN_TO_INT(ball[whichBall].y1) <= (breakables[i].y1 + breakables[i].sizeY))) {
                         flag = 0x03; //Right side
-                        killBreakable(&breakables[i], &players[0], ball);
+                        killBreakable(&breakables[i], players, ball);
                         return flag;
                     } else {
                         flag = 0x05; // hit bottom
-                        killBreakable(&breakables[i], &players[0], ball);
+                        killBreakable(&breakables[i], players, ball);
                         return flag;
                     }
                 }
@@ -505,11 +516,11 @@ char collisionCheck(int whichBall, ball_t *ball, player_t *players,
                        && (y1 < (breakables[i].y1 + breakables[i].sizeY))) {
                 if (x1 == (breakables[i].x1)) {
                     flag = 0x07; // hit left
-                    killBreakable(&breakables[i], &players[0], ball);
+                    killBreakable(&breakables[i], players, ball);
                     return flag;
                 } else if (x1 == (breakables[i].x1 + breakables[i].sizeX)) {
                     flag = 0x03; // hit right
-                    killBreakable(&breakables[i], &players[0], ball);
+                    killBreakable(&breakables[i], players, ball);
                     return flag;
                 }
             }
