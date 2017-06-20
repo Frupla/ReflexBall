@@ -321,11 +321,7 @@ void drawSolid(entity* object){
 //pre: all arrays must be nothing-terminated, ei have the last object have whatIsThis= 0x00
 //     arrays must contain all objects on map
 void drawMap(player_t* players, ball_t* balls, breakable_t* breakables) {
-<<<<<<< HEAD
 	int n = 0;
-=======
-    int n = 0;
->>>>>>> BeforeIrenesmerge
     while (players->whatIsThis){
         if (players->whatIsThis == 0x01 && players->changedSinceLast){
             drawPlayer(players);
@@ -333,11 +329,8 @@ void drawMap(player_t* players, ball_t* balls, breakable_t* breakables) {
         players++;
     }
     while (balls->whatIsThis){
-<<<<<<< HEAD
         if (balls->whatIsThis == 0x02 && balls->changedSinceLast){
-=======
-        if (balls->whatIsThis == 0x02 && balls->changedSinceLast) {
->>>>>>> BeforeIrenesmerge
+
             drawBall(balls);
         }
         balls++;

@@ -166,9 +166,8 @@ void addHighscore(int * score, int * highscore){
     }
 }
 
-void printHighscore(int * highscore){
-    // bubble sort
-    int i, j, temp, flag = 1;
+void bubbleSort(int * highscore){
+	int i, j, temp;
     for(i = 0; i < 4; i++){
         for (j = 0; j < 4-i; j++){
             if(highscore[j] < highscore[j+1]){
@@ -177,11 +176,27 @@ void printHighscore(int * highscore){
                 highscore[j] = temp; 
             }
         }     
-    }
+   	}
+}
+
+void printHighscore(int * highscore1, int * highscore2, int * highscore3){
+    int flag = 1, i;
+	// bubble sort
+	bubbleSort(highscore1);
+	bubbleSort(highscore2);
+	bubbleSort(highscore3);
     window(10, 10,STDWINDOWX, STDWINDOWY, " Highscore ", 1);
     for (i = 0; i < 5; i++){
         gotoxy(12,12 +i);
-        printf("%d.  %d", i+1, highscore[i]);
+        printf("%d.  %d", i+1, highscore1[i]);
+    }
+	for (i = 0; i < 5; i++){
+        gotoxy(20,12 +i);
+        printf("%d.  %d", i+1, highscore2[i]);
+    }
+	for (i = 0; i < 5; i++){
+        gotoxy(28,12 +i);
+        printf("%d.  %d", i+1, highscore3[i]);
     }
     do{
         LEDUpdate();
@@ -227,7 +242,7 @@ void showControls() {
     } while (!readKey() || (flag));
 }
 
-int lvlMenu() {
+int lvlMenu(int * highscore1, int * highscore2, int * highscore3) {
     char exit_flag = 1, flag1 = 1, flag2 = 0, output = 0, button = 0x00;
     int score = 0;
 
@@ -295,16 +310,22 @@ int lvlMenu() {
             case 0:
                 clrscr();
                 score = startGame(0x01);
+				addHighscore(&score, highscore1);
+                printHighscore(highscore1, highscore2, highscore3);
                 exit_flag = 0;
                 break;
             case 1:
                 clrscr();
                 score = startGame(0x02);
+				addHighscore(&score, highscore2);
+                printHighscore(highscore1, highscore2, highscore3);
                 exit_flag = 0;
                 break;
             case 2:
                 clrscr();
                 score = startGame(0x03);
+				addHighscore(&score, highscore3);
+                printHighscore(highscore1, highscore2, highscore3);
                 exit_flag = 0;
                 break;
             case 3:
@@ -395,9 +416,7 @@ void main() {
         switch (output) {
             case 0:
                 clrscr();
-                score = lvlMenu();
-                addHighscore(&score, highscore);
-                printHighscore(highscore);
+                score = lvlMenu(highscore1, highscore2, highscore3);
                 break;
             case 1:
                 string[0] = 'N';
@@ -415,7 +434,7 @@ void main() {
                 string[3] = 'e';
                 printf("case 2");
 				LEDSetString(string);
-                printHighscore(highscore);
+                printHighscore(highscore1, highscore2, highscore3);
                 break;
             case 3:
                 string[0] = 'N';
