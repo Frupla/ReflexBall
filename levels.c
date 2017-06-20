@@ -14,7 +14,7 @@ void level1(breakable_t *breakable, ball_t *ball, player_t *player) {
     player[0].y1 = 57;
     player[0].sizeX = 0x0A;
     player[0].color = 0x0f;
-    player[0].lives = 0x04;
+    player[0].lives = 0x01;
     // Terminate array
     player[1].whatIsThis = 0x00;
 
@@ -96,7 +96,7 @@ void level2(breakable_t * breakable, ball_t * ball, player_t * player){
     player[0].y1 = 57;
     player[0].sizeX = 0x04;
     player[0].color = 0x0f;
-    player[0].lives = 0x04;
+    player[0].lives = 0x01;
     // Paddle 2
     player[1].whatIsThis = 0x01;
     player[1].changedSinceLast = 1;
@@ -167,7 +167,7 @@ void level3(breakable_t * breakable, ball_t * ball, player_t * player){
     player[0].y1 = 57;
     player[0].sizeX = 0x05;
     player[0].color = 0x0f;
-    player[0].lives = 0x04;
+    player[0].lives = 0x01;
 	
 	player[1].whatIsThis = 0x01;
     player[1].changedSinceLast = 1;

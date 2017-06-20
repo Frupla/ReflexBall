@@ -188,16 +188,18 @@ void printHighscore(int * highscore1, int * highscore2, int * highscore3){
 	bubbleSort(highscore2);
 	bubbleSort(highscore3);
     window(10, 10,STDWINDOWX, STDWINDOWY, " Highscore ", 1);
+	gotoxy(12,11);
+	printf("Level 1:  Level 2:  Level 3:");
     for (i = 0; i < 5; i++){
         gotoxy(12,12 +i);
         printf("%d.  %d", i+1, highscore1[i]);
     }
 	for (i = 0; i < 5; i++){
-        gotoxy(20,12 +i);
+        gotoxy(22,12 +i);
         printf("%d.  %d", i+1, highscore2[i]);
     }
 	for (i = 0; i < 5; i++){
-        gotoxy(28,12 +i);
+        gotoxy(32,12 +i);
         printf("%d.  %d", i+1, highscore3[i]);
     }
     do{
