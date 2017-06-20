@@ -68,8 +68,8 @@ typedef struct{
     char powerUp;   //Does this breakable have powerup?
     // 0x00 - None
     // 0x01 - Extra health
-    // 0x02 - Larger striker
-    // 0x03 - TBD
+    // 0x02 - More balls (up to four)
+    // 0x03 - Larger Paddle
 } breakable_t;
 
 
