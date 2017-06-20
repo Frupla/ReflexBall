@@ -347,6 +347,7 @@ void drawMap(player_t* players, ball_t* balls, breakable_t* breakables) {
 void playerMovement(char buttonPress, player_t* object){
     int i;
     for (i = 0; object[i].whatIsThis != 0x00; i++) {
+        LEDUpdate();
 
         switch (buttonPress) {
             case 0x01: //PF7
@@ -355,6 +356,7 @@ void playerMovement(char buttonPress, player_t* object){
                     printf("%c", BACKGROUNDTEXTURE);
                     object[i].x1++;
                 }
+                LEDUpdate();
                 gotoxy(object[i].x1 + ((object[i].sizeX) * 5), object[i].y1);
                 fgcolor(object[i].color);
                 printf("%c", PLAYERTEXTURE);
@@ -369,6 +371,7 @@ void playerMovement(char buttonPress, player_t* object){
                     printf("%c", BACKGROUNDTEXTURE);
                     object[i].x1--;
                 }
+                LEDUpdate();
                 gotoxy(object[i].x1, object[i].y1);
                 fgcolor(object[i].color);
                 printf("%c", PLAYERTEXTURE);
