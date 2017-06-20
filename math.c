@@ -21,15 +21,16 @@ long sin(int x){
 //	printf("%ld.%04ld", i >> 16, 10000 * (unsigned long) (i & 0xffff) >> 16);
 //}
 
+/*
 long expanded(long i){
 	return i << 2;
-}
+}*/
 
 long cos(int x){
-	if(x<0){
-		return SIN[(640 - (~x+1)) & GRANDE];
-	}
-	return SIN[(x + 128)& GRANDE];
+    if(x < 0){
+        return SIN[(640 - (~x + 1)) & GRANDE];
+    }
+    return SIN[(x + 128) & GRANDE];
 }
 
 void rotate(Tvector *v, int a){
