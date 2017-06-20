@@ -59,15 +59,18 @@ int startGame(char lvl) {
             player[0].lives = 0;
     }
 
-    string[1] = player[0].lives + 0x30;
-    string[3] = player[0].lives + 0x30;
+
 
     max_score = findMaxScore(breakable);
 
 
+    drawMap(player, ball, breakable);
+
+    string[1] = player[0].lives + 0x30;
+    string[3] = player[0].lives + 0x30;
     timer1Setup();
     LEDSetString(string);
-    drawMap(player, ball, breakable);
+
     gotoxy(5,62);
     printf("score:");
     gotoxy(5,63);
