@@ -13,7 +13,7 @@
 
 #define LVLSIZE 100     // The size of the levels. Should probably be in engine.h
 #define STDWINDOWX 50   // The standard placement for the upper left corner for the windows.
-#define STDWINDOWY 21   // The standard placement for the upper left corner for the windows.
+#define STDWINDOWY 25   // The standard placement for the upper left corner for the windows.
 
 
 int startGame(char lvl) {
@@ -220,28 +220,46 @@ void printHighscore(int * highscore1, int * highscore2, int * highscore3){
 void showControls() {
     int i, flag = 1;
     window(10, 10,STDWINDOWX, STDWINDOWY, " Help! ", 1);
-    gotoxy(12, 12);
+    gotoxy(12, 11);
     printf("You have three buttons:");
-    gotoxy(12, 13);
+    gotoxy(12, 12);
     printf(" < - Left   ^ - Action  > - Right\r\n");
-    gotoxy(12, 15);
+    gotoxy(12, 14);
     printf("Hit these:   With this:");
-    gotoxy(12, 17);
+    gotoxy(12, 16);
     fgcolor(5);
     for (i = 0; i < 8; i++) {
         printf("%c", BREAKABLETEXTURE);
     }
-    gotoxy(12, 18);
-    for (i = 0; i < 8; i++) {
-        printf("%c", BREAKABLETEXTURE);
-    }
-    gotoxy(30, 17);
+    gotoxy(30, 16);
     fgcolor(0x0a);
     printf("%c", BALLTEXTURE);
     fgcolor(STDTEXTCOLOR);
-    gotoxy(12, 20);
-    printf("You have %d lives!", 5);
-    do {
+    gotoxy(12, 18);
+    printf("This will make the paddle larger:");
+	gotoxy(12,19);
+	fgcolor(5);
+	for(i = 0; i<8; i++){
+		printf("%c", WIDERPADDLETEXTURE);
+	}
+	fgcolor(STDTEXTCOLOR);
+	gotoxy(12, 20);
+    printf("This will give you more health:"); // to a maximum of 9
+	gotoxy(12,21);
+	fgcolor(5);
+	for (i = 0; i < 8; i++) {
+        printf("%c", MORELIFETEXTURE);
+	}
+    fgcolor(STDTEXTCOLOR);
+	gotoxy(12, 22);
+	printf("This will give you more balls:"); // to a maxiumum of 4
+	gotoxy(12,23);
+	fgcolor(5);
+	for(i = 0; i < 8; i++){
+		printf("%c", MOREBALLSTEXTURE);
+    }
+	fgcolor(STDTEXTCOLOR);
+	do {
         LEDUpdate();
         if (readKey() == 0x00) {
             flag = 0;
