@@ -227,7 +227,7 @@ void killBreakable(breakable_t* object, player_t* player, ball_t* ball){
                             ball[k].y1 = ball[k].ys;
                             ball[k].direction.x = LONG_TO_EIGHTEEN_FOURTEEN(0);
                             ball[k].direction.y = LONG_TO_EIGHTEEN_FOURTEEN(1);
-                            ball[k].color = (char)(9 + k);
+                            ball[k].color = (char)(10 + k);
                             ball[k + 1].whatIsThis = 0x00;
                             drawBall(&ball[k]);
                             k = 4;
