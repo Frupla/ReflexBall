@@ -38,7 +38,7 @@ typedef struct{
 } entity;
 */
 
-typedef struct stuffTemp{
+typedef struct{
     char changedSinceLast;
     //not sure if I need this
     char whatIsThis;//player           - 0x01
@@ -145,7 +145,7 @@ void drawPlayer(player_t * object){
 void drawBall(ball_t* object){
 	int i, j;
 	gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->xs),EIGHTEEN_FOURTEEN_TO_INT(object->ys));
-    fgcolor(object[0].color);
+    fgcolor(object->color);
 	printf("%c", BALLTEXTURE);
 	object->changedSinceLast = 0;
     fgcolor(STDTEXTCOLOR);
@@ -241,13 +241,12 @@ void killBreakable(breakable_t* object, player_t* player, ball_t* ball){
                     }
                     break;
                 case 0x02:
-                    /*
                     for (k = 0; k < 4; k++){ //ball arrays must always have length 5
                         if (ball[k].whatIsThis == 0x00){
                             ball[k].whatIsThis = 0x02;
                             ball[k].changedSinceLast = 1;
                             ball[k].x1 = LONG_TO_EIGHTEEN_FOURTEEN((long) (player->x1 + (player->sizeX <<1))) ;
-                            ball[k].y1 = LONG_TO_EIGHTEEN_FOURTEEN((long)(player->y1 - 2); //spawns in the completely wrong place. COMPLETELY!!!
+                            ball[k].y1 = LONG_TO_EIGHTEEN_FOURTEEN((long)(player->y1 - 2)); //spawns in the completely wrong place. COMPLETELY!!!
                             ball[k].xs = ball[k].x1;
                             ball[k].ys = ball[k].y1;
                             ball[k].direction.x = LONG_TO_EIGHTEEN_FOURTEEN(0);
@@ -256,7 +255,7 @@ void killBreakable(breakable_t* object, player_t* player, ball_t* ball){
                             ball[k+1].whatIsThis = 0x0;
                             k = 4;
                         }
-                    }*/
+                    }
                     break;
                 case 0x03:
                     //MAPSIZE x4  = length of course
@@ -329,7 +328,7 @@ void drawMap(player_t* players, ball_t* balls, breakable_t* breakables) {
         players++;
     }
     while (balls->whatIsThis){
-        if (players->whatIsThis == 0x02 && balls->changedSinceLast){
+        if (balls->whatIsThis == 0x02 && balls->changedSinceLast){
             drawBall(balls);
         }
         balls++;
@@ -665,13 +664,14 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables, char
                     gotoxy(245,18);
 					printf("ball %d kinda stuck, rotating", i);
                 }
-                /*if (!tooManyTimes){
+                if (!tooManyTimes){
                     ball[i].x1 = ball[i].xs;
                     ball[i].y1 = ball[i].ys;
                     gotoxy(250,20);
+					tooManyTimes = 12;
+					howManyTimes = 3;
                     printf("ball stuck, respawning");
                 }
-                 */
                 collision = collisionCheck(i, ball, players, breakables, level);
             } while (collision);
             //Remove the old ball
