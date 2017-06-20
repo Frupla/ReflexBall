@@ -42,8 +42,8 @@ typedef struct{
     //solid            - 0x04
     //broken breakable - 0x05
     //nothing          - 0x00
-    int x1; //1. coordinate, placement. Format: 18.14
-    int y1; //2. coordiante, placement. Format: 18.14
+    int x1; //1. coordinate, placement.
+    int y1; //2. coordiante, placement.
     char sizeX; // represent the horizontal size factor
     char color; // Color of striker
     char lives; // Saves
