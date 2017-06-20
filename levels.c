@@ -19,9 +19,9 @@ void level1(breakable_t *breakable, ball_t *ball, player_t *player) {
     player[1].whatIsThis = 0x00;
 
     // Ball setup
-    tempVec.x = convert(-1);
+    tempVec.x = convert(1);
     tempVec.y = convert(0);
-    rotate(&tempVec, -64);
+    rotate(&tempVec, 64);
     //Ball 1
     ball[0].whatIsThis = 0x02;
     ball[0].changedSinceLast = 1;
@@ -31,39 +31,11 @@ void level1(breakable_t *breakable, ball_t *ball, player_t *player) {
     ball[0].y1 = ball[0].ys;
     ball[0].direction = tempVec;
     ball[0].color = 0x0A;
-    //Ball 2
-    ball[1].whatIsThis = 0x02;
-    ball[1].changedSinceLast = 1;
-    ball[1].xs = LONG_TO_EIGHTEEN_FOURTEEN(45);
-    ball[1].ys = LONG_TO_EIGHTEEN_FOURTEEN(25);
-    ball[1].x1 = ball[1].xs;
-    ball[1].y1 = ball[1].ys;
-    ball[1].direction = tempVec;
-    ball[1].color = 0xB;
-    //Ball 3
-    ball[2].whatIsThis = 0x02;
-    ball[2].changedSinceLast = 1;
-    ball[2].xs = LONG_TO_EIGHTEEN_FOURTEEN(50);
-    ball[2].ys = LONG_TO_EIGHTEEN_FOURTEEN(25);
-    ball[2].x1 = ball[2].xs;
-    ball[2].y1 = ball[2].ys;
-    ball[2].direction = tempVec;
-    ball[2].color = 0xC;
-    //Ball 4
-    ball[3].whatIsThis = 0x02;
-    ball[3].changedSinceLast = 1;
-    ball[3].xs = LONG_TO_EIGHTEEN_FOURTEEN(55);
-    ball[3].ys = LONG_TO_EIGHTEEN_FOURTEEN(25);
-    ball[3].x1 = ball[3].xs;
-    ball[3].y1 = ball[3].ys;
-    ball[3].direction = tempVec;
-    ball[3].color = 0xD;
-    
-    ball[4].whatIsThis = 0x00;
+	ball[1].whatIsThis = 0x0;
 
  	//Breakable setup
-    for (i = 2; i <= 119 ; i += 13) {
-        for (j = 8; j <= 16; j += 2) {
+    for (i = 2; i <= 132 ; i += 13) {
+        for (j = 8; j <= 12; j += 2) {
             breakable[n].whatIsThis = 0x03;
             breakable[n].changedSinceLast = 1;
             breakable[n].x1 = i;
@@ -71,13 +43,13 @@ void level1(breakable_t *breakable, ball_t *ball, player_t *player) {
             breakable[n].sizeX = 0x0C;
             breakable[n].sizeY = 0x01;
 			if(flag >= 2){
-            	breakable[n].lives = 0x03;
+            	breakable[n].lives = 0x01;
 				flag = 0;
 			} else{
 				breakable[n].lives = 0x02;
 			}
-            if(j >= 8 && j <= 10 && i != 119){
-                breakable[n].powerUp = 0x02;
+            if(j == 8 && i != 132){
+                breakable[n].powerUp = 0x03;
             } else{
                 breakable[n].powerUp = 0x00;
             }
@@ -85,8 +57,8 @@ void level1(breakable_t *breakable, ball_t *ball, player_t *player) {
             n++;
        }
     }
-	for (i = 119; i <= 225 ; i += 13) {
-        for (j = 26; j <= 	34; j += 2) {
+	for (i = 106; i <= 225 ; i += 13) {
+        for (j = 38; j <= 	42; j += 2) {
             breakable[n].whatIsThis = 0x03;
             breakable[n].changedSinceLast = 1;
             breakable[n].x1 = i;
@@ -94,13 +66,13 @@ void level1(breakable_t *breakable, ball_t *ball, player_t *player) {
             breakable[n].sizeX = 0x0C;
             breakable[n].sizeY = 0x01;
 			if(flag >= 2){
-            	breakable[n].lives = 0x03;
+            	breakable[n].lives = 0x02;
 				flag = 0;
 			} else{
-				breakable[n].lives = 0x02;
+				breakable[n].lives = 0x01;
             }
 			flag++;
-            if(j >= 26 && j <= 28 && i != 119){
+            if(j == 38 && i != 106){
                 breakable[n].powerUp = 0x01;
             } else{
                 breakable[n].powerUp = 0x00;
@@ -109,6 +81,9 @@ void level1(breakable_t *breakable, ball_t *ball, player_t *player) {
        }
     }
     breakable[n].whatIsThis = 0x00;
+	breakable[0].powerUp = 0x02;
+	breakable[33].powerUp = 0x02;
+	breakable[32].powerUp = 0x02;
 }
 
 void level2(breakable_t * breakable, ball_t * ball, player_t * player){
