@@ -28,7 +28,7 @@ int startGame(char lvl) {
     char string[LED_MAX_STR_LEN] = " 5/5";
     int time1 = 1, time2 = 15;
 	string[0] = 0x7F;
-
+	LEDScroll();
     //Choose level
     switch (lvl) {
         case 0x01:
@@ -370,15 +370,31 @@ void main() {
     int highscore3[5] = {0,0,0,0,0};
     int score;
     char button, flag1 = 1, flag2 = 0, output = 0;
-    char string[LED_MAX_STR_LEN] = "Hello";
+    char string[LED_MAX_STR_LEN] = "    Main menu";
     init_uart(_UART0, _DEFFREQ, _DEFBAUD);  // set-up UART0 to 57600, 8n1
     clrscr();
     LEDInit();
+	LEDScroll();
     LEDSetString(string);
 
     do {
         fgcolor(STDTEXTCOLOR);
         clrscr();
+		string[0] = ' ';
+		string[1] = ' ';
+		string[2] = ' ';
+		string[3] = ' ';
+        string[4] = 'M';
+		string[5] = 'a';
+		string[6] = 'i';
+		string[7] = 'n';
+		string[8] = ' ';
+		string[9] = 'm';
+		string[10] = 'e';
+		string[11] = 'n';
+		string[12] = 'u';
+		string[13] = '\0';
+		LEDSetString(string);
         window(10, 10, STDWINDOWX, STDWINDOWY, " Main menu ", 1);
         gotoxy(12, 12);
         printf(" > Start game");
@@ -441,32 +457,77 @@ void main() {
         switch (output) {
             case 0:
                 clrscr();
+				string[0] = ' ';
+				string[1] = ' ';
+				string[2] = ' ';
+				string[3] = ' ';
+   				string[4] = 'L';
+				string[5] = 'e';
+				string[6] = 'v';
+				string[7] = 'e';
+				string[8] = 'l';
+				string[9] = ' ';
+				string[10] = 's';
+				string[11] = 'e';
+				string[12] = 'l';
+				string[13] = 'e';
+				string[14] = 'c';
+				string[15] = 't';
+				string[16] = '\0';
+				LEDSetString(string);
                 score = lvlMenu(highscore1, highscore2, highscore3);
+				LEDScroll();
                 break;
             case 1:
-                string[0] = 'N';
-                string[1] = 'o';
-                string[2] = 'p';
-                string[3] = 'e';
-				printf("case 1");
+				string[0] = ' ';
+				string[1] = ' ';
+				string[2] = ' ';
+				string[3] = ' ';
+                string[4] = 'C';
+				string[5] = 'o';
+				string[6] = 'n';
+				string[7] = 't';
+				string[8] = 'r';
+				string[9] = 'o';
+				string[10] = 'l';
+				string[11] = 's';
+				string[12] = '\0';
                 LEDSetString(string);
                 showControls();
                 break;
             case 2:
-                string[0] = 'N';
-                string[1] = 'o';
-                string[2] = 'p';
-                string[3] = 'e';
-                printf("case 2");
+				string[0] = ' ';
+				string[1] = ' ';
+				string[2] = ' ';
+				string[3] = ' ';
+                string[4] = 'H';
+				string[5] = 'i';
+				string[6] = 'g';
+				string[7] = 'h';
+				string[8] = 's';
+				string[9] = 'c';
+				string[10] = 'o';
+				string[11] = 'r';
+				string[12] = 'e';
+				string[13] = '\0';
 				LEDSetString(string);
                 printHighscore(highscore1, highscore2, highscore3);
                 break;
             case 3:
-                string[0] = 'N';
-                string[1] = 'o';
-                string[2] = 'p';
-                string[3] = 'e';
-                printf("case 3");
+				string[0] = ' ';
+				string[1] = ' ';
+				string[2] = ' ';
+				string[3] = ' ';
+                string[4] = 'Y';
+				string[5] = 'o';
+				string[6] = 'u';
+				string[7] = ' ';
+				string[8] = 'c';
+				string[9] = 'a';
+				string[10] = 'n';
+				string[11] = '\'';
+				string[12] = 't';
+				string[13] = '\0';
 				LEDSetString(string);
                 break;
         }

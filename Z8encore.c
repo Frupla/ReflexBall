@@ -147,6 +147,8 @@ void LEDUpdate(){
 
 void LEDScroll(){
 	Scrollon = !Scrollon;
+	Displacement = 0;
+	Letter = 0;
 }
 
 int readMsec() {
