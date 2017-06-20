@@ -246,7 +246,7 @@ void killBreakable(breakable_t* object, player_t* player, ball_t* ball){
                             ball[k].whatIsThis = 0x02;
                             ball[k].changedSinceLast = 1;
                             ball[k].x1 = LONG_TO_EIGHTEEN_FOURTEEN((long) (player->x1 + (player->sizeX <<1))) ;
-                            ball[k].y1 = LONG_TO_EIGHTEEN_FOURTEEN((long)(player->y1 - 2); //spawns in the completely wrong place. COMPLETELY!!!
+                            ball[k].y1 = LONG_TO_EIGHTEEN_FOURTEEN((long)(player->y1 - 2)); //spawns in the completely wrong place. COMPLETELY!!!
                             ball[k].xs = ball[k].x1;
                             ball[k].ys = ball[k].y1;
                             ball[k].direction.x = LONG_TO_EIGHTEEN_FOURTEEN(0);
@@ -318,7 +318,7 @@ void drawSolid(entity* object){
 //pre: all arrays must be nothing-terminated, ei have the last object have whatIsThis= 0x00
 //     arrays must contain all objects on map
 void drawMap(player_t* players, ball_t* balls, breakable_t* breakables) {
-	int i = 15, j = 4, n = 0;
+	int n = 0;
     while (players->whatIsThis){
         if (players->whatIsThis == 0x01 && players->changedSinceLast){
             drawPlayer(players);
@@ -326,7 +326,7 @@ void drawMap(player_t* players, ball_t* balls, breakable_t* breakables) {
         players++;
     }
     while (balls->whatIsThis){
-        if (players->whatIsThis == 0x02 && balls->changedSinceLast){
+        if (balls->whatIsThis == 0x02 && balls->changedSinceLast){
             drawBall(balls);
         }
         balls++;
