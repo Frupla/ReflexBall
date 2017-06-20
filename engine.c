@@ -106,9 +106,6 @@ int findMaxScore(breakable_t* breakables){
     return max_score;
 }
 
-//draw and kill functions take pointers. If you already have a pointer to the Map pass 'map' pass ?? (possibly just
-// increment map and pass that, possible pass map[i], let me check)
-// If you just have te map, pass &map[i]
 void drawPlayer(player_t * object){
 	int i;
 	for(i = 0; i <= ((object->sizeX)*5); i++){

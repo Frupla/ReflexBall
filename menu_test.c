@@ -124,17 +124,17 @@ int startGame(char lvl) {
                 ball[0].y1 = ball[0].ys;
             }
             if (whatDidTheyHit & 0x20) {
-                ball[1].direction = tempVec[0];
+                ball[1].direction = tempVec[1];
                 ball[1].x1 = ball[1].xs;
                 ball[1].y1 = ball[1].ys;
             }
             if (whatDidTheyHit & 0x40) {
-                ball[2].direction = tempVec[0];
+                ball[2].direction = tempVec[2];
                 ball[2].x1 = ball[2].xs;
                 ball[2].y1 = ball[2].ys;
             }
             if (whatDidTheyHit & 0x80) {
-                ball[3].direction = tempVec[0];
+                ball[3].direction = tempVec[3];
                 ball[3].x1 = ball[3].xs;
                 ball[3].y1 = ball[3].ys;
             }
