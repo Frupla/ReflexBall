@@ -86,7 +86,7 @@ int startGame(char lvl){
     int time1 = 1, time2 = 15;
 	char string[LED_MAX_STR_LEN] = " x/x";
 	string[0] = 0x7F; // places a heart shape at the beginning of the string
-	LEDScroll(); //stops the scrolling
+	LEDScrolloff(); //stops the scrolling
     //Choose level
     switch (lvl) {
         case 0x01:
@@ -318,7 +318,7 @@ int lvlMenu(int * highscore1, int * highscore2, int * highscore3) {
     switch (output) {
         case 0:
             clrscr();
-            LEDScroll();
+            LEDScrolloff();
 
             score = startGame(0x01);
 
@@ -327,7 +327,7 @@ int lvlMenu(int * highscore1, int * highscore2, int * highscore3) {
             break;
         case 1:
             clrscr();
-            LEDScroll();
+            LEDScrolloff();
 
             score = startGame(0x02);
 
@@ -336,7 +336,7 @@ int lvlMenu(int * highscore1, int * highscore2, int * highscore3) {
             break;
         case 2:
             clrscr();
-            LEDScroll();
+            LEDScrolloff();
 
             score = startGame(0x03);
 
@@ -363,7 +363,7 @@ void main() {
     init_uart(_UART0, _DEFFREQ, _DEFBAUD);  // set-up UART0 to 57600, 8n1
     clrscr();
     LEDInit();
-    LEDScroll();
+    LEDScrollon();
     LEDSetString(string);
 
     do {
@@ -411,7 +411,7 @@ void main() {
 
                 score = lvlMenu(highscore1, highscore2, highscore3);
 
-                LEDScroll(); // Restart scroll
+                LEDScrollon(); // Restart scroll
                 break;
             case 1:
 				string[0] = ' ';

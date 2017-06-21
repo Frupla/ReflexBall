@@ -7,7 +7,8 @@ void LEDInit();
 
 void LEDSetString(char *string);
 void LEDUpdate();
-void LEDScroll();
+void LEDScrollon();
+void LEDScrolloff();
 
 char readKey();
 int readMsec();
