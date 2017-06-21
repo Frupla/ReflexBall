@@ -145,8 +145,14 @@ void LEDUpdate(){
 	}
 }
 
-void LEDScroll(){
-	Scrollon = !Scrollon;
+void LEDScrollon(){
+	Scrollon = 1;
+	Displacement = 0;
+	Letter = 0;
+}
+
+void LEDScrolloff(){
+	Scrollon = 0;
 	Displacement = 0;
 	Letter = 0;
 }
