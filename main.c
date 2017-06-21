@@ -324,7 +324,7 @@ int lvlMenu(int * highscore1, int * highscore2, int * highscore3) {
 
             score = startGame(0x02);
 
-            addHighscore(&score, highscore1);
+            addHighscore(&score, highscore2);
             printHighscore(highscore1, highscore2, highscore3);
             break;
         case 2:
@@ -333,7 +333,7 @@ int lvlMenu(int * highscore1, int * highscore2, int * highscore3) {
 
             score = startGame(0x03);
 
-            addHighscore(&score, highscore1);
+            addHighscore(&score, highscore3);
             printHighscore(highscore1, highscore2, highscore3);
             break;
         case 3:
@@ -430,12 +430,13 @@ void main() {
 				string[5] = 'i';
 				string[6] = 'g';
 				string[7] = 'h';
-				string[8] = 's';
-				string[9] = 'c';
-				string[10] = 'o';
-				string[11] = 'r';
-				string[12] = 'e';
-				string[13] = '\0';
+				string[8] = ' ';
+				string[9] = 's';
+				string[10] = 'c';
+				string[11] = 'o';
+				string[12] = 'r';
+				string[13] = 'e';
+				string[14] = '\0';
 				LEDSetString(string);
                 printHighscore(highscore1, highscore2, highscore3);
                 break;

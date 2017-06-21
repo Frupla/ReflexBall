@@ -677,7 +677,10 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables, char
                     default:
                         //flag = 0x00; //eh
                         break;
-                }    			
+                } 
+  				if(collision == 0x09){
+					break;
+				}
                 howManyTimes--;
                 if(!howManyTimes){
                     rotate(&ball[i].direction, 43);
@@ -693,7 +696,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables, char
                     printf("ball stuck, respawning");
                 }
                 collision = collisionCheck(i, ball, players, breakables, level);
-            } while (collision && (flag != 0x09));
+            } while (collision);
             //Remove the old ball
             gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[i].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[i].y1));
     		printf(" ");
