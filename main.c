@@ -86,7 +86,6 @@ int startGame(char lvl){
 	ball_t ball[5];
 	int i,j,n;
 	breakable_t breakable[LVLSIZE];
-	Tvector tempVec[4];
 	char button, whatDidTheyHit;
 	int score = 0;
     int max_score = 0;
@@ -99,23 +98,14 @@ int startGame(char lvl){
         case 0x01:
             level1(breakable, ball, player);
             initiateWithCeiling();
-            for (i = 0; i < 4; i++) {
-                tempVec[i] = ball[i].direction;
-            }
             break;
         case 0x02:
             level2(breakable, ball, player);
             initiateWithoutCeiling();
-            for (i = 0; i < 4; i++) {
-                tempVec[i] = ball[i].direction;
-            }
             break;
         case 0x03:
             level3(breakable, ball, player);
             initiateWithCeiling();
-            for (i = 0; i < 4; i++) {
-                tempVec[i] = ball[i].direction;
-            }
             break;
         default:
             player[0].lives = 0;
@@ -181,22 +171,18 @@ int startGame(char lvl){
                 printf(" ");
             }
             if (whatDidTheyHit & 0x10) {
-                ball[0].direction = tempVec[0];
                 ball[0].x1 = ball[0].xs;
                 ball[0].y1 = ball[0].ys;
             }
             if (whatDidTheyHit & 0x20) {
-                ball[1].direction = tempVec[1];
                 ball[1].x1 = ball[1].xs;
                 ball[1].y1 = ball[1].ys;
             }
             if (whatDidTheyHit & 0x40) {
-                ball[2].direction = tempVec[2];
                 ball[2].x1 = ball[2].xs;
                 ball[2].y1 = ball[2].ys;
             }
             if (whatDidTheyHit & 0x80) {
-                ball[3].direction = tempVec[3];
                 ball[3].x1 = ball[3].xs;
                 ball[3].y1 = ball[3].ys;
             }

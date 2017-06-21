@@ -31,16 +31,7 @@ void level1(breakable_t *breakable, ball_t *ball, player_t *player) {
     ball[0].y1 = ball[0].ys;
     ball[0].direction = tempVec;
     ball[0].color = 0x0A;
-	rotate(&tempVec,64);
-	ball[1].whatIsThis = 0x02;
-    ball[1].changedSinceLast = 1;
-    ball[1].xs = LONG_TO_EIGHTEEN_FOURTEEN(100);
-    ball[1].ys = LONG_TO_EIGHTEEN_FOURTEEN(25);
-    ball[1].x1 = ball[0].xs;
-    ball[1].y1 = ball[0].ys;
-    ball[1].direction = tempVec;
-    ball[1].color = 0x0A;
-	ball[2].whatIsThis = 0x0;
+	ball[1].whatIsThis = 0x0;
 
  	//Breakable setup
     for (i = 2; i <= 132 ; i += 13) {
@@ -193,7 +184,7 @@ void level3(breakable_t * breakable, ball_t * ball, player_t * player){
     ball[0].y1 = ball[0].ys;
     ball[0].direction = tempVec;
     ball[0].color = 0x0A;
-    ball[1].whatIsThis = 0x00;
+    ball[5].whatIsThis = 0x00;
 	
 	//Breakable setup
     breakable[n].whatIsThis = 0x03;
