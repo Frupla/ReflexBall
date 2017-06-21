@@ -358,6 +358,8 @@ void main() {
     int score = 0;
     char output = 0;
     char string[LED_MAX_STR_LEN] = "    Main menu";
+    char main_title[11] = "Main Menu ";
+    char main_points[55] = "Start game\nShow controls\nShow high scores\nExit game";
     init_uart(_UART0, _DEFFREQ, _DEFBAUD);  // set-up UART0 to 57600, 8n1
     clrscr();
     LEDInit();
@@ -383,7 +385,7 @@ void main() {
 		string[13] = '\0';
 		LEDSetString(string);
 
-        output = menu("Main Menu ", "Start game\nShow controls\nShow high scores\nExit game");
+        output = menu(main_title, main_points);
 
         switch (output) {
             case 0:
