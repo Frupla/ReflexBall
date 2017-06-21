@@ -14,7 +14,7 @@ void level1(breakable_t *breakable, ball_t *ball, player_t *player) {
     player[0].y1 = 57;
     player[0].sizeX = 0x0A;
     player[0].color = 0x0f;
-    player[0].lives = 0x01;
+    player[0].lives = 0x03;
     // Terminate array
     player[1].whatIsThis = 0x00;
 
@@ -96,7 +96,7 @@ void level2(breakable_t * breakable, ball_t * ball, player_t * player){
     player[0].y1 = 57;
     player[0].sizeX = 0x04;
     player[0].color = 0x0f;
-    player[0].lives = 0x01;
+    player[0].lives = 0x03;
     // Paddle 2
     player[1].whatIsThis = 0x01;
     player[1].changedSinceLast = 1;
@@ -165,19 +165,11 @@ void level3(breakable_t * breakable, ball_t * ball, player_t * player){
     player[0].changedSinceLast = 1;
     player[0].x1 = 20;
     player[0].y1 = 57;
-    player[0].sizeX = 0x05;
+    player[0].sizeX = 0x01;
     player[0].color = 0x0f;
     player[0].lives = 0x01;
-	
-	player[1].whatIsThis = 0x01;
-    player[1].changedSinceLast = 1;
-    player[1].x1 = 20;
-    player[1].y1 = 3;
-    player[1].sizeX = 0x05;
-    player[1].color = 0x0f;
-    player[1].lives = 0x04;
     // Terminate array
-    player[2].whatIsThis = 0x00;
+    player[1].whatIsThis = 0x00;
 
     // Ball setup
     tempVec.x = LONG_TO_EIGHTEEN_FOURTEEN(-1);
@@ -191,15 +183,17 @@ void level3(breakable_t * breakable, ball_t * ball, player_t * player){
     ball[0].y1 = ball[0].ys;
     ball[0].direction = tempVec;
     ball[0].color = 0x0A;
-	rotate(&tempVec,384);
-    ball[1].whatIsThis = 0x02;
-    ball[1].changedSinceLast = 1;
-    ball[1].xs = LONG_TO_EIGHTEEN_FOURTEEN(100);
-    ball[1].ys = LONG_TO_EIGHTEEN_FOURTEEN(30);
-    ball[1].x1 = ball[1].xs;
-    ball[1].y1 = ball[1].ys;
-	ball[1].direction = tempVec;
-	ball[1].color = 0x0B;
-    ball[2].whatIsThis = 0x00;
+    ball[1].whatIsThis = 0x00;
+
+	//Breakable setup
+    breakable[n].whatIsThis = 0x03;
+    breakable[n].changedSinceLast = 1;
+    breakable[n].x1 = 120;
+    breakable[n].y1 = 25;
+    breakable[n].sizeX = 0x0A;
+    breakable[n].sizeY = 0x05;
+    breakable[n].lives = 6;
+    breakable[n].powerUp = 0x0;
+    n++;
     breakable[n].whatIsThis = 0x00;
 }
