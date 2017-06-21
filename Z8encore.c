@@ -3,7 +3,7 @@
 #include "ansi.h"
 #include "charset.h"
 
-#define LED_MAX_STR_LEN 100
+#define LED_MAX_STR_LEN 20
 
 int Msec = 0; 			// counts the time in 0.1ms, resets at 1000
 int Timer = 0;            // Ensures that the LEDupdate() functions only works once every 0.1ms
