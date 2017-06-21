@@ -12,7 +12,15 @@
 #define STDWINDOWX 10   // The standard placement for the upper left corner for the windows.
 #define STDWINDOWY 10   // The standard placement for the upper left corner for the windows.
 
-char menu(char *title, char *points) {
+rom char main_title[11] = "Main Menu ";
+rom char main_points[55] = "Start game\nShow controls\nShow high scores\nExit game";
+rom char lvl_title[15] = " Choose level ";
+rom char lvl_points[35] = "Level 1\nLevel 2\nLevel 3\nGo back";
+
+char menu(rom
+char *title, rom
+char *points
+) {
     /*
      * Separate each new menu point with a newline
     */
@@ -313,7 +321,7 @@ int lvlMenu(int * highscore1, int * highscore2, int * highscore3) {
     char output = 0;
     int score = 0;
 
-    output = menu(" Choose level ", "Level 1\nLevel 2\nLevel 3\nGo back");
+    output = menu(lvl_title, lvl_points);
 
     switch (output) {
         case 0:
@@ -358,8 +366,6 @@ void main() {
     int score = 0;
     char output = 0;
     char string[LED_MAX_STR_LEN] = "    Main menu";
-    char main_title[11] = "Main Menu ";
-    char main_points[55] = "Start game\nShow controls\nShow high scores\nExit game";
     init_uart(_UART0, _DEFFREQ, _DEFBAUD);  // set-up UART0 to 57600, 8n1
     clrscr();
     LEDInit();
