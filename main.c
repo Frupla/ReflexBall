@@ -12,15 +12,14 @@
 #define STDWINDOWX 10   // The standard placement for the upper left corner for the windows.
 #define STDWINDOWY 10   // The standard placement for the upper left corner for the windows.
 
-rom char main_title[11] = "Main Menu ";
+rom char main_title[13] = " Main Menu ";
 rom char main_points[55] = "Start game\nShow controls\nShow high scores\nExit game";
 rom char lvl_title[15] = " Choose level ";
 rom char lvl_points[35] = "Level 1\nLevel 2\nLevel 3\nGo back";
+rom char highscore_title[13] = " High score ";
+rom char help_title[8] = " Help! ";
 
-char menu(rom
-char *title, rom
-char *points
-) {
+char menu(rom char *title, rom char *points) {
     /*
      * Separate each new menu point with a newline
     */
@@ -249,7 +248,7 @@ void bubbleSortAndPrint(int * highscore, int howManySpacesToTheLeft){
 void printHighscore(int * highscore1, int * highscore2, int * highscore3){
     int flag = 1, i;
 	// bubble sort
-	window(STDWINDOWX, STDWINDOWY, STDWINDOWX + 40, STDWINDOWY + 15, " Highscore ", 1);
+	window(STDWINDOWX, STDWINDOWY, STDWINDOWX + 40, STDWINDOWY + 15, highscore_title, 1);
 	gotoxy(12,11);
 	printf("Level 1:  Level 2:  Level 3:");
 	bubbleSortAndPrint(highscore1, 0);
@@ -269,7 +268,7 @@ void printHighscore(int * highscore1, int * highscore2, int * highscore3){
 
 void showControls() {
     int i, flag = 1;
-    window(STDWINDOWX, STDWINDOWY, STDWINDOWX + 40, STDWINDOWY + 15, " Help! ", 1);
+    window(STDWINDOWX, STDWINDOWY, STDWINDOWX + 40, STDWINDOWY + 15, help_title, 1);
     gotoxy(12, 11);
     printf("You have three buttons:");
     gotoxy(12, 12);

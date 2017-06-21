@@ -103,13 +103,26 @@ int strlength(char* s){
 	return i;
 }
 
+int romstrlength(rom char* s){
+	int i=0;
+	while(s[i]!='\0'){
+ 	i++;}
+	return i;
+}
+
+void RomToRam(char * dest, rom char * src){
+	while (*src) *dest++ = *src++;
+	*dest = '\0';
+}
+
 //pre: x1 < x2, y1<y2, text < x2-4
-void window(int x1, int y1, int x2, int y2, char* text, int style){
+void window(int x1, int y1, int x2, int y2, rom char* text, int style){
 	int i;
 	int j;
 	int n;
 	int m;
 	char kant[8] = {204, 186, 185, 205, 187, 200, 188, 201};
+	char string[100];
 	if (style){
 		kant[0] = 195; kant[1] = 179; kant[2] = 180; kant[3] = 196; kant[4] = 191; kant[5] = 192; kant[6] = 217; kant[7] = 218;
 	}
@@ -117,11 +130,12 @@ void window(int x1, int y1, int x2, int y2, char* text, int style){
 	printf("%c",kant[7]);
 	printf("%c",kant[1]);
 	reverse('1');
-	printf("%s",text);
+	RomToRam(string, text); 
+	printf("%s",string);
 	reverse('0');
 	printf("%c",kant[0]);
 	//middel part
-	for (j = x1+2+strlength(text); j < x2-1;j++){
+	for (j = x1+2+romstrlength(text); j < x2-1;j++){
 		printf("%c",kant[3]);
 		}
 	printf("%c",kant[4]);
