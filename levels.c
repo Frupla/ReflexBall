@@ -154,7 +154,9 @@ void level2(breakable_t * breakable, ball_t * ball, player_t * player){
 	breakable[40].powerUp = 0x01;
    	breakable[0].powerUp = 0x03;
     breakable[n-1].powerUp = 0x03;
-    breakable[n].whatIsThis = 0x00;
+	breakable[29].powerUp = 0x02;
+	breakable[70].powerUp = 0x02;
+	breakable[n].whatIsThis = 0x00;
 }
 
 void level3(breakable_t * breakable, ball_t * ball, player_t * player){

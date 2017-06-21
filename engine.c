@@ -634,7 +634,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables, char
                         //TODO : Change it from a fixed reflect angle,
                         // to something that varies with the incoming angle
                         ball[i].direction.y = -ball[i].direction.y;
-                        rotate(&ball[i].direction, -48);
+                        rotate(&ball[i].direction, 464);
                         if (ball[i].direction.y > -(0x1000)) {
                             rotate(&ball[i].direction, 12);
                         }
@@ -642,7 +642,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables, char
                         break;
                     case 0x0b :
                         ball[i].direction.y = -ball[i].direction.y;
-                        rotate(&ball[i].direction, -24);
+                        rotate(&ball[i].direction, 488);
                         if (ball[i].direction.y > -(0x1000)) {
                             rotate(&ball[i].direction, 12);
                         }
@@ -656,7 +656,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables, char
                         ball[i].direction.y = -ball[i].direction.y;
                         rotate(&ball[i].direction, 24);
                         if (ball[i].direction.y > -(0x1000)) {
-                            rotate(&ball[i].direction, -12);
+                            rotate(&ball[i].direction, 500);
                         }
                         // Ball hit paddle
                         break;
@@ -664,7 +664,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables, char
                         ball[i].direction.y = -ball[i].direction.y;
                         rotate(&ball[i].direction, 48);
                         if (ball[i].direction.y > -(0x1000)) {
-                            rotate(&ball[i].direction, -12);
+                            rotate(&ball[i].direction, 500);
                         }
                         //flag = 0x03; // Ball hit paddle
                         break;
