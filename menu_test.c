@@ -364,6 +364,35 @@ int lvlMenu(int * highscore1, int * highscore2, int * highscore3) {
     return score;
 }
 
+void makeMainMenu(char * string, int start){
+    fgcolor(STDTEXTCOLOR);
+    clrscr();
+    string[0] = ' ';
+    string[1] = ' ';
+    string[2] = ' ';
+    string[3] = ' ';
+    string[4] = 'M';
+    string[5] = 'a';
+    string[6] = 'i';
+    string[7] = 'n';
+    string[8] = ' ';
+    string[9] = 'm';
+    string[10] = 'e';
+    string[11] = 'n';
+    string[12] = 'u';
+    string[13] = '\0';
+    LEDSetString(string);
+    window(start, start, STDWINDOWX, STDWINDOWY, " Main menu ", 1);
+    gotoxy(12, 12);
+    printf(" > Start game");
+    gotoxy(13,13);
+    printf("  Show controls");
+    gotoxy(13,14);
+    printf("  Show high scores");
+    gotoxy(13,15);
+    printf("  Exit game");
+}
+
 void main() {
     int highscore1[5] = {0,0,0,0,0};
     int highscore2[5] = {0,0,0,0,0};
@@ -378,32 +407,7 @@ void main() {
     LEDSetString(string);
 
     do {
-        fgcolor(STDTEXTCOLOR);
-        clrscr();
-		string[0] = ' ';
-		string[1] = ' ';
-		string[2] = ' ';
-		string[3] = ' ';
-        string[4] = 'M';
-		string[5] = 'a';
-		string[6] = 'i';
-		string[7] = 'n';
-		string[8] = ' ';
-		string[9] = 'm';
-		string[10] = 'e';
-		string[11] = 'n';
-		string[12] = 'u';
-		string[13] = '\0';
-		LEDSetString(string);
-        window(10, 10, STDWINDOWX, STDWINDOWY, " Main menu ", 1);
-        gotoxy(12, 12);
-        printf(" > Start game");
-		gotoxy(13,13);
-		printf("  Show controls");
-		gotoxy(13,14);
-		printf("  Show high scores");
-		gotoxy(13,15);
-		printf("  Exit game");
+        makeMainMenu(string, 10)
         do {
             LEDUpdate();
             button = readKey();

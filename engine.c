@@ -64,8 +64,8 @@ typedef struct{
     //solid            - 0x04
     //broken breakable - 0x05
     //nothing          - 0x00
-    int x1; //1. coordinate, placement, 18.14
-    int y1; //2. coordiante, placement, 18.14
+    int x1; //1. coordinate, placement.
+    int y1; //2. coordiante, placement.
     //Tvector direction; // Speed and direction (only relevant for the ball)
     //zones? - so far no zones
     char sizeX; // represent the horizontal size factor
@@ -128,9 +128,6 @@ int findMaxScore(breakable_t* breakables){
     return max_score;
 }
 
-//draw and kill functions take pointers. If you already have a pointer to the Map pass 'map' pass ?? (possibly just
-// increment map and pass that, possible pass map[i], let me check)
-// If you just have te map, pass &map[i]
 void drawPlayer(player_t * object){
 	int i;
 	for(i = 0; i <= ((object->sizeX)*5); i++){
@@ -207,7 +204,6 @@ void drawBreakable(breakable_t* object){
 }
 
 
-//takes a pointer to one breakable, takes a pointer to one player and a
 void killBreakable(breakable_t* object, player_t* player, ball_t* ball){
 	int i, j, k, texture;
     object->lives--;
