@@ -27,9 +27,9 @@ char menu(char *title, char *points) {
         if (points[i] != '\n') {
             printf("%c", points[i]);
         } else {
-            gotoxy(STDWINDOWX + 5, STDWINDOWY + 2 + i);
             number_of_points++;
-        }
+        	gotoxy(STDWINDOWX + 5, STDWINDOWY + 2 + number_of_points);
+		}
     }
     gotoxy(STDWINDOWX + 3, STDWINDOWY + 2);
     printf(">");
@@ -52,9 +52,9 @@ char menu(char *title, char *points) {
                     }
                     break;
                 case 0x04 :
-                    if (output < number_of_points && output >= 0) {
+                    if (output <= number_of_points && output > 0) {
                         output -= 1;
-                        gotoxy(STDWINDOWX + 3, STDWINDOWY + 2 + output - 1);
+                        gotoxy(STDWINDOWX + 3, STDWINDOWY + 2 + output + 1);
                         printf(" ");
                         gotoxy(STDWINDOWX + 3, STDWINDOWY + 2 + output);
                         printf(">");
@@ -241,7 +241,7 @@ void bubbleSortAndPrint(int * highscore, int howManySpacesToTheLeft){
 void printHighscore(int * highscore1, int * highscore2, int * highscore3){
     int flag = 1, i;
 	// bubble sort
-	window(10, 10,STDWINDOWX, STDWINDOWY, " Highscore ", 1);
+	window(STDWINDOWX, STDWINDOWY, STDWINDOWX + 40, STDWINDOWY + 15, " Highscore ", 1);
 	gotoxy(12,11);
 	printf("Level 1:  Level 2:  Level 3:");
 	bubbleSortAndPrint(highscore1, 0);
@@ -261,7 +261,7 @@ void printHighscore(int * highscore1, int * highscore2, int * highscore3){
 
 void showControls() {
     int i, flag = 1;
-    window(10, 10, STDWINDOWX, STDWINDOWY, " Help! ", 1);
+    window(STDWINDOWX, STDWINDOWY, STDWINDOWX + 40, STDWINDOWY + 15, " Help! ", 1);
     gotoxy(12, 11);
     printf("You have three buttons:");
     gotoxy(12, 12);
