@@ -9,10 +9,77 @@
 #include "levels.h"
 
 #define LVLSIZE 100     // The size of the levels. Should probably be in engine.h
-#define STDWINDOWX 50   // The standard placement for the upper left corner for the windows.
-#define STDWINDOWY 25   // The standard placement for the upper left corner for the windows.
+#define STDWINDOWX 10   // The standard placement for the upper left corner for the windows.
+#define STDWINDOWY 10   // The standard placement for the upper left corner for the windows.
 
+rom char main_title[13] = " Main Menu ";
+rom char main_points[55] = "Start game\nShow controls\nShow high scores\nExit game";
+rom char lvl_title[15] = " Choose level ";
+rom char lvl_points[35] = "Level 1\nLevel 2\nLevel 3\nGo back";
+rom char highscore_title[13] = " High score ";
+rom char help_title[8] = " Help! ";
 
+char menu(rom char *title, rom char *points) {
+    /*
+     * Separate each new menu point with a newline
+    */
+    int i;
+    char stay_flag = 1, button_flag = 1, button_press, output = 0, number_of_points = 0;
+
+    // Draw the menu
+    LEDUpdate();
+    window(STDWINDOWX, STDWINDOWY, STDWINDOWX + 40, STDWINDOWY + 15, title, 1);
+    gotoxy(STDWINDOWX + 5, STDWINDOWY + 2);
+    for (i = 0; points[i] != 0x00; i++) {
+        if (points[i] != '\n') {
+            printf("%c", points[i]);
+        } else {
+            number_of_points++;
+        	gotoxy(STDWINDOWX + 5, STDWINDOWY + 2 + number_of_points);
+		}
+    }
+    gotoxy(STDWINDOWX + 3, STDWINDOWY + 2);
+    printf(">");
+
+    // Navigate the menu
+    do {
+        LEDUpdate();
+        button_press = readKey();
+        if (button_flag && button_press) {
+            button_flag = 0;
+            switch (button_press) {
+                case 0x01 :
+                    if (output < number_of_points && output >= 0) {
+                        output += 1;
+                        gotoxy(STDWINDOWX + 3, STDWINDOWY + 2 + output - 1);
+                        printf(" ");
+                        gotoxy(STDWINDOWX + 3, STDWINDOWY + 2 + output);
+                        printf(">");
+                        gotoxy(1, 1);
+                    }
+                    break;
+                case 0x04 :
+                    if (output <= number_of_points && output > 0) {
+                        output -= 1;
+                        gotoxy(STDWINDOWX + 3, STDWINDOWY + 2 + output + 1);
+                        printf(" ");
+                        gotoxy(STDWINDOWX + 3, STDWINDOWY + 2 + output);
+                        printf(">");
+                        gotoxy(1, 1);
+                    }
+                    break;
+                case 0x02 :
+                    stay_flag = 0;
+                    break;
+            }
+        } else if (!(button_press || button_flag)) {
+            button_flag = 1;
+        }
+    } while (stay_flag);
+
+    return output;
+
+}
 
 int startGame(char lvl){
 	player_t player[3];
@@ -26,7 +93,7 @@ int startGame(char lvl){
     int time1 = 1, time2 = 15;
 	char string[LED_MAX_STR_LEN] = " x/x";
 	string[0] = 0x7F; // places a heart shape at the beginning of the string
-	LEDScroll(); //stops the scrolling
+	LEDScrolloff(); //stops the scrolling
     //Choose level
     switch (lvl) {
         case 0x01:
@@ -178,11 +245,10 @@ void bubbleSortAndPrint(int * highscore, int howManySpacesToTheLeft){
     }
 }
 
-
 void printHighscore(int * highscore1, int * highscore2, int * highscore3){
     int flag = 1, i;
 	// bubble sort
-	window(10, 10,STDWINDOWX, STDWINDOWY, " Highscore ", 1);
+	window(STDWINDOWX, STDWINDOWY, STDWINDOWX + 40, STDWINDOWY + 15, highscore_title, 1);
 	gotoxy(12,11);
 	printf("Level 1:  Level 2:  Level 3:");
 	bubbleSortAndPrint(highscore1, 0);
@@ -202,7 +268,7 @@ void printHighscore(int * highscore1, int * highscore2, int * highscore3){
 
 void showControls() {
     int i, flag = 1;
-    window(10, 10, STDWINDOWX, STDWINDOWY, " Help! ", 1);
+    window(STDWINDOWX, STDWINDOWY, STDWINDOWX + 40, STDWINDOWY + 15, help_title, 1);
     gotoxy(12, 11);
     printf("You have three buttons:");
     gotoxy(12, 12);
@@ -251,130 +317,44 @@ void showControls() {
 }
 
 int lvlMenu(int * highscore1, int * highscore2, int * highscore3) {
-    char exit_flag = 1, flag1 = 1, flag2 = 0, output = 0, button = 0x00;
+    char output = 0;
     int score = 0;
 
-    do {
-        window(10, 10,STDWINDOWX, STDWINDOWY, " Choose level ", 1);
-        gotoxy(12, 12);
-        printf(" > Level 1");
-        gotoxy(15, 13);
-        printf("Level 2");
-        gotoxy(15, 14);
-        printf("Level 3");
-        gotoxy(15, 15);
-        printf("Go back");
-        do {
-            LEDUpdate();
-            button = readKey();
-            if ((button != 0x00) && (!flag2)) {
-                switch (button) {
-                    case 0x01 :
-                        output += 1;
-                        if (output <= 3 && output >= 0) {
-                            gotoxy(13, 12 + output - 1);
-                            printf(" ");
-                            gotoxy(13, 12 + output);
-                            printf(">");
-                            gotoxy(13, 12);
-                        } else {
-                            output -= 1;
-                            gotoxy(13, 12 + output - 1);
-                            printf(" ");
-                            gotoxy(13, 12 + output);
-                            printf(">");
-                            gotoxy(13, 12);
-                        }
-                        break;
-                    case 0x04 :
-                        output -= 1;
-                        if (output <= 3 && output >= 0) {
-                            gotoxy(13, 12 + output + 1);
-                            printf(" ");
-                            gotoxy(13, 12 + output);
-                            printf(">");
-                            gotoxy(13, 12);
-                        } else {
-                            output += 1;
-                            gotoxy(13, 12 + output + 1);
-                            printf(" ");
-                            gotoxy(13, 12 + output);
-                            printf(">");
-                            gotoxy(13, 12);
-                        }
-                        break;
-                    case 0x02 :
-                        flag1 = 0;
-                        gotoxy(13, 12);
-                        break;
-                }
-                flag2 = 1;
-            } else if (flag2 && (button == 0x00)) {
-                flag2 = 0;
-            }
-        } while (flag1);
+    output = menu(lvl_title, lvl_points);
 
-        switch (output) {
-            case 0:
-                clrscr();
-                score = startGame(0x01);
-				addHighscore(&score, highscore1);
-                printHighscore(highscore1, highscore2, highscore3);
-                exit_flag = 0;
-                break;
-            case 1:
-                clrscr();
-                score = startGame(0x02);
-				addHighscore(&score, highscore2);
-                printHighscore(highscore1, highscore2, highscore3);
-                exit_flag = 0;
-                break;
-            case 2:
-                clrscr();
-                score = startGame(0x03);
-				addHighscore(&score, highscore3);
-                printHighscore(highscore1, highscore2, highscore3);
-                exit_flag = 0;
-                break;
-            case 3:
-                clrscr();
-                exit_flag = 0;
-                break;
-        }
-        output = 0;
-        flag1 = 1;
-    } while (exit_flag);
+    switch (output) {
+        case 0:
+            clrscr();
+            LEDScrolloff();
+
+            score = startGame(0x01);
+
+            addHighscore(&score, highscore1);
+            printHighscore(highscore1, highscore2, highscore3);
+            break;
+        case 1:
+            clrscr();
+            LEDScrolloff();
+
+            score = startGame(0x02);
+
+            addHighscore(&score, highscore1);
+            printHighscore(highscore1, highscore2, highscore3);
+            break;
+        case 2:
+            clrscr();
+            LEDScrolloff();
+
+            score = startGame(0x03);
+
+            addHighscore(&score, highscore1);
+            printHighscore(highscore1, highscore2, highscore3);
+            break;
+        case 3:
+            clrscr();
+            break;
+    }
     return score;
-}
-
-
-void makeMainMenu(char * string, int start){
-    fgcolor(STDTEXTCOLOR);
-    clrscr();
-    string[0] = ' ';
-    string[1] = ' ';
-    string[2] = ' ';
-    string[3] = ' ';
-    string[4] = 'M';
-    string[5] = 'a';
-    string[6] = 'i';
-    string[7] = 'n';
-    string[8] = ' ';
-    string[9] = 'm';
-    string[10] = 'e';
-    string[11] = 'n';
-    string[12] = 'u';
-    string[13] = '\0';
-    LEDSetString(string);
-    window(start, start, STDWINDOWX, STDWINDOWY, " Main menu ", 1);
-    gotoxy(12, 12);
-    printf(" > Start game");
-    gotoxy(13,13);
-    printf("  Show controls");
-    gotoxy(13,14);
-    printf("  Show high scores");
-    gotoxy(13,15);
-    printf("  Exit game");
 }
 
 
@@ -383,65 +363,34 @@ void main() {
     int highscore2[5] = {0,0,0,0,0};
     int highscore3[5] = {0,0,0,0,0};
     int score = 0;
-    char button, flag1 = 1, flag2 = 0, output = 0;
+    char output = 0;
     char string[LED_MAX_STR_LEN] = "    Main menu";
     init_uart(_UART0, _DEFFREQ, _DEFBAUD);  // set-up UART0 to 57600, 8n1
     clrscr();
     LEDInit();
-	LEDScroll(); //begin scolling
+    LEDScrollon();
     LEDSetString(string);
 
     do {
-        makeMainMenu(string,10);
-        do {
-            LEDUpdate();
-            button = readKey();
-            if ((button != 0x00) && (!flag2)) {
-                switch (button) {
-                    case 0x01 :
-						output += 1;
-						if(output <= 3 && output >= 0){
-                        	gotoxy(13, 12 + output - 1);
-                        	printf(" ");
-                        	gotoxy(13, 12 + output);
-                        	printf(">");
-							gotoxy(13,12);
-					   	} else{
-							output -= 1;
-							gotoxy(13, 12 + output - 1);
-                        	printf(" ");
-                        	gotoxy(13, 12 + output);
-                        	printf(">");
-							gotoxy(13,12);
-						}
-						break;
-                    case 0x04 :
-						output -= 1;
-						if(output <= 3 && output >= 0){
-							gotoxy(13, 12 + output + 1);
-                        	printf(" ");
-                        	gotoxy(13, 12 + output);
-                        	printf(">");
-							gotoxy(13,12);
-						} else{
-							output += 1;
-							gotoxy(13, 12 + output - 1);
-                        	printf(" ");
-                        	gotoxy(13, 12 + output);
-                        	printf(">");
-							gotoxy(13,12);
-						}
-                        break;
-                    case 0x02 :
-                        flag1 = 0;
-						gotoxy(13,12);
-                        break;
-                }
-                flag2 = 1;
-            } else if (flag2 && (button == 0x00)) {
-                flag2 = 0;
-            }
-        } while (flag1);
+        fgcolor(STDTEXTCOLOR);
+        clrscr();
+		string[0] = ' ';
+		string[1] = ' ';
+		string[2] = ' ';
+		string[3] = ' ';
+        string[4] = 'M';
+		string[5] = 'a';
+		string[6] = 'i';
+		string[7] = 'n';
+		string[8] = ' ';
+		string[9] = 'm';
+		string[10] = 'e';
+		string[11] = 'n';
+		string[12] = 'u';
+		string[13] = '\0';
+		LEDSetString(string);
+
+        output = menu(main_title, main_points);
 
         switch (output) {
             case 0:
@@ -464,8 +413,10 @@ void main() {
 				string[15] = 't';
 				string[16] = '\0';
 				LEDSetString(string);
+
                 score = lvlMenu(highscore1, highscore2, highscore3);
-				LEDScroll(); // begin scroll
+
+                LEDScrollon(); // Restart scroll
                 break;
             case 1:
 				string[0] = ' ';
@@ -520,8 +471,6 @@ void main() {
 				LEDSetString(string);
                 break;
         }
-		output = 0;
-        flag1 = 1;
     } while (1);
 }
 

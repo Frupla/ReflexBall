@@ -14,7 +14,7 @@ void blink(char on);
 void resetbgcolor();
 //int strlength(char* s); //Though not directly related to ansi, it is necesary for the window function
 void reverse(char on);
-void window(int x1, int y1, int x2, int y2, char* text, int style);
+void window(int x1, int y1, int x2, int y2, rom char* text, int style);
 void moveCursor(int x, int y);
 void hideCursor();
 
