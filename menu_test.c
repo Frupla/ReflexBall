@@ -407,7 +407,7 @@ void main() {
     LEDSetString(string);
 
     do {
-        makeMainMenu(string, 10)
+        makeMainMenu(string, 10);
         do {
             LEDUpdate();
             button = readKey();
