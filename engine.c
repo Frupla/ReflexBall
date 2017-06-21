@@ -52,10 +52,6 @@ typedef struct stuffTemp{
 	long xs; //1. coordinate, starting point, 18.14
     long ys; //2. coordiante, starting point, 18.14
     Tvector direction; // Speed and direction (only relevant for the ball)
-<<<<<<< HEAD
-=======
-    //char size; // represent the size factor, balls must be symmetric
->>>>>>> 5798d22186879f5d85a345de8631a5426deff86e
     char color; // n.o. lives for breakables  (color breakables after this). Is set to 3 in drawBreakables
 } ball_t;
 
@@ -630,11 +626,6 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables, char
                         break;
                     case 0x09 :
                         flag |= (0x01) << (4 + i); // Ball out of bounds
-<<<<<<< HEAD
-=======
-                        //ball[i].direction.x = 0;
-                        //ball[i].direction.y = 0;
->>>>>>> 5798d22186879f5d85a345de8631a5426deff86e
                         break;
                     case 0x0a :
                         //TODO : Change it from a fixed reflect angle,
@@ -702,7 +693,7 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables, char
                     printf("ball stuck, respawning");
                 }
                 collision = collisionCheck(i, ball, players, breakables, level);
-            } while (collision && flag != 0x09);
+            } while (collision && (flag != 0x09));
             //Remove the old ball
             gotoxy(EIGHTEEN_FOURTEEN_TO_INT(ball[i].x1), EIGHTEEN_FOURTEEN_TO_INT(ball[i].y1));
     		printf(" ");
