@@ -14,7 +14,6 @@ void level1(breakable_t *breakable, ball_t *ball, player_t *player) {
     player[0].y1 = 57;
     player[0].sizeX = 0x0A;
     player[0].color = 0x0f;
-    player[0].lives = 0x03;
     // Terminate array
     player[1].whatIsThis = 0x00;
 
@@ -96,7 +95,6 @@ void level2(breakable_t * breakable, ball_t * ball, player_t * player){
     player[0].y1 = 57;
     player[0].sizeX = 0x04;
     player[0].color = 0x0f;
-    player[0].lives = 0x03;
     // Paddle 2
     player[1].whatIsThis = 0x01;
     player[1].changedSinceLast = 1;
@@ -167,20 +165,19 @@ void level3(breakable_t * breakable, ball_t * ball, player_t * player){
     player[0].changedSinceLast = 1;
     player[0].x1 = 20;
     player[0].y1 = 57;
-    player[0].sizeX = 0x01;
+    player[0].sizeX = 0x02;
     player[0].color = 0x0f;
-    player[0].lives = 0x01;
     // Terminate array
     player[1].whatIsThis = 0x00;
 
     // Ball setup
     tempVec.x = LONG_TO_EIGHTEEN_FOURTEEN(-1);
     tempVec.y = LONG_TO_EIGHTEEN_FOURTEEN(0);
-	rotate(&tempVec, 64);
+	rotate(&tempVec, -64);
     ball[0].whatIsThis = 0x02;
 	ball[0].changedSinceLast = 1;
     ball[0].xs = LONG_TO_EIGHTEEN_FOURTEEN(80);
-	ball[0].ys = LONG_TO_EIGHTEEN_FOURTEEN(30);
+	ball[0].ys = LONG_TO_EIGHTEEN_FOURTEEN(41);
     ball[0].x1 = ball[0].xs;
     ball[0].y1 = ball[0].ys;
     ball[0].direction = tempVec;
@@ -188,8 +185,8 @@ void level3(breakable_t * breakable, ball_t * ball, player_t * player){
     ball[1].whatIsThis = 0x00;
 	
 	//Breakable setup
-
-	for(i = 1; i < 5; i++){
+	
+	for(i = 0; i < 5; i++){
 		for(j = 0; j < (1<<i); j++){
 			breakable[n].whatIsThis = 0x03;
 	    	breakable[n].changedSinceLast = 1;
@@ -198,6 +195,19 @@ void level3(breakable_t * breakable, ball_t * ball, player_t * player){
 		    breakable[n].sizeX = (208 >> i) - 5;
 		    breakable[n].sizeY = 0x01;
    			breakable[n].lives = 6-i;
+   			breakable[n].powerUp = 0x00;
+    		n++;	
+		}
+	}
+	for(i = 4; i > 0; i--){
+		for(j = (1<<(5 - i)); j > 0; j--){
+			breakable[n].whatIsThis = 0x03;
+	    	breakable[n].changedSinceLast = 1;
+    		breakable[n].x1 = 16+(j-1)*(208 >>(5-i));
+    		breakable[n].y1 = i * 4 + 21;
+		    breakable[n].sizeX = (208 >> (5 - i)) - 5;
+		    breakable[n].sizeY = 0x01;
+   			breakable[n].lives = i + 1;
    			breakable[n].powerUp = 0x00;
     		n++;	
 		}

@@ -13,11 +13,14 @@
 #define STDWINDOWY 10   // The standard placement for the upper left corner for the windows.
 
 rom char main_title[13] = " Main Menu ";
-rom char main_points[55] = "Start game\nShow controls\nShow high scores\nExit game";
+rom char main_points[56] = "Start game\nShow controls\nShow high scores";
 rom char lvl_title[15] = " Choose level ";
 rom char lvl_points[35] = "Level 1\nLevel 2\nLevel 3\nGo back";
 rom char highscore_title[13] = " High score ";
 rom char help_title[8] = " Help! ";
+rom char difficulty_title[13] = " Difficulty ";
+rom char difficulty_points[21] = "Hard\nMedium\nEasy ";
+
 
 char menu(rom char *title, rom char *points) {
     /*
@@ -81,6 +84,10 @@ char menu(rom char *title, rom char *points) {
 
 }
 
+char difficulty(){
+	return	menu(difficulty_title, difficulty_points) + 1;
+}
+
 int startGame(char lvl){
 	player_t player[3];
 	ball_t ball[5];
@@ -94,6 +101,8 @@ int startGame(char lvl){
 	string[0] = 0x7F; // places a heart shape at the beginning of the string
 	LEDScrolloff(); //stops the scrolling
     //Choose level
+	player[0].lives = difficulty();
+	clrscr();
     switch (lvl) {
         case 0x01:
             level1(breakable, ball, player);
@@ -111,7 +120,6 @@ int startGame(char lvl){
             player[0].lives = 0;
     }
 	max_score = findMaxScore(breakable);
-
 	drawMap(player, ball, breakable);
 
 	string[1] = player[0].lives + 0x30;
@@ -356,7 +364,7 @@ void main() {
     LEDInit();
     LEDScrollon();
     LEDSetString(string);
-
+	
     do {
         fgcolor(STDTEXTCOLOR);
         clrscr();
@@ -439,23 +447,6 @@ void main() {
 				string[14] = '\0';
 				LEDSetString(string);
                 printHighscore(highscore1, highscore2, highscore3);
-                break;
-            case 3:
-				string[0] = ' ';
-				string[1] = ' ';
-				string[2] = ' ';
-				string[3] = ' ';
-                string[4] = 'Y';
-				string[5] = 'o';
-				string[6] = 'u';
-				string[7] = ' ';
-				string[8] = 'c';
-				string[9] = 'a';
-				string[10] = 'n';
-				string[11] = '\'';
-				string[12] = 't';
-				string[13] = '\0';
-				LEDSetString(string);
                 break;
         }
     } while (1);
