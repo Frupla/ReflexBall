@@ -209,14 +209,14 @@ int startGame(char lvl){
 
 void addHighscore(int * score, int * highscore){
     int i;
-    int positionoflowest = 0;
-    for(i = 1; i <= 5; i++){
-        if(highscore[positionoflowest] > highscore[i]){
-            positionoflowest = i;  
+    int positionof_lowest = 0;
+    for(i = 1; i < 5; i++){
+        if(highscore[positionof_lowest] > highscore[i]){
+            positionof_lowest = i;  
         }
     }
-    if (*score > highscore[positionoflowest]){
-        highscore[positionoflowest] = *score;
+    if (*score > highscore[positionof_lowest]){
+        highscore[positionof_lowest] = *score;
         gotoxy(20,62);
         printf("You made the highscore");
     }

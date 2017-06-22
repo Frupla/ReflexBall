@@ -213,4 +213,8 @@ void level3(breakable_t * breakable, ball_t * ball, player_t * player){
 		}
 	}
  	breakable[n].whatIsThis = 0x00;
+	breakable[1].powerUp = 0x03;
+	breakable[2].powerUp = 0x03;
+	breakable[n/2 + 1].powerUp = 0x03;
+	breakable[n/2 + 2].powerUp = 0x03;
 }

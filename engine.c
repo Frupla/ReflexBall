@@ -508,7 +508,7 @@ char collisionCheck(int whichBall, ball_t *ball, player_t *players,
                 } else if (x1 == (breakables[i].x1 + breakables[i].sizeX)) {
                     flag = 0x03; // hit right
                     killBreakable(&breakables[i], players, ball);
-                    return flag;
+					return flag;
                 }
             }
         }
@@ -658,10 +658,15 @@ char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables, char
                     rotate(&ball[i].direction, 43);
                     howManyTimes = 3;
                     tooManyTimes--;
+					gotoxy(245,10);
+					printf(" ");
                 }
                 if (!tooManyTimes){
                     ball[i].x1 = ball[i].xs;
                     ball[i].y1 = ball[i].ys;
+					tooManyTimes = 12;
+					gotoxy(245,10);
+					printf(" ");
                 }
                 collision = collisionCheck(i, ball, players, breakables, level);
             } while (collision);
