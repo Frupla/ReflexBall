@@ -291,33 +291,6 @@ void killBreakable(breakable_t* object, player_t* player, ball_t* ball){
     }
 }
 
-
-//takes a nothing-terminated array of all breakables on the map. Returns a char.
-char didYouWin(breakable_t* breakables) {
-    int i = 0;
-    while (breakables[i].whatIsThis){
-        if (breakables[i].whatIsThis != 0x05){
-            return 0x00; //no you didn't
-        }
-        i++;
-    }
-    return 0x01; //yes you did
-}
-
- /* //Actually a struct for this as well as all the remainig code for handling
-  * DON'T DELETE
-void drawSolid(entity* object){
-	int i, j;
-	for(i = 0; i <= (object->sizeX); i++){
-		for(j = 0; j <= (object->sizeY); j++){
-			gotoxy(EIGHTEEN_FOURTEEN_TO_INT(object->x1 + i),EIGHTEEN_FOURTEEN_TO_INT(object->y1) + j);
-			printf("%c", SOLIDTEXTURE);
-		}
-	}
-	object->changedSinceLast = 0;
-}
-  */
-
 //pre: all arrays must be nothing-terminated, ei have the last object have whatIsThis= 0x00
 //     arrays must contain all objects on map
 void drawMap(player_t* players, ball_t* balls, breakable_t* breakables) {
@@ -360,7 +333,6 @@ void drawMap(player_t* players, ball_t* balls, breakable_t* breakables) {
         LEDcontrol++;
 		n++;
     }
-    //Also add a whileloop here for solids if you want to implement them
 }
 
 void playerMovement(char buttonPress, player_t* object){
