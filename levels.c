@@ -111,7 +111,7 @@ void level2(breakable_t * breakable, ball_t * ball, player_t * player){
     rotate(&tempVec, -20);
     ball[0].whatIsThis = 0x02;
     ball[0].changedSinceLast = 1;
-    ball[0].xs = LONG_TO_EIGHTEEN_FOURTEEN(90);
+    ball[0].xs = LONG_TO_EIGHTEEN_FOURTEEN(100);
     ball[0].ys = LONG_TO_EIGHTEEN_FOURTEEN(30);
     ball[0].x1 = ball[0].xs;
     ball[0].y1 = ball[0].ys;
