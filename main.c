@@ -22,8 +22,8 @@ rom char difficulty_title[13] = " Difficulty ";
 rom char difficulty_points[21] = "Hard\nMedium\nEasy ";
 
 
-//takes a pointer to a char string title of the menu
-// and a char string of all the subpoints seperates by \n
+//Takes a pointer to a char string title of the menu
+// and a char string of all the subpoints seperated by \n
 //returns a char output, which is the choice the player made
 char menu(rom char *title, rom char *points) {
     /*
@@ -87,10 +87,15 @@ char menu(rom char *title, rom char *points) {
 
 }
 
+// Takes nothing and returns difficulty
+// Runs menu allowing player to chose a difficulty
 char difficulty(){
 	return	menu(difficulty_title, difficulty_points) + 1;
 }
 
+//Takes a char indicating which level should be played.
+//Returns an int indicating the score at the end of the game.
+//Runs a game & controls LEDs.
 int startGame(char lvl){
 	player_t player[3];
 	ball_t ball[5];
@@ -209,6 +214,9 @@ int startGame(char lvl){
     return score;
 }
 
+
+//Takes a pointer to integer score and a pointer to an array of ints highscores.
+//Find the lowest value in the array. If it is lower than the score, the score replaces the lowest value in the array.
 void addHighscore(int * score, int * highscore){
     int i;
     int positionof_lowest = 0;
@@ -224,6 +232,10 @@ void addHighscore(int * score, int * highscore){
     }
 }
 
+
+//Takes a pointer to an array of highscores and a char indicating where it should be drawn.
+//Returns nothing.
+//Sorts the contents of the array and prints it.
 void bubbleSortAndPrint(int * highscore, int howManySpacesToTheLeft){
 	int i, j, temp;
     for(i = 0; i < 4; i++){
@@ -241,6 +253,10 @@ void bubbleSortAndPrint(int * highscore, int howManySpacesToTheLeft){
     }
 }
 
+
+//Takes three arrays of highscores.
+//Returns nothing.
+//Prints the three highscores using bubbleSortAndPrint
 void printHighscore(int * highscore1, int * highscore2, int * highscore3){
     int flag = 1, i;
 	// bubble sort
@@ -316,9 +332,9 @@ void showControls() {
 }
 
 
-//takes the int arrays of highscores for each level
-//returns the score in the form of an int
-//calls a function to draw the level menuand starts a game if that is selected
+//Takes the int arrays of highscores for each level
+//Teturns the score in the form of an int
+//Calls a function to draw the level menu and starts a game if that is selected
 int lvlMenu(int * highscore1, int * highscore2, int * highscore3) {
     char output = 0;
     int score = 0;
