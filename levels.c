@@ -3,6 +3,9 @@
 #include "engine.h"
 #include "ansi.h"
 
+//The functions in this file can be given pointers to breakable, ball and player arrays, and fill them up to allow
+//main to hopefully create interesting games.
+
 void level1(breakable_t *breakable, ball_t *ball, player_t *player) {
 	int i, j, n=0, flag = 2;
 	Tvector tempVec;

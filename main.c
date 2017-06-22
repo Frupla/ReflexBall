@@ -22,6 +22,9 @@ rom char difficulty_title[13] = " Difficulty ";
 rom char difficulty_points[21] = "Hard\nMedium\nEasy ";
 
 
+//Takes a pointer to a char string title of the menu
+// and a char string of all the subpoints seperated by \n
+//returns a char output, which is the choice the player made
 char menu(rom char *title, rom char *points) {
     /*
      * Separate each new menu point with a newline
@@ -84,10 +87,15 @@ char menu(rom char *title, rom char *points) {
 
 }
 
+// Takes nothing and returns difficulty
+// Runs menu allowing player to chose a difficulty
 char difficulty(){
 	return	menu(difficulty_title, difficulty_points) + 1;
 }
 
+//Takes a char indicating which level should be played.
+//Returns an int indicating the score at the end of the game.
+//Runs a game & controls LEDs.
 int startGame(char lvl){
 	player_t player[3];
 	ball_t ball[5];
@@ -168,7 +176,7 @@ int startGame(char lvl){
                     player[0].lives = 0;
                 }
         }
-        //Checks if any of them died
+        //Checks if any balls died
         if (whatDidTheyHit & 0xF0) {
             player[0].lives -= (whatDidTheyHit & 0x10)>>4;
             player[0].lives -= (whatDidTheyHit & 0x20)>>5;
@@ -200,13 +208,15 @@ int startGame(char lvl){
         LEDUpdate();
 
         //Reenter above loop
-        // 15 can be changed to a variable, to increase difficulty
         time2 = timer1() + 15;
 
     } while (player[0].lives);
     return score;
 }
 
+
+//Takes a pointer to integer score and a pointer to an array of ints highscores.
+//Find the lowest value in the array. If it is lower than the score, the score replaces the lowest value in the array.
 void addHighscore(int * score, int * highscore){
     int i;
     int positionof_lowest = 0;
@@ -222,6 +232,10 @@ void addHighscore(int * score, int * highscore){
     }
 }
 
+
+//Takes a pointer to an array of highscores and a char indicating where it should be drawn.
+//Returns nothing.
+//Sorts the contents of the array and prints it.
 void bubbleSortAndPrint(int * highscore, int howManySpacesToTheLeft){
 	int i, j, temp;
     for(i = 0; i < 4; i++){
@@ -239,6 +253,10 @@ void bubbleSortAndPrint(int * highscore, int howManySpacesToTheLeft){
     }
 }
 
+
+//Takes three arrays of highscores.
+//Returns nothing.
+//Prints the three highscores using bubbleSortAndPrint
 void printHighscore(int * highscore1, int * highscore2, int * highscore3){
     int flag = 1, i;
 	// bubble sort
@@ -260,6 +278,9 @@ void printHighscore(int * highscore1, int * highscore2, int * highscore3){
     }
 }
 
+// Takes nothing.
+// Returns nothing.
+// Draw the window show controls.
 void showControls() {
     int i, flag = 1;
     window(STDWINDOWX, STDWINDOWY, STDWINDOWX + 40, STDWINDOWY + 15, help_title, 1);
@@ -310,6 +331,10 @@ void showControls() {
     } while (!readKey() || (flag));
 }
 
+
+//Takes the int arrays of highscores for each level
+//Teturns the score in the form of an int
+//Calls a function to draw the level menu and starts a game if that is selected
 int lvlMenu(int * highscore1, int * highscore2, int * highscore3) {
     char output = 0;
     int score = 0;
@@ -368,6 +393,7 @@ void main() {
     do {
         fgcolor(STDTEXTCOLOR);
         clrscr();
+        //new text on LED
 		string[0] = ' ';
 		string[1] = ' ';
 		string[2] = ' ';
@@ -389,6 +415,7 @@ void main() {
         switch (output) {
             case 0:
                 clrscr();
+                //new text on LED
 				string[0] = ' ';
 				string[1] = ' ';
 				string[2] = ' ';
@@ -413,6 +440,7 @@ void main() {
                 LEDScrollon(); // Restart scroll
                 break;
             case 1:
+                //new text on LED
 				string[0] = ' ';
 				string[1] = ' ';
 				string[2] = ' ';
@@ -430,6 +458,7 @@ void main() {
                 showControls();
                 break;
             case 2:
+                //new text on LED
 				string[0] = ' ';
 				string[1] = ' ';
 				string[2] = ' ';
