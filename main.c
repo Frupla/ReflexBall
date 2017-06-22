@@ -22,6 +22,9 @@ rom char difficulty_title[13] = " Difficulty ";
 rom char difficulty_points[21] = "Hard\nMedium\nEasy ";
 
 
+//takes a pointer to a char string title of the menu
+// and a char string of all the subpoints seperates by \n
+//returns a char output, which is the choice the player made
 char menu(rom char *title, rom char *points) {
     /*
      * Separate each new menu point with a newline
@@ -168,7 +171,7 @@ int startGame(char lvl){
                     player[0].lives = 0;
                 }
         }
-        //Checks if any of them died
+        //Checks if any balls died
         if (whatDidTheyHit & 0xF0) {
             player[0].lives -= (whatDidTheyHit & 0x10)>>4;
             player[0].lives -= (whatDidTheyHit & 0x20)>>5;
@@ -200,7 +203,6 @@ int startGame(char lvl){
         LEDUpdate();
 
         //Reenter above loop
-        // 15 can be changed to a variable, to increase difficulty
         time2 = timer1() + 15;
 
     } while (player[0].lives);
@@ -260,6 +262,9 @@ void printHighscore(int * highscore1, int * highscore2, int * highscore3){
     }
 }
 
+// Takes nothing.
+// Returns nothing.
+// Draw the window show controls.
 void showControls() {
     int i, flag = 1;
     window(STDWINDOWX, STDWINDOWY, STDWINDOWX + 40, STDWINDOWY + 15, help_title, 1);
@@ -310,6 +315,10 @@ void showControls() {
     } while (!readKey() || (flag));
 }
 
+
+//takes the int arrays of highscores for each level
+//returns the score in the form of an int
+//calls a function to draw the level menuand starts a game if that is selected
 int lvlMenu(int * highscore1, int * highscore2, int * highscore3) {
     char output = 0;
     int score = 0;
@@ -368,6 +377,7 @@ void main() {
     do {
         fgcolor(STDTEXTCOLOR);
         clrscr();
+        //new text on LED
 		string[0] = ' ';
 		string[1] = ' ';
 		string[2] = ' ';
@@ -389,6 +399,7 @@ void main() {
         switch (output) {
             case 0:
                 clrscr();
+                //new text on LED
 				string[0] = ' ';
 				string[1] = ' ';
 				string[2] = ' ';
@@ -413,6 +424,7 @@ void main() {
                 LEDScrollon(); // Restart scroll
                 break;
             case 1:
+                //new text on LED
 				string[0] = ' ';
 				string[1] = ' ';
 				string[2] = ' ';
@@ -430,6 +442,7 @@ void main() {
                 showControls();
                 break;
             case 2:
+                //new text on LED
 				string[0] = ' ';
 				string[1] = ' ';
 				string[2] = ' ';

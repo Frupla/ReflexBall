@@ -18,25 +18,8 @@
 #define EIGHTEEN_FOURTEEN_TO_INT(a) ((int)((a + 0x2000) >> 14))  //this is kinda shitty, cuts 2 MSB when recast as int, and it will be
 #define LONG_TO_EIGHTEEN_FOURTEEN(a) (a << 14)
 
-/*
-typedef struct{
-	char changedSinceLast;
-	char whatIsThis;//player           - 0x01
-					//ball             - 0x02
-					//breakable        - 0x03
-					//solid            - 0x04
-                    //broken breakable - 0x05
-					//nothing          - 0x00
-	long x1; //1. coordinate, placement, 18.14
-	long y1; //2. coordiante, placement, 18.14
-	Tvector direction; // Speed and direction (only relevant for the ball)
-	//zones? - so far no zones
-	char sizeX; // represent the horizontal size factor
-    char sizeY;	// represent the vertical size factor
-	char color; // n.o. lives for breakables  (color breakables after this). Is set to 3 in drawBreakables
-                // 0x00 - dead, no lives
-} entity;
-*/
+//All arrays of type ball_t, player_t and breakable_t in this code must be nothing-terminated,
+// e.i. end with  and instance of the type in which whatIsThis=0x00;
 
 typedef struct stuffTemp{
     char changedSinceLast;
@@ -68,8 +51,8 @@ typedef struct{
     //Tvector direction; // Speed and direction (only relevant for the ball)
     //zones? - so far no zones
     char sizeX; // represent the horizontal size factor
-    char color; // n.o. lives for breakables  (color breakables after this). Is set to 3 in drawBreakables
-    char lives; //n.o. lives of a player
+    char color; // color
+    char lives; // n.o. lives of a player
     // 0x00 - dead, no lives
 } player_t;
 
@@ -83,17 +66,17 @@ typedef struct{
     char sizeX; // represent the horizontal size factor
     char sizeY;	// represent the vertical size factor
     char lives; // n.o. lives for breakables  (color breakables after this).
-    // DO NOT FIVE IT MORE THAN 7 HEALTH.
+    // DO NOT GIVE IT MORE THAN 7 LIVES.
     // 0x00 - dead, no lives
     char powerUp;   //Does this breakable have powerup?
     // 0x00 - None
-    // 0x01 - Extra health
+    // 0x01 - Extra life for player
     // 0x02 - More balls (up to four)
     // 0x03 - Larger Paddle
 } breakable_t;
 
-//Just access PowerUp on
-
+// Takes and returns nothing.
+// Draws the walls along sides and top a play area.
 void initiateWithCeiling(){
 	int i;
 	for(i = 1; i <= MAPSIZE; i++){
@@ -108,6 +91,8 @@ void initiateWithCeiling(){
 	}
 }
 
+//takes and returns nothing.
+// Draws the walls along sides of play area.
 void initiateWithoutCeiling(){
 	int i;
 	for(i = 1; i <= MAPSIZE; i++){
@@ -118,6 +103,8 @@ void initiateWithoutCeiling(){
 	}
 }
 
+
+//Takes list of breakables in a level and returns max score a player can get in this level.
 int findMaxScore(breakable_t* breakables){
     int max_score = 0, i=0;
     while(breakables[i].whatIsThis){
@@ -203,6 +190,10 @@ void drawBreakable(breakable_t* object){
 }
 
 
+// Takes nothing-terminated arrays of all breakables players and balls. Returns nothing.
+// Updates remaning lives of a breakable when hit.
+// If there are no more lives it updates the breakable's status (whatIsThis) to 0x05 and deletes it.
+// If the now broken breakable had a power up it implements this power up.
 void killBreakable(breakable_t* object, player_t* player, ball_t* ball){
 	int i, j, k, texture;
     object->lives--;
@@ -291,8 +282,8 @@ void killBreakable(breakable_t* object, player_t* player, ball_t* ball){
     }
 }
 
-//pre: all arrays must be nothing-terminated, ei have the last object have whatIsThis= 0x00
-//     arrays must contain all objects on map
+//Takes nothing-terminated arrays of all breakables players and balls. Returns nothing.
+//Draws the contents of the arrays.
 void drawMap(player_t* players, ball_t* balls, breakable_t* breakables) {
     int n = 0, LEDcontrol = 0;
     char animation[5] = "    ";
@@ -335,6 +326,9 @@ void drawMap(player_t* players, ball_t* balls, breakable_t* breakables) {
     }
 }
 
+//Takes a char indicating which button has been pressed and an array of all players. Returns nothing.
+//Updates position of players based on the char buttonPress. Draws the players in the new position.
+//All players have the same vertical placement.
 void playerMovement(char buttonPress, player_t* object){
     int i;
     for (i = 0; object[i].whatIsThis != 0x00; i++) {
@@ -378,7 +372,30 @@ void playerMovement(char buttonPress, player_t* object){
     }
 }
 
-// pre: takes position that the ball would have (current position + direction), and checks it for overlap
+// Takes arrays of all balls, players and breakables, as well as a char indicating the position of the relevant ball
+// in the ball array and which level this is happening in (to see if it is a level with or without ceiling).
+// Returns a char flag, indicating the collision-type according to the following encoding.
+/* flag encoding
+ * 0x00 = no collision
+ * 0x01 = object hit top side
+ * 0x02 = object hit top right  corner
+ * 0x03 = object hit right side or left wall
+ * 0x04 = object hit bottom right corner
+ * 0x05 = object hit bottom side or ceiling
+ * 0x06 = object hit bottom left corner
+ * 0x07 = object hit left side or right wall
+ * 0x08 = object hit top left corner
+ * 0x09 = object passed through floor or ceiling
+ * 0x0A = object hit left
+ * 0x0B = object hit left middle
+ * 0x0C	= object hit middle
+ * 0x0D	= object hit right middle
+ * 0x0E = object hit right
+ * 0x10 = Right wall
+ * 0x20 = Left wall
+ * 0x30 = Ceiling
+ */
+
 char collisionCheck(int whichBall, ball_t *ball, player_t *players,
                     breakable_t *breakables, char level) { // an array of breakables, an array of players
 	char flag = 0;
@@ -515,28 +532,11 @@ char collisionCheck(int whichBall, ball_t *ball, player_t *players,
     }
 	return flag;
 }
-/* flag encoding
- * 0x00 = no collision
- * 0x01 = object hit top side
- * 0x02 = object hit top right  corner
- * 0x03 = object hit right side or left wall
- * 0x04 = object hit bottom right corner
- * 0x05 = object hit bottom side or ceiling
- * 0x06 = object hit bottom left corner
- * 0x07 = object hit left side or right wall
- * 0x08 = object hit top left corner
- * 0x09 = object passed through floor??? - maybe do this in out of bounds check???
- * 0x0A = object hit left
- * 0x0B = object hit left middle
- * 0x0C	= object hit middle
- * 0x0D	= object hit right middle
- * 0x0E = object hit right
- * 0x10 = Right wall
- * 0x20 = Left wall
- * 0x30 = Ceiling
- */
 
-//Ball movement ver 3
+//Takes arrays of all balls, players and breakables, as well as a char indicaring the level.
+//Returns a char indicating which of the balls, if any, are dead, and how many, if any, points were scored, after this movement.
+//The first four bits of the char each represent a ball. If they are one, the corresponding ball is dead after this movement.
+//The last four bites counts the points scored during this movement.
 char ballMovement(ball_t *ball, player_t *players, breakable_t *breakables, char level) { //1 ball, all the players and breakables
     //Variables
     char flag = 0x00;
